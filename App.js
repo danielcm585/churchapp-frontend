@@ -1,20 +1,44 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react'
+import { StatusBar } from 'react-native'
+
+import { NavigationContainer } from '@react-navigation/native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+
+import { getData } from './src/utils'
+import { HomeScreen, LoginScreen, RegisterScreen } from './src/screens'
+
+import * as eva from '@eva-design/eva'
+import { EvaIconsPack } from '@ui-kitten/eva-icons'
+import { ApplicationProvider, IconRegistry } from '@ui-kitten/components'
+
+const Stack = createNativeStackNavigator()
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+  const token = getData('token')
+  console.log(token)
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  return (
+    <>
+      <StatusBar hidden />
+      <IconRegistry icons={EvaIconsPack} />
+      <ApplicationProvider {...eva} theme={eva.light}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            {
+              token ? (
+                <>
+                  <Stack.Screen name='Home' component={HomeScreen} options={{ headerShown: false }} />
+                </>
+              ) : (
+                <>
+                  <Stack.Screen name='Login' component={LoginScreen} options={{ headerShown: false }} />
+                  <Stack.Screen name='Register' component={RegisterScreen} options={{ headerShown: false }} />
+                </>
+              )
+            }
+          </Stack.Navigator>
+        </NavigationContainer>
+      </ApplicationProvider>
+    </>
+  )
+}
