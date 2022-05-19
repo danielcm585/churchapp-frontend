@@ -9,5 +9,5 @@ export default function(url) {
       'Content-Type': 'application/json', 
       'Authorization': 'Bearer '+token 
     }
-  }).catch(err => `Error: ${err}`)
+  }).catch(err => `${err}`)
 }

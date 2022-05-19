@@ -7,7 +7,6 @@ import { BottomNavigation, BottomNavigationTab, Icon } from '@ui-kitten/componen
 
 export default function HomeScreen() {
   const [ page, setPage ] = useState(0)
-  const navbarState = { selectedIndex: page, onSelect: setPage }
   
   const HomeIcon = props => <Icon {...props} name='home-outline' />
   const SearchIcon = props => <Icon {...props} name='search-outline' />
@@ -26,7 +25,8 @@ export default function HomeScreen() {
           )
         )
       }
-      <BottomNavigation style={styles.bottomNavigation} {...navbarState}>
+      <BottomNavigation style={styles.bottomNavigation} 
+        selectedIndex={page} onSelect={setPage}>
         <BottomNavigationTab icon={HomeIcon} />
         <BottomNavigationTab icon={SearchIcon} />
         <BottomNavigationTab icon={PlayIcon} />

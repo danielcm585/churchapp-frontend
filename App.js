@@ -1,27 +1,39 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { StatusBar } from 'react-native'
 
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import { getData } from './src/utils'
-import { HomeScreen, LoginScreen, RegisterScreen } from './src/screens'
+import { LoadingScreen, HomeScreen, LoginScreen, RegisterScreen } from './src/screens'
 
 import * as eva from '@eva-design/eva'
 import { EvaIconsPack } from '@ui-kitten/eva-icons'
+import { default as theme } from './theme.json'
+
 import { ApplicationProvider, IconRegistry } from '@ui-kitten/components'
 
 const Stack = createNativeStackNavigator()
 
 export default function App() {
-  const token = getData('token')
-  console.log(token)
+  const [ token, setToken ] = useState(null)
+
+  const getToken = async () => {
+    const myToken = await getData('token')
+    setToken(myToken)
+  }
+  useState(() => {
+    getToken()
+  }, [])
+
+  // const [ isDark, setIsDark ] = useState(false)
+  // const toggleTheme = () => setIsDark(prev => !prev)
 
   return (
     <>
       <StatusBar hidden />
       <IconRegistry icons={EvaIconsPack} />
-      <ApplicationProvider {...eva} theme={eva.light}>
+      <ApplicationProvider {...eva} theme={{ ...eva.light, ...theme }}>
         <NavigationContainer>
           <Stack.Navigator>
             {
