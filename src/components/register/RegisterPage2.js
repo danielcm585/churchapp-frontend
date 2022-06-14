@@ -4,7 +4,7 @@ import theme from '../../../theme'
 import config from '../../../config'
 import { put } from '../../http'
 
-import { Button, Heading, HStack, Icon, Image, Input, IconButton, Text, Link, Select, Avatar, ZStack, VStack } from 'native-base'
+import { Button, Heading, HStack, Icon, Image, Input, IconButton, Text, Link, Select, Avatar, VStack } from 'native-base'
 import { useToast } from 'native-base'
 import { MaterialCommunityIcons, MaterialIcons } from '@native-base/icons'
 

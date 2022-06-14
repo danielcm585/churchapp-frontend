@@ -6,7 +6,7 @@ import { post } from '../../http'
 
 import { Button, Center, Heading, HStack, Icon, Image, Input, IconButton, Text, Link } from 'native-base'
 import { useToast } from 'native-base'
-import { Entypo, MaterialCommunityIcons, MaterialIcons } from '@native-base/icons'
+import { MaterialCommunityIcons, MaterialIcons } from '@native-base/icons'
 
 export default function LoginScreen({ navigation, setPage }) {
   const [ show, setShow ] = useState(false)
