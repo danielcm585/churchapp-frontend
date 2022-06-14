@@ -2,13 +2,27 @@ import axios from 'axios'
 
 import { getData } from '../utils'
 
-export default async function(url, body) {
+export default async (url, body) => {
+  console.log(body)
   const token = await getData('token')
-  return axios.get(url, body, {
+  return axios.post(url, body, {
     headers: { 
-      'Content-Type': 'application/json', 
-      'Authorization': 'Bearer '+token
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
     }
-  }).catch(err => `${err}`)
+  }).then(resp => resp.data)
+    .catch(err => {
+      if (err == 'Network Error') return {
+        status: 1000,
+        message: 'Network Error'
+      }
+      if (err.response.status >= 500) return {
+        status: err.response.status,
+        message: 'Internal Server Error'
+      }
+      return {
+        status: err.response.status,
+        message: err.response.data
+      }
+    })
 }
-

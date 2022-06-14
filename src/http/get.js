@@ -2,12 +2,13 @@ import axios from 'axios'
 
 import { getData } from '../utils'
 
-export default function(url) {
-  const token = getData('token')
+export default async (url) => {
+  const token = await getData('token')
   return axios.get(url, {
-    headers: { 
+    headers: {
       'Content-Type': 'application/json', 
-      'Authorization': 'Bearer '+token 
+      'Authorization': `Bearer ${token}`
     }
-  }).catch(err => `${err}`)
+  }).then(resp => resp.data)
+    .catch(err => err.response)
 }

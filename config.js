@@ -1,6 +1,4 @@
-import { API_URL, MAIN_GROUP_ID } from '@env'
-
 export default {
-  API_URL,
-  MAIN_GROUP_ID,
+  API_URL: 'https://churchapp-backend.dcm.my.id',
+  MAIN_GROUP_ID: '627cc6f3ec5d3f7b423377da'
 }

@@ -20,20 +20,30 @@ export default function Home() {
   const BellIcon = props => <Icon {...props} name='bell-outline' />
   const NotifButton = () => <TopNavigationAction icon={BellIcon} onPress={openNotif} />
   
+  const [ token, setToken ] = useState()
+  const getToken = async () => {
+    const myToken = await getData('token')
+    setToken(myToken)
+  }
+  useEffect(() => getToken(), [])
+
   const [ posts, setPosts ] = useState()
   const [ events, setEvents ] = useState()
   useEffect(() => {
-    const resp = get(API_URL+'group/'+MAIN_GROUP_ID)
+    if (token == null) return
+    const resp = get(`${API_URL}/group/${MAIN_GROUP_ID}`)
     setPosts(resp.posts)
     setEvents(resp.events)
-  }, [])
+  }, [ token ])
+
+  console.log(posts)
 
   return (
     <>
       <TopNavigation title={Title} accessoryRight={NotifButton} />
-      <Layout style={styles.screen}>
+      {/* <Layout style={styles.screen}>
         <Text category='h1'>HOME</Text>
-      </Layout>
+      </Layout> */}
     </>
   )
 }

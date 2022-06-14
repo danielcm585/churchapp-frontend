@@ -1,123 +1,100 @@
 import React, { useState } from 'react'
-import { StyleSheet, View, Image, TouchableWithoutFeedback } from 'react-native'
 
-import { setData } from '../utils'
+import theme from '../../theme'
+import config from '../../config'
 import { post } from '../http'
-import { API_URL } from '../../config'
+import { setData } from '../utils'
 
-import { Layout, Icon, Text, Input, Button, Spinner } from '@ui-kitten/components'
+import { Box, Button, Center, Divider, Heading, HStack, Icon, Image, Input, IconButton, Text, Link } from 'native-base'
+import { useToast } from 'native-base'
+import { MaterialCommunityIcons, MaterialIcons } from '@native-base/icons'
 
-export default function LoginScreen() {
-  const [ userData, setUserData ] = useState()
+export default function LoginScreen({ navigation }) {
+  const [ show, setShow ] = useState(false)
 
-  const [ username, setUsername ] = useState('')
-  const [ password, setPassword ] = useState('')
-  
-  const [ isHidden, setIsHidden ] = useState(true)
-  const togglePassword = (props) => (
-    <TouchableWithoutFeedback onPress={() => setIsHidden(prev => !prev)}>
-      <Icon {...props} name={isHidden ? 'eye-off' : 'eye'} />
-  </TouchableWithoutFeedback>
-  )
+  const [ username, setUsername ] = useState()
+  const [ password, setPassword ] = useState()
 
+  const toast = useToast()
   const [ isLoading, setIsLoading ] = useState(false)
-  const Loading = (props) => (
-    <View style={[ props.style, styles.loading ]}>
-      <Spinner size='small' />
-    </View>
-  )
-
   const sendLogin = async () => {
-    console.log(`${username} ${password}`)
     setIsLoading(true)
-    try {
-      // const { 
-      //   token, 
-      //   refreshToken, 
-      //   ...user 
-      // }
-      const resp = await post(API_URL+'/user/login', { username, password })
-      // setUserData(user)
-      // setData('token',token)
-      // setData('refreshToken',refreshToken)
-      console.log(resp)
-      setIsLoading(false)
-    } 
-    catch (err) {
-      console.log(err)
-      setIsLoading(false)
+    const resp = await post(`${config.API_URL}/user/login`, { username, password })
+    console.log(resp)
+    if (resp.status >= 400) {
+      toast.show({
+        title: resp.message,
+        placement: 'bottom',
+        status: 'error'
+      })
     }
+    else {
+      await setData('token', resp.token)
+      await setData('refreshToken', resp.refreshToken)
+    }
+    setIsLoading(false)
   }
 
   return (
     <>
-      <Layout style={styles.screen}>
-        <Image style={styles.image} source={require('../images/login.png')} />
-        <Layout style={styles.form}>
-          <Text style={styles.title} category='h1'>Login</Text>
-          <Layout style={styles.space} />
-          <Layout style={styles.space} />
-          <Layout style={styles.space} />
-          <Input style={styles.formField} label='Username'
-            value={username} onChangeText={val => setUsername(val)} 
-          />
-          <Layout style={styles.space} />
-          <Layout style={styles.space} />
-          <Input style={styles.formField} label='Password'
-            value={password} onChangeText={val => setPassword(val)} 
-            accesssoryRight={togglePassword} secureTextEntry={isHidden} 
-          />
-          <Layout style={styles.space} />
-          <Layout style={styles.space} />
-          <Layout style={styles.space} />
-          <Button style={styles.button} appearance={isLoading ? 'outline' : 'filled'}
-            onPress={sendLogin}>
-            { isLoading ? Loading : 'LOGIN' }
-          </Button>
-        </Layout>
-      </Layout>
+      <Center>
+        <Image width='330' height='330' source={require('../images/login.png')} />
+      </Center>
+      <Heading ml='6' size='2xl' color={theme.blue[900]}>Login</Heading>
+      <HStack mt='4' ml='6' mr='6' space='4' alignItems='center'>
+        <Icon size='md' color={theme.blue[900]} as={MaterialIcons} name='person'></Icon>
+        <Input w='89%' variant='underlined' placeholder='Username' color={theme.blue[900]} 
+          _focus={{ borderColor: theme.blue[900] }} onChangeText={(val) => setUsername(val)}
+        />
+      </HStack>
+      <HStack mt='4' ml='6' mr='6' space='4' alignItems='center'>
+        <Icon size='md' color={theme.blue[900]} as={MaterialIcons} name='lock'></Icon>
+        <Input w='89%' variant='underlined' placeholder='Password' color={theme.blue[900]} 
+          _focus={{ borderColor: theme.blue[900] }} onChangeText={(val) => setPassword(val)} 
+          type={!show && 'password'} InputRightElement={<IconButton onPress={() => setShow(prev => !prev)}
+          _icon={
+            !show ?
+              { color: theme.blue[900], as: MaterialCommunityIcons, name: 'eye' } :
+              { color: theme.blue[900], as: MaterialCommunityIcons, name: 'eye-off' }
+          } />}
+        />
+      </HStack>
+      <HStack mt='3' ml='6' mr='6'>
+        <Box w='67%'></Box>
+        <Link _text={{ color: theme.blue[500] }} onPress={() => console.log('Forget password')}>
+          <Text color={theme.blue[500]} fontWeight='bold'>
+            Forget password?
+          </Text>
+        </Link>
+      </HStack>
+      <Button mt='4' ml='6' mr='6' borderRadius='lg' backgroundColor={theme.blue[500]}
+        _pressed={{ backgroundColor: theme.blue[600] }} onPress={sendLogin} isLoading={isLoading}>
+        Login
+      </Button>
+      <Center>
+        <HStack mt='4' ml='6' mr='6' space='2' alignItems='center'>
+          <Divider w='44%' />
+          <Text color='gray.400'>OR</Text>
+          <Divider w='44%' />
+        </HStack>
+      </Center>
+      <Button mt='4' ml='6' mr='6' borderRadius='lg' variant='outline' backgroundColor='gray.100'
+        startIcon={<Icon color='black' as={MaterialCommunityIcons} name='google'></Icon>}
+        _pressed={{ backgroundColor: 'gray.200' }}>
+        <Text color='black'>
+          Login with Google
+        </Text>
+      </Button>
+      <Center>
+        <HStack mt='6'>
+          <Text>New to MyKC? </Text>
+          <Link _text={{ color: theme.blue[500] }} onPress={() => navigation.navigate('Register')}>
+            <Text color={theme.blue[500]} fontWeight='bold'>
+              Register
+            </Text>
+          </Link>
+        </HStack>
+      </Center>
     </>
   )
 }
-
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1, 
-    justifyContent: 'flex-start', 
-    alignItems: 'center'
-  },
-  form: {
-    paddingLeft: 25, 
-    paddingRight: 25, 
-    flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start'
-  },
-  formField: {
-    borderRadius: 15,
-  },
-  button: {
-    borderRadius: 15,
-    alignSelf: 'stretch'
-  },
-  space: {
-    padding: 4,
-  },
-  topNav: {
-    paddingLeft: 10,
-  },
-  title: {
-    fontWeight: 'bold',
-    color: '#4669c1',
-  },
-  image: {
-    width: 330,
-    height: 330,
-  },
-  loading: {
-    margin: 0,
-    color: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-})
