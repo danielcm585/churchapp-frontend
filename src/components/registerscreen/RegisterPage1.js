@@ -4,7 +4,7 @@ import theme from '../../../theme'
 import config from '../../../config'
 import { post } from '../../http'
 
-import { Button, Center, Heading, HStack, Icon, Image, Input, IconButton, Text, Link } from 'native-base'
+import { Button, Center, Heading, HStack, Icon, Image, Input, IconButton, Text, Link, ScrollView } from 'native-base'
 import { useToast } from 'native-base'
 import { MaterialCommunityIcons, MaterialIcons } from '@native-base/icons'
 
@@ -36,9 +36,9 @@ export default function LoginScreen({ navigation, setPage }) {
   }
 
   return (
-    <>
+    <ScrollView>
       <Center>
-        <Image width='330' height='330' source={require('../../images/register.png')} />
+        <Image width='330' height='330' alt='Register' source={require('../../images/register.png')} />
       </Center>
       <Heading ml='6' size='2xl' color={theme.blue[900]}>Register</Heading>
       <HStack mt='4' ml='6' mr='6' space='4' alignItems='center'>
@@ -83,18 +83,16 @@ export default function LoginScreen({ navigation, setPage }) {
       </HStack>
       <Button mt='6' ml='6' mr='6' borderRadius='lg' backgroundColor={theme.blue[500]}
         _pressed={{ backgroundColor: theme.blue[600] }} onPress={sendRegister} isLoading={isLoading}>
-        Continue
+        <Text color='white'>Continue</Text>
       </Button>
       <Center>
         <HStack mt='6'>
           <Text>Joined us before? </Text>
           <Link _text={{ color: theme.blue[500] }} onPress={() => navigation.navigate('Login')}>
-            <Text color={theme.blue[500]} fontWeight='bold'>
-              Login
-            </Text>
+            <Text bold color={theme.blue[500]}>Login</Text>
           </Link>
         </HStack>
       </Center>
-    </>
+    </ScrollView>
   )
 }

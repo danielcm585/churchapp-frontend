@@ -4,7 +4,9 @@ import theme from '../../../theme'
 import config from '../../../config'
 import { put } from '../../http'
 
-import { Button, Heading, HStack, Icon, Image, Input, IconButton, Text, Link, Select, Avatar, VStack } from 'native-base'
+import { PhotoUpload } from '..'
+
+import { Center, Button, HStack, Icon, Input, Text, Select, Avatar, VStack, ScrollView } from 'native-base'
 import { useToast } from 'native-base'
 import { MaterialCommunityIcons, MaterialIcons } from '@native-base/icons'
 
@@ -17,9 +19,9 @@ export default function LoginScreen({ navigation, setPage }) {
   const [ birth, setBirth ] = useState(new Date())
   const [ photo, setPhoto ] = useState('https://i.ibb.co/B2cSS4q/download.png')
 
-  const [ birthDate, setBirthDate ] = useState()
-  const [ birthMonth, setBirthMonth ] = useState()
-  const [ birthYear, setBirthYear ] = useState()
+  const [ birthDate, setBirthDate ] = useState('')
+  const [ birthMonth, setBirthMonth ] = useState('')
+  const [ birthYear, setBirthYear ] = useState('')
 
   const toast = useToast()
   const [ isLoading, setIsLoading ] = useState(false)
@@ -46,20 +48,28 @@ export default function LoginScreen({ navigation, setPage }) {
   const years = [...Array(200).keys()].map(val => val+1950)
 
   return (
-    <>
-      <Heading mt='12' ml='6' size='2xl' color={theme.blue[900]}>Register</Heading>
+    <ScrollView>
+      {/* <Heading mt='12' ml='6' size='2xl' color={theme.blue[900]}>Register</Heading> */}
+      <Center mt='12'>
+        <VStack alignItems='center'>
+          <Avatar size='2xl' source={{ uri: photo }}>-</Avatar>
+          <Text mt='4' fontSize='lg' fontWeight='bold'>{name}</Text>
+          <Text fontSize='md' fontWeight='semibold'>{phone}</Text>
+          <Text fontSize='md' fontWeight='semibold'>{birthDate} {birthMonth} {birthYear}</Text>
+        </VStack>
+      </Center>
       <Text mt='4' ml='6' mr='6'>
         Please fill in the following form, so we can know you personally
       </Text>
       <HStack mt='4' ml='6' mr='6' space='4' alignItems='center'>
         <Icon size='md' color={theme.blue[900]} as={MaterialIcons} name='person'></Icon>
-        <Input w='89%' variant='underlined' placeholder='Full Name' color={theme.blue[900]} 
+        <Input w='89%' variant='underlined' placeholder='Full Name'
           _focus={{ borderColor: theme.blue[900] }} onChangeText={(val) => setName(val)}
         />
       </HStack>
       <HStack mt='4' ml='6' mr='6' space='4' alignItems='center'>
         <Icon size='md' color={theme.blue[900]} as={MaterialIcons} name='phone'></Icon>
-        <Input w='89%' variant='underlined' placeholder='Phone Number' color={theme.blue[900]}
+        <Input w='89%' variant='underlined' placeholder='Phone Number'
           _focus={{ borderColor: theme.blue[900] }} onChangeText={(val) => setPhone(val)} 
         />
       </HStack>
@@ -78,7 +88,7 @@ export default function LoginScreen({ navigation, setPage }) {
               birth.setDate(parseInt(val))
             }}>
             {
-              dates.map(date => <Select.Item label={date.toString()} value={date.toString()} />)
+              dates.map((date, idx) => <Select.Item key={idx} label={date.toString()} value={date.toString()} />)
             }
           </Select>
           <Select minWidth='35%' selectedValue={birthMonth} placeholder='Month' onValueChange={val => {
@@ -86,7 +96,7 @@ export default function LoginScreen({ navigation, setPage }) {
               birth.setMonth(months.findIndex(month => month == val) + 1)
             }}>
             {
-              months.map(month => <Select.Item label={month} value={month} />)
+              months.map((month, idx) => <Select.Item key={idx} label={month} value={month} />)
             }
           </Select>
           <Select minWidth='29%' selectedValue={birthYear} placeholder='Year' onValueChange={val => {
@@ -94,7 +104,7 @@ export default function LoginScreen({ navigation, setPage }) {
               birth.setFullYear(parseInt(val))
             }}>
             {
-              years.map(year => <Select.Item label={year.toString()} value={year.toString()} />)
+              years.map((year, idx) => <Select.Item key={idx} label={year.toString()} value={year.toString()} />)
             }
           </Select>
         </HStack>
@@ -103,27 +113,11 @@ export default function LoginScreen({ navigation, setPage }) {
         Customize your profile by adding profile picture
       </Text>
       {/* FIXME: Add file picker */}
-      <Button mt='4' ml='6' mr='6' borderRadius='lg' variant='outline' backgroundColor='gray.100'
-        _pressed={{ backgroundColor: 'gray.200' }}>
-        <Text color='black'>
-          Add Photo
-        </Text>
-      </Button>
-      <Text mt='6' ml='6' mr='6'>
-        Your profile preview
-      </Text>
-      <HStack mt='4' alignItems='center'>
-        <Avatar ml='6' size='xl' source={{ uri: photo }}>-</Avatar>
-        <VStack ml='4'>
-          <Text fontSize='lg' fontWeight='bold'>{name}</Text>
-          <Text fontSize='md' fontWeight='semibold'>{gender}</Text>
-          <Text fontSize='md' fontWeight='semibold'>{phone}</Text>
-        </VStack>
-      </HStack>
-      <Button mt='6' ml='6' mr='6' borderRadius='lg' backgroundColor={theme.blue[500]}
+      <PhotoUpload setLink={setPhoto} />
+      <Button mt='4' ml='6' mr='6' borderRadius='lg' backgroundColor={theme.blue[500]}
         _pressed={{ backgroundColor: theme.blue[600] }} onPress={addData} isLoading={isLoading}>
         Register
       </Button>
-    </>
+    </ScrollView>
   )
 }

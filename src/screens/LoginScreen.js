@@ -5,7 +5,7 @@ import config from '../../config'
 import { post } from '../http'
 import { setData } from '../utils'
 
-import { Box, Button, Center, Divider, Heading, HStack, Icon, Image, Input, IconButton, Text, Link } from 'native-base'
+import { Box, Button, Center, Divider, Heading, HStack, Icon, Image, Input, IconButton, ScrollView, Text, Link } from 'native-base'
 import { useToast } from 'native-base'
 import { MaterialCommunityIcons, MaterialIcons } from '@native-base/icons'
 
@@ -36,22 +36,22 @@ export default function LoginScreen({ navigation }) {
   }
 
   return (
-    <>
+    <ScrollView>
       <Center>
-        <Image width='330' height='330' source={require('../images/login.png')} />
+        <Image width='330' height='330' alt='Login' source={require('../images/login.png')} />
       </Center>
       <Heading ml='6' size='2xl' color={theme.blue[900]}>Login</Heading>
       <HStack mt='4' ml='6' mr='6' space='4' alignItems='center'>
         <Icon size='md' color={theme.blue[900]} as={MaterialIcons} name='person'></Icon>
-        <Input w='89%' variant='underlined' placeholder='Username' color={theme.blue[900]} 
+        <Input w='89%' variant='underlined' placeholder='Username'
           _focus={{ borderColor: theme.blue[900] }} onChangeText={(val) => setUsername(val)}
         />
       </HStack>
       <HStack mt='4' ml='6' mr='6' space='4' alignItems='center'>
         <Icon size='md' color={theme.blue[900]} as={MaterialIcons} name='lock'></Icon>
-        <Input w='89%' variant='underlined' placeholder='Password' color={theme.blue[900]} 
+        <Input w='89%' variant='underlined' placeholder='Password' type={!show && 'password'}
           _focus={{ borderColor: theme.blue[900] }} onChangeText={(val) => setPassword(val)} 
-          type={!show && 'password'} InputRightElement={<IconButton onPress={() => setShow(prev => !prev)}
+          InputRightElement={<IconButton onPress={() => setShow(prev => !prev)}
           _icon={
             !show ?
               { color: theme.blue[900], as: MaterialCommunityIcons, name: 'eye' } :
@@ -69,7 +69,7 @@ export default function LoginScreen({ navigation }) {
       </HStack>
       <Button mt='4' ml='6' mr='6' borderRadius='lg' backgroundColor={theme.blue[500]}
         _pressed={{ backgroundColor: theme.blue[600] }} onPress={sendLogin} isLoading={isLoading}>
-        Login
+        <Text color='white'>Login</Text>
       </Button>
       <Center>
         <HStack mt='4' ml='6' mr='6' space='2' alignItems='center'>
@@ -81,20 +81,16 @@ export default function LoginScreen({ navigation }) {
       <Button mt='4' ml='6' mr='6' borderRadius='lg' variant='outline' backgroundColor='gray.100'
         startIcon={<Icon color='black' as={MaterialCommunityIcons} name='google'></Icon>}
         _pressed={{ backgroundColor: 'gray.200' }}>
-        <Text color='black'>
-          Login with Google
-        </Text>
+        <Text color='black'>Login with Google</Text>
       </Button>
       <Center>
         <HStack mt='6'>
           <Text>New to MyKC? </Text>
           <Link _text={{ color: theme.blue[500] }} onPress={() => navigation.navigate('Register')}>
-            <Text color={theme.blue[500]} fontWeight='bold'>
-              Register
-            </Text>
+            <Text bold color={theme.blue[500]}>Register</Text>
           </Link>
         </HStack>
       </Center>
-    </>
+    </ScrollView>
   )
 }

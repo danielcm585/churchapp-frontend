@@ -6,7 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { NativeBaseProvider } from 'native-base'
 
 import { getData } from './src/utils'
-import { HomeScreen, LoginScreen, RegisterScreen } from './src/screens'
+import { HomeScreen, LoginScreen, RegisterScreen, GroupScreen, GroupDetailsScreen, ProfileScreen } from './src/screens'
 
 const Stack = createNativeStackNavigator()
 
@@ -17,8 +17,8 @@ export default function App() {
     const myToken = await getData('token')
     setToken(myToken)
   }
-  // useEffect(() => getToken(), [])
-
+  useEffect(() => getToken(), [])
+  
   return (
     <NativeBaseProvider>
       <NavigationContainer>
@@ -27,6 +27,9 @@ export default function App() {
             (token != null) ? (
               <>
                 <Stack.Screen name='Home' component={HomeScreen} options={{ headerShown: false }} />
+                <Stack.Screen name='Group' component={GroupScreen} options={{ headerShown: false }} />
+                <Stack.Screen name='GroupDetails' component={GroupDetailsScreen} options={{ headerShown: false }} />
+                <Stack.Screen name='Profile' component={ProfileScreen} options={{ headerShown: false }} />
               </>
             ) : (
               <>

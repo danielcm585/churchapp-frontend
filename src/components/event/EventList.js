@@ -1,8 +1,9 @@
 import React from 'react'
 
-export default function Explore() {
+export default function EventList() {
   return (
     <>
+      
     </>
   )
 }

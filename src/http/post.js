@@ -12,13 +12,9 @@ export default async (url, body) => {
     }
   }).then(resp => resp.data)
     .catch(err => {
-      if (err == 'Network Error') return {
+      if (err.code == 'ENOTFOUND') return {
         status: 1000,
         message: 'Network Error'
-      }
-      if (err.response.status >= 500) return {
-        status: err.response.status,
-        message: 'Internal Server Error'
       }
       return {
         status: err.response.status,

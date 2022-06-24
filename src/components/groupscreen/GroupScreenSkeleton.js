@@ -1,8 +1,9 @@
 import React from 'react'
 
-export default function Groups() {
+export default function GroupScreenSkeleton() {
   return (
     <>
+      
     </>
   )
 }
