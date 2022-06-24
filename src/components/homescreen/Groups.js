@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react'
 
+import theme from '../../../theme'
+
 import { Appbar, Tabs } from '../'
 import { GroupList } from '../group'
+
+import { Fab, Icon } from 'native-base'
+import { MaterialIcons } from '@native-base/icons'
 
 export default function Groups({ navigation }) {
   const pages = [ 'My Groups', 'All Groups' ]
@@ -226,6 +231,7 @@ export default function Groups({ navigation }) {
           <GroupList groups={mine} mine={true} navigation={navigation} /> :
           <GroupList groups={all} mine={false} navigation={navigation} /> 
       }
+      {/* <Fab mb='57' shadow={4} bgColor={theme.blue[500]} icon={<Icon as={MaterialIcons} name='add' />} /> */}
     </>
   )
 }
