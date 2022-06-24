@@ -2,26 +2,82 @@ import React, { useEffect, useState } from 'react'
 
 import theme from '../../../theme'
 
-import { SearchBar } from '../'
-import { ProfileGrid } from '../profile'
-
 import { Button, Modal, Text } from 'native-base'
+import { ProfileList } from '../profile'
 
 export default function InviteModal({ isOpen, setIsOpen }) {
   const [ all, setAll ] = useState()
   useEffect(() => {
+    setAll([
+      {
+        name: 'Daniel Christian Mandolang',
+        username: 'danielcm1',
+        photo: 'https://i.ibb.co/B2cSS4q/download.png',
+        phone: '+62 813 1323 3290',
+        birth: '2012-04-23T18:25:43.511Z'
+      },
+      {
+        name: 'Daniel Christian Mandolang',
+        username: 'danielcm1',
+        photo: 'https://i.ibb.co/B2cSS4q/download.png',
+        phone: '+62 813 1323 3290',
+        birth: '2012-04-23T18:25:43.511Z'
+      },
+      {
+        name: 'Daniel Christian Mandolang',
+        username: 'danielcm1',
+        photo: 'https://i.ibb.co/B2cSS4q/download.png',
+        phone: '+62 813 1323 3290',
+        birth: '2012-04-23T18:25:43.511Z'
+      },
+      {
+        name: 'Daniel Christian Mandolang',
+        username: 'danielcm1',
+        photo: 'https://i.ibb.co/B2cSS4q/download.png',
+        phone: '+62 813 1323 3290',
+        birth: '2012-04-23T18:25:43.511Z'
+      },
+      {
+        name: 'Daniel Christian Mandolang',
+        username: 'danielcm1',
+        photo: 'https://i.ibb.co/B2cSS4q/download.png',
+        phone: '+62 813 1323 3290',
+        birth: '2012-04-23T18:25:43.511Z'
+      },
+      {
+        name: 'Daniel Christian Mandolang',
+        username: 'danielcm1',
+        photo: 'https://i.ibb.co/B2cSS4q/download.png',
+        phone: '+62 813 1323 3290',
+        birth: '2012-04-23T18:25:43.511Z'
+      },
+      {
+        name: 'Daniel Christian Mandolang',
+        username: 'danielcm1',
+        photo: 'https://i.ibb.co/B2cSS4q/download.png',
+        phone: '+62 813 1323 3290',
+        birth: '2012-04-23T18:25:43.511Z'
+      },
+      {
+        name: 'Daniel Christian Mandolang',
+        username: 'danielcm1',
+        photo: 'https://i.ibb.co/B2cSS4q/download.png',
+        phone: '+62 813 1323 3290',
+        birth: '2012-04-23T18:25:43.511Z'
+      },
+    ])
     console.log('FETCH ALL PROFILES')
   }, [])
-  
-  const [ keyword, setKeyword ] = useState('')
-  const [ filtered, setFiltered ] = useState()
-  useEffect(() => {
-    if (all == null) return
-    filteredProfiles = all.filter(profile => profile.name.toLowerCase().includes(keyword.toLowerCase()))
-    setFiltered(filteredProfiles)
-  }, [ keyword ])
 
-  const [ selected, setSelected ] = useState()
+  const [ selected, setSelected ] = useState([ ])
+  const sendInvite = () => {
+    selected.forEach(profile => {
+      console.log(profile.name)
+    })
+    console.log('SEND INVITE')
+  }
+
+  console.log(selected)
 
   return (
     <>
@@ -30,15 +86,7 @@ export default function InviteModal({ isOpen, setIsOpen }) {
           <Modal.CloseButton />
           <Modal.Header>Invite</Modal.Header>
           <Modal.Body p='4'>
-            <SearchBar keyword={keyword} setKeyword={setKeyword} />
-            {
-              (filtered != null) &&
-                <ProfileGrid profiles={filtered} />
-            }
-            {
-              (selected != null) &&
-                <Text>{selected.name} will be invited to this group</Text>
-            }
+            <ProfileList profiles={all} select={true} setSelected={setSelected} />
           </Modal.Body>
           <Modal.Footer>
             <Button.Group space='2'>
@@ -46,7 +94,7 @@ export default function InviteModal({ isOpen, setIsOpen }) {
                 _pressed={{ bgColor: 'gray.200' }}>
                 <Text color='black'>Cancel</Text>
               </Button>
-              <Button size='sm' rounded='md' bgColor={theme.blue[500]} onPress={() => console.log('SEND INVITE')}
+              <Button size='sm' rounded='md' bgColor={theme.blue[500]} onPress={sendInvite}
                 _pressed={{ bgColor: theme.blue[600] }}>
                 <Text color='white'>Invite</Text>
               </Button>

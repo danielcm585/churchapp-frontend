@@ -1,3 +1,4 @@
+import { HStack, VStack } from 'native-base'
 import React from 'react'
 
 import { Appbar } from '../'
@@ -67,7 +68,9 @@ export default function Explore({ navigation }) {
   return (
     <>
       <Appbar title='Explore' mainScreen={true} />
-      <ProfileList profiles={all} navigation={navigation} />
+      <VStack mx='4' mt='2'>
+        <ProfileList profiles={all} navigation={navigation} />
+      </VStack>
     </>
   )
 }
