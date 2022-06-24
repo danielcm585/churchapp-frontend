@@ -6,7 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { NativeBaseProvider } from 'native-base'
 
 import { getData } from './src/utils'
-import { HomeScreen, LoginScreen, RegisterScreen, GroupScreen, GroupDetailsScreen, ProfileScreen } from './src/screens'
+import { HomeScreen, LoginScreen, RegisterScreen, GroupScreen, GroupDetailsScreen, ProfileScreen, ProfileDetailsScreen } from './src/screens'
 
 const Stack = createNativeStackNavigator()
 
@@ -30,6 +30,7 @@ export default function App() {
                 <Stack.Screen name='Group' component={GroupScreen} options={{ headerShown: false }} />
                 <Stack.Screen name='GroupDetails' component={GroupDetailsScreen} options={{ headerShown: false }} />
                 <Stack.Screen name='Profile' component={ProfileScreen} options={{ headerShown: false }} />
+                <Stack.Screen name='ProfileDetails' component={ProfileDetailsScreen} options={{ headerShown: false }} />
               </>
             ) : (
               <>
