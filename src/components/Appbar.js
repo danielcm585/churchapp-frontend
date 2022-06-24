@@ -5,14 +5,13 @@ import { InviteModal } from './groupscreen'
 import { Box, HStack, IconButton, Icon, Text, StatusBar, Link, Menu, Divider } from 'native-base'
 import { MaterialIcons, MaterialCommunityIcons } from '@native-base/icons'
 
-export default function Appbar({ title, mainScreen, group, navigation }) {
+export default function Appbar({ title, mainScreen, group, profile, navigation }) {
   const [ openInvite, setOpenInvite ] = useState(false)
 
   return (
     <>
       {
-        (group != null) && 
-          <InviteModal isOpen={openInvite} setIsOpen={setOpenInvite} />
+        (group != null) && <InviteModal isOpen={openInvite} setIsOpen={setOpenInvite} />
       }
       <StatusBar bg='#3700B3' barStyle='light-content' />
       <Box safeAreaTop bg='#6200ee' />
@@ -27,12 +26,25 @@ export default function Appbar({ title, mainScreen, group, navigation }) {
           )
         }
         {
-          (group != null) ? (
-            <Link onPress={() => navigation.navigate('GroupDetails', { group: group })}>
-              <Text bold color='black' fontSize='lg'>{title}</Text>
-            </Link>
+          (group != null || profile != null) ? (
+            <>
+              {
+                (group != null) && (
+                  <Link onPress={() => navigation.navigate('GroupDetails', { group: group })}>
+                    <Text bold color='black' fontSize='lg' maxW='300' isTruncated>{title}</Text>
+                  </Link>
+                )
+              }
+              {
+                (profile != null) && (
+                  <Link onPress={() => navigation.navigate('ProfileDetails', { profile: profile })}>
+                    <Text bold color='black' fontSize='lg' maxW='300' isTruncated>{title}</Text>
+                  </Link>
+                )
+              }
+            </>
           ) : (
-            <Text bold color='black' fontSize='lg'>{title}</Text>
+            <Text bold color='black' fontSize='lg' maxW='300' isTruncated>{title}</Text>
           )
         }
         {
@@ -61,6 +73,19 @@ export default function Appbar({ title, mainScreen, group, navigation }) {
                       </Menu.Item>
                       <Menu.Item>
                         <Text color='red.500'>Delete Group</Text>
+                      </Menu.Item>
+                    </Menu>
+                  </>
+                )
+              }
+              {
+                (profile != null) && (
+                  <>
+                    <Menu closeOnSelect={false} trigger={triggerProps => <IconButton {...triggerProps} 
+                      icon={<Icon as={MaterialCommunityIcons} name='dots-vertical' size='md' color='black' />} 
+                    />}>
+                      <Menu.Item>
+                        <Text color='red.500'>Report User</Text>
                       </Menu.Item>
                     </Menu>
                   </>
