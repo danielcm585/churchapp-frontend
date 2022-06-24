@@ -17,12 +17,12 @@ export default function Group({ navigation, group, mine }) {
         </VStack>
         {
           mine ? (
-            <Button mx='10' mt='3' size='sm' rounded='full' bgColor={theme.blue[500]} 
+            <Button mx='12' mt='3' size='sm' rounded='full' bgColor={theme.blue[500]} 
               _pressed={{ bgColor: theme.blue[600] }} onPress={() => navigation.navigate('Group', { group: group })}>
               <Text color='white'>View</Text>
             </Button>
           ) : (
-            <Button mx='10' mt='3' size='sm' rounded='full' bgColor={theme.blue[500]} 
+            <Button mx='12' mt='3' size='sm' rounded='full' bgColor={theme.blue[500]} 
               _pressed={{ bgColor: theme.blue[600] }}>
               <Text color='white'>Join</Text>
             </Button>
