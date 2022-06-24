@@ -10,7 +10,10 @@ export default function Appbar({ title, mainScreen, group, navigation }) {
 
   return (
     <>
-      <InviteModal isOpen={openInvite} setIsOpen={setOpenInvite} />
+      {
+        (group != null) && 
+          <InviteModal isOpen={openInvite} setIsOpen={setOpenInvite} />
+      }
       <StatusBar bg='#3700B3' barStyle='light-content' />
       <Box safeAreaTop bg='#6200ee' />
       <HStack bg='white' px='1' py='1' justifyContent='space-between' alignItems='center' w='100%'>
