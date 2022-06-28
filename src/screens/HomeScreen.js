@@ -3,8 +3,6 @@ import React, { useState } from 'react'
 import { Navbar } from '../components'
 import { Home, Explore, Stream, Groups, Profile } from '../components/homescreen'
 
-import { Text } from 'native-base'
-
 export default function HomeScreen({ navigation }) {
   const [ page, setPage ] = useState(1)
 

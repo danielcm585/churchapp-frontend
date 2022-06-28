@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import theme from '../../../theme'
 import config from '../../../config'
-import { post } from '../../http'
+import { get, post } from '../../http'
 
 import { Button, Center, Heading, HStack, Icon, Image, Input, IconButton, Text, Link, ScrollView } from 'native-base'
 import { useToast } from 'native-base'
@@ -19,19 +19,29 @@ export default function LoginScreen({ navigation, setPage }) {
   const [ isLoading, setIsLoading ] = useState(false)
   const sendRegister = async () => {
     setIsLoading(true)
-    const resp = await post(`${config.API_URL}/user/register`, { email, username, password })
-    console.log(resp)
-    if (resp.status >= 400) {
-      toast.show({
-        title: resp.message,
-        placement: 'bottom',
-        status: 'error'
-      })
+    try {
+      
+      const resp = await get(`${config.API_URL}/`)
+      console.log(JSON.stringify(resp))
+
       setIsLoading(false)
+      // const resp = await post(`${config.API_URL}/user/register`, { email, username, password })
+      // if (resp.status >= 400) {
+      //   toast.show({
+      //     title: resp,
+      //     placement: 'bottom',
+      //     status: 'error'
+      //   })
+      //   setIsLoading(false)
+      // }
+      // else {
+      //   setIsLoading(false)
+      //   setPage(prev => prev+1)
+      // }
     }
-    else {
+    catch (err) {
+      console.log(err)
       setIsLoading(false)
-      setPage(prev => prev+1)
     }
   }
 
