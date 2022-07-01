@@ -5,7 +5,7 @@ import { post } from '../http'
 
 import { Button, Text } from 'native-base'
 
-export default function PhotoUpload({ setLink }) {
+export default function PhotoUpload({ setLink, bgColor, pressedBgColor, mt, mx }) {
   const [ photo, setPhoto ] = useState()
 
   const selectPhoto = async () => {
@@ -33,8 +33,8 @@ export default function PhotoUpload({ setLink }) {
 
   return (
     <>
-      <Button mt='4' ml='6' mr='6' borderRadius='lg' variant='outline' backgroundColor='gray.100'
-        _pressed={{ backgroundColor: 'gray.200' }} onPress={selectPhoto}>
+      <Button mt={mt} mx={mx} borderRadius='lg' variant='outline' backgroundColor={bgColor}
+        _pressed={{ backgroundColor: pressedBgColor }} onPress={selectPhoto}>
         <Text color='black'>
           Add Photo
         </Text>

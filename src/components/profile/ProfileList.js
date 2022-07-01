@@ -5,7 +5,7 @@ import { ProfileListSkeleton, ProfileItem } from './'
 
 import { ScrollView, VStack } from 'native-base'
 
-export default function ProfileList({ profiles, select, setSelected, navigation }) {
+export default function ProfileList({ profiles, select, setSelected, modal, navigation }) {
   if (profiles == null) return <ProfileListSkeleton />
 
   const [ keyword, setKeyword ] = useState('')
@@ -25,7 +25,7 @@ export default function ProfileList({ profiles, select, setSelected, navigation 
       <ScrollView mt='2'>
         {
           filtered.map((profile, idx) => 
-            <ProfileItem key={idx} profile={profile} select={select} setSelected={setSelected} navigation={navigation} />
+            <ProfileItem key={idx} modal={modal} profile={profile} select={select} setSelected={setSelected} navigation={navigation} />
           )
         }
       </ScrollView>

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import theme from '../../../theme'
 
 import { Appbar, Tabs } from '../'
-import { GroupList } from '../group'
+import { GroupList, NewGroupModal } from '../group'
 
 import { Fab, Icon } from 'native-base'
 import { MaterialIcons } from '@native-base/icons'
@@ -222,6 +222,8 @@ export default function Groups({ navigation }) {
     // setAll(allGroups)
   }, [])
 
+  const [ openNewGroup, setOpenNewGroup ] = useState(false)
+
   return (
     <>
       <Appbar title='Groups' mainScreen={true} />
@@ -231,7 +233,9 @@ export default function Groups({ navigation }) {
           <GroupList groups={mine} mine={true} navigation={navigation} /> :
           <GroupList groups={all} mine={false} navigation={navigation} /> 
       }
-      {/* <Fab mb='57' shadow={4} bgColor={theme.blue[500]} icon={<Icon as={MaterialIcons} name='add' />} /> */}
+      <NewGroupModal isOpen={openNewGroup} setIsOpen={setOpenNewGroup} />
+      <Fab mb='57' size='lg' shadow={4} bgColor={theme.blue[500]} onPress={() => setOpenNewGroup(true)}
+        icon={<Icon as={MaterialIcons} name='add' />} renderInPortal={false} />
     </>
   )
 }

@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { Appbar } from '../'
+import { ChangePasswordModal, ContactUsModal, EditProfileModal } from '../profile'
+import { DangerWarning } from '../'
 
 import { Avatar, Center, VStack, Text, Button, Divider, Icon } from 'native-base'
 import { MaterialIcons, MaterialCommunityIcons } from '@native-base/icons'
@@ -17,6 +19,15 @@ export default function Profile() {
   const birthYear = parseInt(user.birth.split('-')[0])
   const birthMonth = months[parseInt(user.birth.split('-')[1])]
   const birthDate = parseInt(user.birth.split('-')[2].split('T')[0])
+
+  const [ openEditProfile, setOpenEditProfile ] = useState(false)
+  const [ openChangePassword, setOpenChangePassword ] = useState(false)
+  const [ openContactUs, setOpenContactUs ] = useState(false)
+  const [ openLogout, setOpenLogout ] = useState(false)
+
+  const logout = () => {
+
+  }
 
   return (
     <>
@@ -42,18 +53,18 @@ export default function Profile() {
         </Button>
         <Button mt='1' variant='outline' rounded='md' bgColor='gray.100' _pressed={{ bgColor: 'gray.200' }}
           leftIcon={<Icon as={MaterialIcons} name='edit' color='black' />}
-          onPress={() => console.log('TODO')}>
+          onPress={() => setOpenEditProfile(true)}>
           <Text>Edit Profile</Text>
         </Button>
         <Button mt='1' variant='outline' rounded='md' bgColor='gray.100' _pressed={{ bgColor: 'gray.200' }}
           leftIcon={<Icon as={MaterialCommunityIcons} name='key-change' color='black' />}
-          onPress={() => console.log('TODO')}>
+          onPress={() => setOpenChangePassword(true)}>
           <Text>Change Password</Text>
         </Button>
         <Divider mt='4' />
         <Button mt='4' variant='outline' rounded='md' bgColor='gray.100' _pressed={{ bgColor: 'gray.200' }}
           leftIcon={<Icon as={MaterialIcons} name='phone' color='black' />}
-          onPress={() => console.log('TODO')}>
+          onPress={() => setOpenContactUs(true)}>
           <Text>Contact Us</Text>
         </Button>
         <Button mt='1' variant='outline' rounded='md' bgColor='gray.100' _pressed={{ bgColor: 'gray.200' }}
@@ -63,10 +74,15 @@ export default function Profile() {
         </Button>
         <Button mt='1' variant='outline' rounded='md' bgColor='red.500' _pressed={{ bgColor: 'red.600' }}
           leftIcon={<Icon as={MaterialCommunityIcons} name='logout' color='white' />}
-          onPress={() => console.log('TODO')}>
+          onPress={() => setOpenLogout(true)}>
           <Text color='white'>Logout</Text>
         </Button>
       </VStack>
+      <EditProfileModal profile={user} isOpen={openEditProfile} setIsOpen={setOpenEditProfile} />
+      <ChangePasswordModal profile={user} isOpen={openChangePassword} setIsOpen={setOpenChangePassword} />
+      <ContactUsModal isOpen={openContactUs} setIsOpen={setOpenContactUs} />
+      <DangerWarning title='Logout' action='Logout' onContinue={logout} 
+        isOpen={openLogout} setIsOpen={setOpenLogout} />
     </>
   )
 }

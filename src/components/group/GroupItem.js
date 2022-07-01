@@ -4,7 +4,7 @@ import theme from '../../../theme'
 
 import { Avatar, VStack, Text, Button } from 'native-base'
 
-export default function Group({ navigation, group, mine }) {
+export default function GroupItem({ navigation, group, mine }) {
   return (
     <>
       <VStack minHeight='228' py='5' rounded='md' backgroundColor='white'>

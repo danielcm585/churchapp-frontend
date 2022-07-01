@@ -3,7 +3,7 @@ module.exports = function(api) {
   return {
     presets: ['babel-preset-expo'],
     plugins: [
-      r["module-resolver", {
+      ["module-resolver", {
         alias: {
           "@native-base/icons": "@native-base/icons/lib"
         }

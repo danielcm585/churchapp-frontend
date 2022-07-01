@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { Group, GroupListSkeleton } from './'
+import { GroupItem, GroupListSkeleton } from './'
 import { SearchBar } from '../'
 
 import { Center, HStack, ScrollView, VStack } from 'native-base'
@@ -36,13 +36,13 @@ export default function GroupList({ navigation, groups, mine }) {
             <VStack w='45%' space='2'>
               {
                 left.map((group, idx) => 
-                  <Group key={idx} group={group} mine={mine} navigation={navigation} />)
+                  <GroupItem key={idx} group={group} mine={mine} navigation={navigation} />)
               }
             </VStack>
             <VStack w='45%' space='2'>
               {
                 right.map((group, idx) => 
-                  <Group key={idx} group={group} mine={mine} navigation={navigation} />)
+                  <GroupItem key={idx} group={group} mine={mine} navigation={navigation} />)
               }
             </VStack>
           </HStack>

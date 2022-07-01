@@ -77,16 +77,14 @@ export default function InviteModal({ isOpen, setIsOpen }) {
     console.log('SEND INVITE')
   }
 
-  console.log(selected)
-
   return (
     <>
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        <Modal.Content minW='90%'>
+        <Modal.Content minW='95%'>
           <Modal.CloseButton />
-          <Modal.Header>Invite</Modal.Header>
+          <Modal.Header>Invite Member</Modal.Header>
           <Modal.Body p='4'>
-            <ProfileList profiles={all} select={true} setSelected={setSelected} />
+            <ProfileList profiles={all} modal={true} select={true} setSelected={setSelected} />
           </Modal.Body>
           <Modal.Footer>
             <Button.Group space='2'>

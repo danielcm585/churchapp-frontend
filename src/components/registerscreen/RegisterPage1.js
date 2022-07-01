@@ -1,30 +1,25 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 import theme from '../../../theme'
 import config from '../../../config'
 import { get, post } from '../../http'
 
-import { Button, Center, Heading, HStack, Icon, Image, Input, IconButton, Text, Link, ScrollView } from 'native-base'
+import { PasswordInput } from '../'
+
 import { useToast } from 'native-base'
+import { Button, Center, Heading, HStack, Icon, Image, Input, IconButton, Text, Link, ScrollView } from 'native-base'
 import { MaterialCommunityIcons, MaterialIcons } from '@native-base/icons'
 
 export default function LoginScreen({ navigation, setPage }) {
-  const [ show, setShow ] = useState(false)
-
-  const [ email, setEmail ] = useState()
   const [ username, setUsername ] = useState()
   const [ password, setPassword ] = useState()
+  const [ confirmPass, setConfirmPass ] = useState()
 
   const toast = useToast()
   const [ isLoading, setIsLoading ] = useState(false)
   const sendRegister = async () => {
     setIsLoading(true)
     try {
-      
-      const resp = await get(`${config.API_URL}/`)
-      console.log(JSON.stringify(resp))
-
-      setIsLoading(false)
       // const resp = await post(`${config.API_URL}/user/register`, { email, username, password })
       // if (resp.status >= 400) {
       //   toast.show({
@@ -51,31 +46,15 @@ export default function LoginScreen({ navigation, setPage }) {
         <Image width='330' height='330' alt='Register' source={require('../../images/register.png')} />
       </Center>
       <Heading ml='6' size='2xl' color={theme.blue[900]}>Register</Heading>
-      <HStack mt='4' ml='6' mr='6' space='4' alignItems='center'>
-        <Icon size='md' color={theme.blue[900]} as={MaterialIcons} name='email'></Icon>
-        <Input w='89%' variant='underlined' placeholder='Email' color={theme.blue[900]} 
-          _focus={{ borderColor: theme.blue[900] }} onChangeText={(val) => setEmail(val)}
-        />
-      </HStack>
-      <HStack mt='4' ml='6' mr='6' space='4' alignItems='center'>
+      <HStack mt='4' mx='6' space='4' alignItems='center'>
         <Icon size='md' color={theme.blue[900]} as={MaterialIcons} name='person'></Icon>
-        <Input w='89%' variant='underlined' placeholder='Username' color={theme.blue[900]} 
-          _focus={{ borderColor: theme.blue[900] }} onChangeText={(val) => setUsername(val)}
+        <Input w='89%' variant='underlined' placeholder='Username' color={theme.blue[900]}
+          _focus={{ borderColor: theme.blue[900] }} onChangeText={(val) => setUsername(val)} value={username}
         />
       </HStack>
-      <HStack mt='4' ml='6' mr='6' space='4' alignItems='center'>
-        <Icon size='md' color={theme.blue[900]} as={MaterialIcons} name='lock'></Icon>
-        <Input w='89%' variant='underlined' placeholder='Password' color={theme.blue[900]} 
-          _focus={{ borderColor: theme.blue[900] }} onChangeText={(val) => setPassword(val)} 
-          type={!show && 'password'} InputRightElement={<IconButton onPress={() => setShow(prev => !prev)}
-          _icon={
-            !show ?
-            { color: theme.blue[900], as: MaterialCommunityIcons, name: 'eye' } :
-            { color: theme.blue[900], as: MaterialCommunityIcons, name: 'eye-off' }
-          } />}
-        />
-      </HStack>
-      <HStack mt='4' ml='6' mr='6'>
+      <PasswordInput value={password} setValue={setPassword} placeholder='Password' icon='lock' />
+      <PasswordInput value={confirmPass} setValue={setConfirmPass} placeholder='Confirm Password' icon='lock-check' />
+      <HStack mt='4' mx='6'>
         <Text color='gray.500'>By signing up, you're agree to the </Text>
         <Link>
           <Text color={theme.blue[500]} fontWeight='bold'>
@@ -83,7 +62,7 @@ export default function LoginScreen({ navigation, setPage }) {
           </Text>
         </Link>
       </HStack>
-      <HStack ml='6' mr='6'>
+      <HStack mx='6'>
         <Text color='gray.500'>and </Text>
         <Link>
           <Text color={theme.blue[500]} fontWeight='bold'>
@@ -91,7 +70,7 @@ export default function LoginScreen({ navigation, setPage }) {
           </Text>
         </Link>
       </HStack>
-      <Button mt='6' ml='6' mr='6' borderRadius='lg' backgroundColor={theme.blue[500]}
+      <Button mt='6' mx='6' borderRadius='lg' backgroundColor={theme.blue[500]}
         _pressed={{ backgroundColor: theme.blue[600] }} onPress={sendRegister} isLoading={isLoading}>
         <Text color='white'>Continue</Text>
       </Button>

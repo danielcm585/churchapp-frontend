@@ -5,10 +5,11 @@ import { get } from '../../http'
 import { API_URL, MAIN_GROUP_ID } from '../../../config'
 
 import { Appbar, Tabs } from '../'
-import { PostList } from '../post'
+import { PostList, NewPostModal } from '../post'
 import { EventList } from '../event'
 
-import { HStack, Link, Text } from 'native-base'
+import { Fab, Icon } from 'native-base'
+import { MaterialIcons } from '@native-base/icons'
 
 export default function Home() {
   const pages = [ 'Events', 'Posts' ]
@@ -16,6 +17,8 @@ export default function Home() {
 
   const [ posts, setPosts ] = useState()
   const [ events, setEvents ] = useState()
+
+  const [ openNewPost, setOpenNewPost ] = useState(false)
 
   useEffect(async () => {
     // const allPosts = await get(`${API_URL}/posts/${MAIN_GROUP_ID}/`)
@@ -67,6 +70,9 @@ export default function Home() {
           <EventList events={events} /> :
           <PostList posts={posts} />
       }
+      <NewPostModal isOpen={openNewPost} setIsOpen={setOpenNewPost} />
+      <Fab mb='57' size='lg' shadow={4} bgColor={theme.blue[500]} onPress={() => setOpenNewPost(true)}
+        icon={<Icon as={MaterialIcons} name='add' />} renderInPortal={false} />
     </>
   )
 }

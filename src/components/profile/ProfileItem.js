@@ -2,24 +2,28 @@ import React, { useState } from 'react'
 
 import { VStack, Pressable, Box, HStack, Avatar, Text, Divider } from 'native-base'
 
-export default function ProfileItem({ profile, select, setSelected, navigation }) {
+export default function ProfileItem({ profile, select, setSelected, modal, navigation }) {
   const [ isSelected, setIsSelected ] = useState(false)
+
+  const bgColor = (modal ? 'gray.50' : 'gray.100')
+  const pressedBgColor = (modal ? 'gray.100' : 'gray.200')
 
   return (
     <>
       <VStack>
-        <Pressable bg={isSelected ? 'gray.200' : 'gray.100'} _pressed={{ bg: 'gray.200' }} onPress={() => {
-          if (select) {
-            setSelected(prev => {
-              if (!isSelected) {
-                prev.push(profile)
-                return prev
-              }
-              return prev.filter(cur => cur.username != profile.username)
-            })
-            setIsSelected(prev => !prev)
-          }
-          else navigation.navigate('Profile', { profile: profile })
+        <Pressable bg={isSelected ? pressedBgColor : bgColor} _pressed={{ bg: pressedBgColor }} 
+          onPress={() => {
+            if (select) {
+              setSelected(prev => {
+                if (!isSelected) {
+                  prev.push(profile)
+                  return prev
+                }
+                return prev.filter(cur => cur.username != profile.username)
+              })
+              setIsSelected(prev => !prev)
+            }
+            else navigation.navigate('Profile', { profile: profile })
         }}>
           <Box p='2'>
             <HStack alignItems='center'>

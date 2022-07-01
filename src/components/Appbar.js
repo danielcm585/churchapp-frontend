@@ -1,17 +1,38 @@
 import React, { useState } from 'react'
 
-import { InviteModal } from './groupscreen'
+import { EditGroupModal, InviteModal } from './groupscreen'
+import { DangerWarning } from './'
 
 import { Box, HStack, IconButton, Icon, Text, StatusBar, Link, Menu, Divider } from 'native-base'
 import { MaterialIcons, MaterialCommunityIcons } from '@native-base/icons'
 
 export default function Appbar({ title, mainScreen, group, profile, navigation }) {
   const [ openInvite, setOpenInvite ] = useState(false)
+  const [ openEditGroup, setOpenEditGroup ] = useState(false)
+  const [ openLeaveGroup, setOpenLeaveGroup ] = useState(false)
+  const [ openDeleteGroup, setOpenDeleteGroup ] = useState(false)
+
+  const leaveGroup = () => {
+
+  }
+
+  const deleteGroup = () => {
+
+  }
 
   return (
     <>
       {
-        (group != null) && <InviteModal isOpen={openInvite} setIsOpen={setOpenInvite} />
+        (group != null) && (
+          <>
+            <InviteModal isOpen={openInvite} setIsOpen={setOpenInvite} />
+            <EditGroupModal group={group} isOpen={openEditGroup} setIsOpen={setOpenEditGroup} />
+            <DangerWarning isOpen={openLeaveGroup} setIsOpen={setOpenLeaveGroup} 
+              title='Leave Group' action='Leave' onContinue={leaveGroup} />
+            <DangerWarning isOpen={openDeleteGroup} setIsOpen={setOpenDeleteGroup} 
+              title='Delete Group' action='Delete' onContinue={deleteGroup} />
+          </>
+        )
       }
       <StatusBar bg='#3700B3' barStyle='light-content' />
       <Box safeAreaTop bg='#6200ee' />
@@ -61,17 +82,17 @@ export default function Appbar({ title, mainScreen, group, profile, navigation }
                       <Menu.Item onPress={() => setOpenInvite(true)}>
                         <Text>Invite Member</Text>
                       </Menu.Item>
-                      <Menu.Item>
+                      <Menu.Item onPress={() => setOpenEditGroup(true)}>
                         <Text>Edit Group</Text>
                       </Menu.Item>
                       <Menu.Item>
                         <Text>Mute Notification</Text>
                       </Menu.Item>
                       <Divider my='2' />
-                      <Menu.Item>
+                      <Menu.Item onPress={() => setOpenLeaveGroup(true)}>
                         <Text color='red.500'>Leave Group</Text>
                       </Menu.Item>
-                      <Menu.Item>
+                      <Menu.Item onPress={() => setOpenDeleteGroup(true)}>
                         <Text color='red.500'>Delete Group</Text>
                       </Menu.Item>
                     </Menu>
