@@ -1,11 +1,15 @@
 import React from 'react'
 
+import { SearchBar } from '../'
+
 import { Center, ScrollView, Skeleton, VStack, HStack } from 'native-base'
 
 export default function GroupListSkeleton() {
   return (
     <>
-      <Skeleton px='4' h='9' w='100%' rounded='md' startColor='gray.300' />
+      <VStack mx='4' mb='2'>
+        <SearchBar />
+      </VStack>
       <ScrollView mt='2'>
         <Center w='100%' mx='4'>
           <VStack w='100%' space='2'>

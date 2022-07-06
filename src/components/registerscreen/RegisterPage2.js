@@ -1,21 +1,22 @@
 import React, { useState } from 'react'
+import { DevSettings } from 'react-native'
 
 import theme from '../../../theme'
-import config from '../../../config'
 import { put } from '../../http'
+import { setData, getData } from '../../utils'
 
 import { PhotoUpload, DateInput } from '..'
 
-import { Center, Button, HStack, Icon, Input, Text, Select, Avatar, VStack, ScrollView } from 'native-base'
 import { useToast } from 'native-base'
+import { Center, Button, HStack, Icon, Input, Text, Select, Avatar, VStack, ScrollView } from 'native-base'
 import { MaterialCommunityIcons, MaterialIcons } from '@native-base/icons'
 
-export default function LoginScreen({ navigation }) {
+export default function RegisterPage2({ token, refreshToken }) {
   const [ name, setName ] = useState('')
-  const [ gender, setGender ] = useState('')
   const [ phone, setPhone ] = useState('')
   const [ email, setEmail ] = useState('')
   const [ address, setAddress ] = useState('')
+  const [ gender, setGender ] = useState('')
   const [ birth, setBirth ] = useState(new Date())
   const [ photo, setPhoto ] = useState('https://i.ibb.co/B2cSS4q/download.png')
 
@@ -25,21 +26,51 @@ export default function LoginScreen({ navigation }) {
 
   const toast = useToast()
   const [ isLoading, setIsLoading ] = useState(false)
-  const addData = async () => {
-    setIsLoading(true)
-    const resp = await put(`${config.API_URL}/user/${id}`, { name, gender, phone, birth, photo })
-    console.log(resp)
-    if (resp.status >= 400) {
+
+  const validateInput = () => {
+    try {
+      if (name == null || name.length == 0) throw new Error('Name cannot be empty')
+      if (phone == null || phone.length == 0) throw new Error('Phone cannot be empty')
+      if (email == null || email.length == 0) throw new Error('Email cannot be empty')
+      if (address == null || address.length == 0) throw new Error('Address cannot be empty')
+      if (gender == null || gender.length == 0) throw new Error('Gender cannot be empty') 
+      return true;
+    }
+    catch (err) {
       toast.show({
-        title: resp.message,
+        title: err.message,
         placement: 'bottom',
         status: 'error'
       })
-      setIsLoading(false)
+      return false
     }
-    else {
+  }
+
+  const addData = async () => {
+    if (!validateInput()) return
+    try {
+      setIsLoading(true)
+      await setData('token', token)
+      const resp = await put('/user/', {
+        name: name,
+        phone: phone,
+        email: email,
+        address: address,
+        gender: gender,
+        birth: birth
+      })
+      if (resp.status >= 400) throw new Error(resp.data)
       setIsLoading(false)
-      navigation.navigate('Login')
+      await setData('refreshToken', refreshToken)
+      DevSettings.reload()
+    }
+    catch (err) {
+      setIsLoading(false)
+      toast.show({
+        title: err.message,
+        placement: 'bottom',
+        status: 'error'
+      })
     }
   }
 

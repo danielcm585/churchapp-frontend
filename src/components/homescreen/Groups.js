@@ -12,8 +12,8 @@ export default function Groups({ navigation }) {
   const pages = [ 'My Groups', 'All Groups' ]
   const [ page, setPage ] = useState(0)
 
-  const [ all, setAll ] = useState()
-  const [ mine, setMine ] = useState()
+  const [ all, setAll ] = useState(null)
+  const [ mine, setMine ] = useState(null)
 
   useEffect(() => {
     const myGroups = [
@@ -220,6 +220,12 @@ export default function Groups({ navigation }) {
     ]
     setMine(myGroups)
     // setAll(allGroups)
+
+    return () => {
+      setMine(null)
+      setAll(null)
+    }
+
   }, [])
 
   const [ openNewGroup, setOpenNewGroup ] = useState(false)

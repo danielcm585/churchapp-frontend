@@ -1,45 +1,57 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { DevSettings } from 'react-native'
+
+import { getData, removeData, setData } from '../../utils'
+import { get } from '../../http'
 
 import { Appbar } from '../'
-import { ChangePasswordModal, ContactUsModal, EditProfileModal } from '../profile'
+import { ChangePasswordModal, ContactUsModal, EditProfileModal, ProfileDetails } from '../profile'
 import { DangerWarning } from '../'
 
-import { Avatar, Center, VStack, Text, Button, Divider, Icon } from 'native-base'
+import { useToast } from 'native-base'
+import { VStack, Text, Button, Divider, Icon } from 'native-base'
 import { MaterialIcons, MaterialCommunityIcons } from '@native-base/icons'
 
-export default function Profile() {
-  const user = {
-    name: 'Daniel Christian Mandolang',
-    photo: 'https://i.ibb.co/B2cSS4q/download.png',
-    phone: '+62 813 1323 3290',
-    birth: '2012-04-23T18:25:43.511Z'
-  }
+export default function Profile({ navigation }) {
+  const [ user, setUser ] = useState(null)
   
-  const months = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ]
-  const birthYear = parseInt(user.birth.split('-')[0])
-  const birthMonth = months[parseInt(user.birth.split('-')[1])]
-  const birthDate = parseInt(user.birth.split('-')[2].split('T')[0])
+  const toast = useToast()
+  useEffect(async () => {
+    try {
+      const resp = await get('/user/')
+      if (resp.status >= 400) throw new Error(resp.data)
+      const me = resp.data
+      await setData('user', JSON.stringify(me))
+      setUser(me)
+    }
+    catch (err) {
+      toast.show({
+        title: err.message,
+        placement: 'bottom',
+        status: 'error'
+      })
+    }
+
+    return () => setUser(null)
+
+  }, [])
 
   const [ openEditProfile, setOpenEditProfile ] = useState(false)
   const [ openChangePassword, setOpenChangePassword ] = useState(false)
   const [ openContactUs, setOpenContactUs ] = useState(false)
   const [ openLogout, setOpenLogout ] = useState(false)
 
-  const logout = () => {
-
+  const logout = async () => {
+    await removeData('token')
+    await removeData('refreshToken')
+    await removeData('user')
+    DevSettings.reload()
   }
 
   return (
     <>
       <Appbar title='Profile' mainScreen={true} />
-      <Center mt='8'>
-        <VStack alignItems='center'>
-          <Avatar size='2xl' source={{ uri: user.photo }} />
-          <Text mt='4' fontSize='lg' fontWeight='bold'>{user.name}</Text>
-          <Text fontSize='md' fontWeight='semibold'>{user.phone}</Text>
-          <Text fontSize='md' fontWeight='semibold'>{birthDate} {birthMonth} {birthYear}</Text>
-        </VStack>
-      </Center>
+      <ProfileDetails user={user} />
       <VStack mx='4' mt='3'>
         <Button mt='1' variant='outline' rounded='md' bgColor='gray.100' _pressed={{ bgColor: 'gray.200' }}
           leftIcon={<Icon as={MaterialIcons} name='attach-money' color='black' />}
@@ -78,11 +90,17 @@ export default function Profile() {
           <Text color='white'>Logout</Text>
         </Button>
       </VStack>
-      <EditProfileModal profile={user} isOpen={openEditProfile} setIsOpen={setOpenEditProfile} />
-      <ChangePasswordModal profile={user} isOpen={openChangePassword} setIsOpen={setOpenChangePassword} />
-      <ContactUsModal isOpen={openContactUs} setIsOpen={setOpenContactUs} />
-      <DangerWarning title='Logout' action='Logout' onContinue={logout} 
-        isOpen={openLogout} setIsOpen={setOpenLogout} />
+      {
+        (user != null) && (
+          <>
+            <EditProfileModal profile={user} isOpen={openEditProfile} setIsOpen={setOpenEditProfile} />
+            <ChangePasswordModal profile={user} isOpen={openChangePassword} setIsOpen={setOpenChangePassword} />
+            <ContactUsModal isOpen={openContactUs} setIsOpen={setOpenContactUs} />
+            <DangerWarning title='Logout' action='Logout' onContinue={logout} 
+              isOpen={openLogout} setIsOpen={setOpenLogout} />
+          </>
+        )
+      }
     </>
   )
 }

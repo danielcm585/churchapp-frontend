@@ -1,42 +1,64 @@
 import React, { useState } from 'react'
 
 import theme from '../../../theme'
-import config from '../../../config'
-import { get, post } from '../../http'
+import { post } from '../../http'
+import { setData } from '../../utils'
 
 import { PasswordInput } from '../'
 
 import { useToast } from 'native-base'
-import { Button, Center, Heading, HStack, Icon, Image, Input, IconButton, Text, Link, ScrollView } from 'native-base'
-import { MaterialCommunityIcons, MaterialIcons } from '@native-base/icons'
+import { Button, Center, Heading, HStack, Icon, Image, Input, Text, Link, ScrollView } from 'native-base'
+import { MaterialIcons } from '@native-base/icons'
 
-export default function LoginScreen({ navigation, setPage }) {
-  const [ username, setUsername ] = useState()
-  const [ password, setPassword ] = useState()
-  const [ confirmPass, setConfirmPass ] = useState()
+export default function RegisterPage1({ navigation, setPage, setToken, setRefreshToken }) {
+  const [ username, setUsername ] = useState('')
+  const [ password, setPassword ] = useState('')
+  const [ confirmPass, setConfirmPass ] = useState('')
 
   const toast = useToast()
   const [ isLoading, setIsLoading ] = useState(false)
-  const sendRegister = async () => {
-    setIsLoading(true)
+
+  const validateInput = () => {
     try {
-      // const resp = await post(`${config.API_URL}/user/register`, { email, username, password })
-      // if (resp.status >= 400) {
-      //   toast.show({
-      //     title: resp,
-      //     placement: 'bottom',
-      //     status: 'error'
-      //   })
-      //   setIsLoading(false)
-      // }
-      // else {
-      //   setIsLoading(false)
-      //   setPage(prev => prev+1)
-      // }
+      if (username == null || username.length == 0) throw new Error('Username cannot be empty')
+      if (password == null || password.length == 0) throw new Error('Password cannot be empty')
+      if (confirmPass == null || confirmPass.length == 0) throw new Error('Please confirm your password')
+      if (password != confirmPass) throw new Error('Password and confirm password do not match')
+      return true
     }
     catch (err) {
-      console.log(err)
+      toast.show({
+        title: err.message,
+        placement: 'bottom',
+        status: 'error'
+      })
+      return false
+    }
+  }
+
+  const sendRegister = async () => {
+    if (!validateInput()) return
+    try {
+      setIsLoading(true)
+      const resp = await post('/user/register', {
+        username: username,
+        password: password
+      })
+      if (resp.status >= 400) throw new Error(resp.data)
       setIsLoading(false)
+      // console.log(resp)
+      await setData('user', JSON.stringify(resp.data.user))
+      setRefreshToken(resp.data.refreshToken)
+      setToken(resp.data.token)
+      setPage(1)
+    }
+    catch (err) {
+      setIsLoading(false)
+      toast.show({
+        title: err.message,
+        placement: 'bottom',
+        status: 'error'
+      })
     }
   }
 

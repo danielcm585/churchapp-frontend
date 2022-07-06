@@ -27,9 +27,7 @@ export default function PhotoUpload({ setLink, bgColor, pressedBgColor, mt, mx }
     }
   }
 
-  useEffect(() => {
-    console.log(photo?.uri)
-  }, [ photo ])
+  useEffect(() => console.log(photo?.uri), [ photo ])
 
   return (
     <>

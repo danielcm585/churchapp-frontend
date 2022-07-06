@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
+import { DevSettings } from 'react-native'
 
 import theme from '../../theme'
-import config from '../../config'
 import { post } from '../http'
 import { setData } from '../utils'
 
-import { Box, Button, Center, Divider, Heading, HStack, Icon, Image, Input, IconButton, ScrollView, Text, Link } from 'native-base'
+import { PasswordInput } from '../components'
+
 import { useToast } from 'native-base'
+import { Box, Button, Center, Divider, Heading, HStack, Icon, Image, Input, IconButton, ScrollView, Text, Link } from 'native-base'
 import { MaterialCommunityIcons, MaterialIcons } from '@native-base/icons'
 
 export default function LoginScreen({ navigation }) {
@@ -17,22 +19,47 @@ export default function LoginScreen({ navigation }) {
 
   const toast = useToast()
   const [ isLoading, setIsLoading ] = useState(false)
-  const sendLogin = async () => {
-    setIsLoading(true)
-    const resp = await post(`${config.API_URL}/user/login`, { username, password })
-    console.log(resp)
-    if (resp.status >= 400) {
+
+  const validateInput = () => {
+    try {
+      if (username == null || username.length == 0) throw new Error('Username cannot be empty')
+      if (password == null || password.length == 0) throw new Error('Password cannot be empty')
+      return true
+    }
+    catch (err) {
       toast.show({
-        title: resp.message,
+        title: err.message,
+        placement: 'bottom',
+        status: 'error'
+      })
+      return false
+    }
+  }
+
+  const sendLogin = async () => {
+    if (!validateInput()) return
+    try {
+      setIsLoading(true)
+      const resp = await post('/user/login', { 
+        username: username, 
+        password: password
+      })
+      if (resp.status >= 400) throw new Error(resp.data)
+      setIsLoading(false)
+      console.log(resp)
+      await setData('user', JSON.stringify(resp.data.user))
+      await setData('token', resp.data.token)
+      await setData('refreshToken', resp.data.refreshToken)
+      DevSettings.reload()
+    }
+    catch (err) {
+      setIsLoading(false)
+      toast.show({
+        title: err.message,
         placement: 'bottom',
         status: 'error'
       })
     }
-    else {
-      await setData('token', resp.token)
-      await setData('refreshToken', resp.refreshToken)
-    }
-    setIsLoading(false)
   }
 
   return (
@@ -47,18 +74,7 @@ export default function LoginScreen({ navigation }) {
           _focus={{ borderColor: theme.blue[900] }} onChangeText={(val) => setUsername(val)}
         />
       </HStack>
-      <HStack mt='4' ml='6' mr='6' space='4' alignItems='center'>
-        <Icon size='md' color={theme.blue[900]} as={MaterialIcons} name='lock'></Icon>
-        <Input w='89%' variant='underlined' placeholder='Password' type={!show && 'password'}
-          _focus={{ borderColor: theme.blue[900] }} onChangeText={(val) => setPassword(val)} 
-          InputRightElement={<IconButton onPress={() => setShow(prev => !prev)}
-          _icon={
-            !show ?
-              { color: theme.blue[900], as: MaterialCommunityIcons, name: 'eye' } :
-              { color: theme.blue[900], as: MaterialCommunityIcons, name: 'eye-off' }
-          } />}
-        />
-      </HStack>
+      <PasswordInput value={password} setValue={setPassword} placeholder='Password' icon='lock' />
       <HStack mt='3' ml='6' mr='6'>
         <Box w='67%'></Box>
         <Link _text={{ color: theme.blue[500] }} onPress={() => console.log('Forget password')}>

@@ -16,8 +16,6 @@ export default function NewGroupModal({ isOpen, setIsOpen }) {
     // TODO: POST new group
   }
 
-  console.log('WOY')
-
   return (
     <>
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>

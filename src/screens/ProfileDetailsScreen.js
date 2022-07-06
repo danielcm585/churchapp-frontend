@@ -9,7 +9,7 @@ export default function ProfileDetailsScreen({ route, navigation }) {
 
   const months = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ]
   const birthYear = parseInt(profile.birth.split('-')[0])
-  const birthMonth = months[parseInt(profile.birth.split('-')[1])]
+  const birthMonth = months[parseInt(profile.birth.split('-')[1]) - 1]
   const birthDate = parseInt(profile.birth.split('-')[2].split('T')[0])
 
   return (

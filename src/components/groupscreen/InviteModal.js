@@ -6,7 +6,7 @@ import { Button, Modal, Text } from 'native-base'
 import { ProfileList } from '../profile'
 
 export default function InviteModal({ isOpen, setIsOpen }) {
-  const [ all, setAll ] = useState()
+  const [ all, setAll ] = useState(null)
   useEffect(() => {
     setAll([
       {
@@ -67,6 +67,9 @@ export default function InviteModal({ isOpen, setIsOpen }) {
       },
     ])
     console.log('FETCH ALL PROFILES')
+
+    return () => setAll(null)
+
   }, [])
 
   const [ selected, setSelected ] = useState([ ])

@@ -29,7 +29,7 @@ export default function DateInput({ date, setDate, month, setMonth, year, setYea
           <Select minWidth='35%' selectedValue={month} placeholder='Month' onValueChange={val => {
               setMonth(val)
               setFinalDate(prev => {
-                prev.setMonth(months.findIndex(month => (month == val)) + 1)
+                prev.setMonth(months.findIndex(month => (month == val)))
                 return prev
               })
             }}>

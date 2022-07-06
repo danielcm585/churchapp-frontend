@@ -9,10 +9,13 @@ export default function ProfileList({ profiles, select, setSelected, modal, navi
   if (profiles == null) return <ProfileListSkeleton />
 
   const [ keyword, setKeyword ] = useState('')
-  const [ filtered, setFiltered ] = useState()
+  const [ filtered, setFiltered ] = useState(null)
   useEffect(() => {
     const filteredProfiles = profiles.filter(profile => profile.name.toLowerCase().includes(keyword.toLowerCase()))
     setFiltered(filteredProfiles)
+
+    return () => setFiltered(null)
+
   }, [ keyword ])
 
   if (filtered == null) return <ProfileListSkeleton />

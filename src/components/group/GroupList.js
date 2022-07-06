@@ -9,10 +9,13 @@ export default function GroupList({ navigation, groups, mine }) {
   if (groups == null) return <GroupListSkeleton />
 
   const [ keyword, setKeyword ] = useState('')
-  const [ filtered, setFiltered ] = useState()
+  const [ filtered, setFiltered ] = useState(null)
   useEffect(() => {
     const filteredGroups = groups.filter(group => group.name.toLowerCase().includes(keyword.toLowerCase()))
     setFiltered(filteredGroups)
+
+    return () => setFiltered(null)
+
   }, [ keyword ])
 
   if (filtered == null) return <GroupListSkeleton />
