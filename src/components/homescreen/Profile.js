@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { DevSettings } from 'react-native'
 
 import { getData, removeData, setData } from '../../utils'
-import { get } from '../../http'
+import { get, post } from '../../http'
 
 import { Appbar } from '../'
 import { ChangePasswordModal, ContactUsModal, EditProfileModal, ProfileDetails } from '../profile'
@@ -18,7 +18,7 @@ export default function Profile({ navigation }) {
   const toast = useToast()
   useEffect(async () => {
     try {
-      const resp = await get('/user/')
+      const resp = await get('/user/me')
       if (resp.status >= 400) throw new Error(resp.data)
       const me = resp.data
       await setData('user', JSON.stringify(me))
@@ -42,10 +42,22 @@ export default function Profile({ navigation }) {
   const [ openLogout, setOpenLogout ] = useState(false)
 
   const logout = async () => {
-    await removeData('token')
-    await removeData('refreshToken')
-    await removeData('user')
-    DevSettings.reload()
+    try {
+      const refreshToken = await getData('refreshToken')
+      const resp = await delete('/user/logout')
+      if (resp.status >= 400) throw new Error(resp.data)
+      await removeData('token')
+      await removeData('refreshToken')
+      await removeData('user')
+      DevSettings.reload()
+    }
+    catch (err) {
+      toast.show({
+        title: err.message,
+        placement: 'bottom',
+        status: 'error'
+      })
+    }
   }
 
   return (
@@ -95,12 +107,12 @@ export default function Profile({ navigation }) {
           <>
             <EditProfileModal profile={user} isOpen={openEditProfile} setIsOpen={setOpenEditProfile} />
             <ChangePasswordModal profile={user} isOpen={openChangePassword} setIsOpen={setOpenChangePassword} />
-            <ContactUsModal isOpen={openContactUs} setIsOpen={setOpenContactUs} />
-            <DangerWarning title='Logout' action='Logout' onContinue={logout} 
-              isOpen={openLogout} setIsOpen={setOpenLogout} />
           </>
         )
       }
+      <ContactUsModal isOpen={openContactUs} setIsOpen={setOpenContactUs} />
+      <DangerWarning title='Logout' action='Logout' onContinue={logout} 
+        isOpen={openLogout} setIsOpen={setOpenLogout} />
     </>
   )
 }

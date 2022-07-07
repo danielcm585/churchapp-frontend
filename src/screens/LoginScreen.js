@@ -46,7 +46,6 @@ export default function LoginScreen({ navigation }) {
       })
       if (resp.status >= 400) throw new Error(resp.data)
       setIsLoading(false)
-      console.log(resp)
       await setData('user', JSON.stringify(resp.data.user))
       await setData('token', resp.data.token)
       await setData('refreshToken', resp.data.refreshToken)

@@ -1,15 +1,16 @@
 import React from 'react'
 
 import { Skeleton, ScrollView, VStack, HStack, Divider } from 'native-base'
+import { SearchBar } from '../'
 
 export default function ProfileListSkeleton() {
   return (
     <>
-      <Skeleton mt='2' px='4' h='9' w='100%' rounded='md' startColor='gray.300' />
+      <SearchBar />
       <ScrollView mt='2'>
         {
           [...Array(15).keys()].map((_, idx) => (
-            <VStack key={idx} mx='4'>
+            <VStack key={idx}>
               <HStack p='2' alignItems='center'>
                 <Skeleton h='10' w='10' rounded='full' startColor='gray.300' />
                 <VStack ml='3'>

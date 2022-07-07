@@ -6,8 +6,6 @@ import { ScrollView } from 'native-base'
 
 export default function PostList({ posts }) {
   if (posts == null) return <PostListSkeleton />
-
-  console.log(posts)
   
   return (
     <>
