@@ -7,70 +7,11 @@ import { VStack } from 'native-base'
 import { get } from '../../http'
 
 export default function Explore({ navigation }) {
-  // const all = [
-  //   {
-  //     name: 'Daniel Christian Mandolang',
-  //     username: 'danielcm1',
-  //     photo: 'https://i.ibb.co/B2cSS4q/download.png',
-  //     phone: '+62 813 1323 3290',
-  //     birth: '2012-04-23T18:25:43.511Z'
-  //   },
-  //   {
-  //     name: 'Daniel Christian Mandolang',
-  //     username: 'danielcm1',
-  //     photo: 'https://i.ibb.co/B2cSS4q/download.png',
-  //     phone: '+62 813 1323 3290',
-  //     birth: '2012-04-23T18:25:43.511Z'
-  //   },
-  //   {
-  //     name: 'Daniel Christian Mandolang',
-  //     username: 'danielcm1',
-  //     photo: 'https://i.ibb.co/B2cSS4q/download.png',
-  //     phone: '+62 813 1323 3290',
-  //     birth: '2012-04-23T18:25:43.511Z'
-  //   },
-  //   {
-  //     name: 'Daniel Christian Mandolang',
-  //     username: 'danielcm1',
-  //     photo: 'https://i.ibb.co/B2cSS4q/download.png',
-  //     phone: '+62 813 1323 3290',
-  //     birth: '2012-04-23T18:25:43.511Z'
-  //   },
-  //   {
-  //     name: 'Daniel Christian Mandolang',
-  //     username: 'danielcm1',
-  //     photo: 'https://i.ibb.co/B2cSS4q/download.png',
-  //     phone: '+62 813 1323 3290',
-  //     birth: '2012-04-23T18:25:43.511Z'
-  //   },
-  //   {
-  //     name: 'Daniel Christian Mandolang',
-  //     username: 'danielcm1',
-  //     photo: 'https://i.ibb.co/B2cSS4q/download.png',
-  //     phone: '+62 813 1323 3290',
-  //     birth: '2012-04-23T18:25:43.511Z'
-  //   },
-  //   {
-  //     name: 'Daniel Christian Mandolang',
-  //     username: 'danielcm1',
-  //     photo: 'https://i.ibb.co/B2cSS4q/download.png',
-  //     phone: '+62 813 1323 3290',
-  //     birth: '2012-04-23T18:25:43.511Z'
-  //   },
-  //   {
-  //     name: 'Daniel Christian Mandolang',
-  //     username: 'danielcm1',
-  //     photo: 'https://i.ibb.co/B2cSS4q/download.png',
-  //     phone: '+62 813 1323 3290',
-  //     birth: '2012-04-23T18:25:43.511Z'
-  //   },
-  // ]
-
   const [ all, setAll ] = useState(null)
 
   useEffect(async () => {
     try {
-      const resp = await get('/user/')
+      const resp = await get('/user/all')
       if (resp.status >= 400) throw new Error(resp.data)
       setAll(resp.data)
     }

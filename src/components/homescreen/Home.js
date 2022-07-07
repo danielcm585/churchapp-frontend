@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
 import theme from '../../../theme'
-import config from '../../../config'
 import { get } from '../../http'
 
 import { Appbar, Tabs } from '../'
@@ -12,7 +11,7 @@ import { useToast } from 'native-base'
 import { Fab, Icon } from 'native-base'
 import { MaterialIcons } from '@native-base/icons'
 
-export default function Home() {
+export default function Home({ navigation }) {
   const pages = [ 'Events', 'Posts' ]
   const [ page, setPage ] = useState(0)
 
@@ -24,7 +23,7 @@ export default function Home() {
   const toast = useToast()
   useEffect(async () => {
     try {
-      const resp = await get(`/post/${config.MAIN_GROUP_ID}`)
+      const resp = await get(`/post/all`)
       if (resp.status >= 400) throw new Error('Failed to load posts')
       setPosts(resp.data)
     }
@@ -70,7 +69,7 @@ export default function Home() {
       {
         (page === 0) ?
         <EventList events={events} /> :
-        <PostList posts={posts} />
+        <PostList posts={posts} navigation={navigation} />
       }
       <NewPostModal isOpen={openNewPost} setIsOpen={setOpenNewPost} />
       <Fab mb='57' size='lg' shadow={4} bgColor={theme.blue[500]} onPress={() => setOpenNewPost(true)}

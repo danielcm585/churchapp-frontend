@@ -28,28 +28,17 @@ export default function RegisterPage2({ token, refreshToken }) {
   const [ isLoading, setIsLoading ] = useState(false)
 
   const validateInput = () => {
-    try {
-      if (name == null || name.length == 0) throw new Error('Name cannot be empty')
-      if (phone == null || phone.length == 0) throw new Error('Phone cannot be empty')
-      if (email == null || email.length == 0) throw new Error('Email cannot be empty')
-      if (address == null || address.length == 0) throw new Error('Address cannot be empty')
-      if (gender == null || gender.length == 0) throw new Error('Gender cannot be empty') 
-      return true;
-    }
-    catch (err) {
-      toast.show({
-        title: err.message,
-        placement: 'bottom',
-        status: 'error'
-      })
-      return false
-    }
+    if (name == null || name.length == 0) throw new Error('Name cannot be empty')
+    if (phone == null || phone.length == 0) throw new Error('Phone cannot be empty')
+    if (email == null || email.length == 0) throw new Error('Email cannot be empty')
+    if (address == null || address.length == 0) throw new Error('Address cannot be empty')
+    if (gender == null || gender.length == 0) throw new Error('Gender cannot be empty')
   }
 
   const addData = async () => {
-    if (!validateInput()) return
     try {
       setIsLoading(true)
+      validateInput()
       await setData('token', token)
       const resp = await put('/user/', {
         name: name,

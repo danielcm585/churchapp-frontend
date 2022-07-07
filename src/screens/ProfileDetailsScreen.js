@@ -12,6 +12,8 @@ export default function ProfileDetailsScreen({ route, navigation }) {
   const birthMonth = months[parseInt(profile.birth.split('-')[1]) - 1]
   const birthDate = parseInt(profile.birth.split('-')[2].split('T')[0])
 
+  const isAdmin = true // FIXME: 
+
   return (
     <>
       <Appbar title={profile.username} profile={profile} navigation={navigation} />
@@ -19,7 +21,9 @@ export default function ProfileDetailsScreen({ route, navigation }) {
         <Avatar size='xl' source={{ uri: profile.photo }} />
         <VStack ml='4'>
           <Text fontSize='lg' fontWeight='bold'>{profile.name}</Text>
-          <Text fontSize='sm' fontWeight='semibold'>{profile.phone}</Text>
+          {
+            isAdmin && <Text fontSize='sm' fontWeight='semibold'>{profile.phone}</Text>
+          }
           <Text fontSize='sm' fontWeight='semibold'>{birthDate} {birthMonth} {birthYear}</Text>
         </VStack>
       </HStack>

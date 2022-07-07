@@ -1,12 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Linking } from 'react-native'
 
 import theme from '../../../theme'
+import config from '../../../config'
 
+import { useToast } from 'native-base'
 import { Modal, Button, Text } from 'native-base'
 
 export default function ContactUsModal({ isOpen, setIsOpen }) {
-  const contactUs = () => {
+  const [ isLoading, setIsLoading ] = useState(false)
+  const toast = useToast()
 
+  const contactUs = async () => {
+    setIsLoading(true)
+    const url = `mailto:${config.SUPPORT_EMAIL}`
+    const supported = await Linking.canOpenURL(url)
+    if (supported) await Linking.openURL(url)
+    else toast.show({
+      title: err.message,
+      placement: 'bottom',
+      status: 'error'
+    })
+    setIsLoading(false)
   }
 
   const onClose = () => setIsOpen(false)
@@ -27,10 +42,10 @@ export default function ContactUsModal({ isOpen, setIsOpen }) {
                 <Text color='black'>Cancel</Text>
               </Button>
               <Button size='sm' rounded='md' bgColor={theme.blue[500]} onPress={() => {
-                contactUs()
-                onClose()
-              }}
-                _pressed={{ bgColor: theme.blue[600] }}>
+                  contactUs()
+                  onClose()
+                }}
+                isLoading={isLoading} _pressed={{ bgColor: theme.blue[600] }}>
                 <Text color='white'>Continue</Text>
               </Button>
             </Button.Group>

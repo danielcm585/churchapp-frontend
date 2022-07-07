@@ -19,27 +19,16 @@ export default function RegisterPage1({ navigation, setPage, setToken, setRefres
   const [ isLoading, setIsLoading ] = useState(false)
 
   const validateInput = () => {
-    try {
-      if (username == null || username.length == 0) throw new Error('Username cannot be empty')
-      if (password == null || password.length == 0) throw new Error('Password cannot be empty')
-      if (confirmPass == null || confirmPass.length == 0) throw new Error('Please confirm your password')
-      if (password != confirmPass) throw new Error('Password and confirm password do not match')
-      return true
-    }
-    catch (err) {
-      toast.show({
-        title: err.message,
-        placement: 'bottom',
-        status: 'error'
-      })
-      return false
-    }
+    if (username == null || username.length == 0) throw new Error('Username cannot be empty')
+    if (password == null || password.length == 0) throw new Error('Password cannot be empty')
+    if (confirmPass == null || confirmPass.length == 0) throw new Error('Please confirm your password')
+    if (password != confirmPass) throw new Error('Password and confirm password do not match')
   }
 
   const sendRegister = async () => {
-    if (!validateInput()) return
     try {
       setIsLoading(true)
+      validateInput()
       const resp = await post('/user/register', {
         username: username,
         password: password

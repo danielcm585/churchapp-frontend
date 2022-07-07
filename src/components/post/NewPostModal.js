@@ -19,24 +19,13 @@ export default function NewPostModal({ isOpen, setIsOpen }) {
   const [ isLoading, setIsLoading ] = useState(false)
 
   const validateInput = () => {
-    try {
-      if (body == null || body.length == 0) throw new Error('Post body cannot be empty')
-      return true
-    }
-    catch (err) {
-      toast.show({
-        title: err.message,
-        placement: 'bottom',
-        status: 'error'
-      })
-      return false
-    }
+    if (body == null || body.length == 0) throw new Error('Post body cannot be empty')
   }
 
   const createPost = async () => {
-    if (!validateInput()) return
     try {
       setIsLoading(true)
+      validateInput()
       const resp = await post('/post/', {
         body: body,
         photo: photo

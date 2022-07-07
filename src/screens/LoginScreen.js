@@ -21,25 +21,14 @@ export default function LoginScreen({ navigation }) {
   const [ isLoading, setIsLoading ] = useState(false)
 
   const validateInput = () => {
-    try {
-      if (username == null || username.length == 0) throw new Error('Username cannot be empty')
-      if (password == null || password.length == 0) throw new Error('Password cannot be empty')
-      return true
-    }
-    catch (err) {
-      toast.show({
-        title: err.message,
-        placement: 'bottom',
-        status: 'error'
-      })
-      return false
-    }
+    if (username == null || username.length == 0) throw new Error('Username cannot be empty')
+    if (password == null || password.length == 0) throw new Error('Password cannot be empty')
   }
 
   const sendLogin = async () => {
-    if (!validateInput()) return
     try {
       setIsLoading(true)
+      validateInput()
       const resp = await post('/user/login', { 
         username: username, 
         password: password

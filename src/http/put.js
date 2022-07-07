@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 import config from '../../config'
-import { getData } from '../utils'
+import { getData, refreshAuth } from '../utils'
 
 export default async (url, body) => {
   const execute = async () => {
