@@ -22,7 +22,7 @@ export default function ProfileGrid({ profiles, navigation }) {
               <HStack key={idx} ml='1' space='6'>
                 {
                   row.map((profile, idx) => (
-                    <Link key={idx} onPress={() => navigation.navigate('Profile', { profile: profile })}>
+                    <Link key={idx} onPress={() => navigation.navigate('Profile', { profileId: profile._id })}>
                       <VStack alignItems='center'>
                           <Avatar key={idx} size='lg' source={{ uri: profile.photo }} />
                           <Text isTruncated maxW='46' fontSize='xs'>{profile.name}</Text>

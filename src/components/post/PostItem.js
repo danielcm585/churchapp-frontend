@@ -13,11 +13,11 @@ export default function PostItem({ navigation, post }) {
     <>
       <VStack mx='4'>
         <HStack py='4'>
-          <Link onPress={() => navigation.navigate('ProfileDetails', { profile: post.creator })}>
+          <Link onPress={() => navigation.navigate('ProfileDetails', { profileId: post.creator._id })}>
             <Avatar size='10' source={{ uri: post.creator.photo }} />
           </Link>
           <VStack ml='4' w='84%'>
-            <Link onPress={() => navigation.navigate('ProfileDetails', { profile: post.creator })}>
+            <Link onPress={() => navigation.navigate('ProfileDetails', { profileId: post.creator._id })}>
               <Text fontWeight='bold'>{post.creator.name}</Text>
             </Link>
             <LongText text={post.body} />

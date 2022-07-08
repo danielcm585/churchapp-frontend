@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react'
 
+import { get } from '../../http'
+
 import { Appbar } from '../'
 import { ProfileList } from '../profile'
 
+import { useToast } from 'native-base'
 import { VStack } from 'native-base'
-import { get } from '../../http'
 
 export default function Explore({ navigation }) {
   const [ all, setAll ] = useState(null)
+  const toast = useToast()
 
   useEffect(async () => {
     try {

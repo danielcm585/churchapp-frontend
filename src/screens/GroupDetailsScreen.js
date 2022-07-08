@@ -1,23 +1,50 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+
+import { get } from '../http'
+import { getData } from '../utils'
 
 import { Appbar, LongText } from '../components'
 import { ProfileGrid } from '../components/profile'
+import { GroupDetailsScreenSkeleton } from '../components/groupscreen'
 
+import { useToast } from 'native-base'
 import { Avatar, Divider, HStack, Icon, Image, ScrollView, Text, VStack } from 'native-base'
 import { MaterialIcons, MaterialCommunityIcons } from '@native-base/icons'
 
 export default function GroupDetailsScreen({ route, navigation }) {
-  const { group } = route.params
+  const { groupId } = route.params
 
-  const me = {
-    name: 'Daniel Christian Mandolang',
-    photo: 'https://i.ibb.co/B2cSS4q/download.png',
-    phone: '+62 813 1323 3290',
-    birth: '2012-04-23T18:25:43.511Z'
-  }
+  const toast = useToast()
+  const [ group, setGroup ] = useState(null)
+  
+  useEffect(async () => {
+    try {
+      const resp = await get(`/group/${groupId}`)
+      if (resp.status >= 400) throw new Error(resp.data)
+      setGroup(resp.data)
+    }
+    catch (err) {
+      toast.show({
+        title: err.message,
+        placement: 'bottom',
+        status: 'error'
+      })
+    }
 
-  if (group == null) return <></>
+    return () => setGroup(null)
 
+  }, [])
+  
+  if (group == null) return <GroupDetailsScreenSkeleton />
+  
+  const [ isLeader, setIsLeader ] = useState(false)
+
+  useEffect(async () => {
+    const me = await getData('user')
+    const check = group.leaders.filter(leader => leader._id == me._id)
+    setIsLeader(check.length > 0)
+  }, [ group ])
+  
   const members = []
   for (let i = 0; i < group.members.length; i += 4) {
     members.push(group.members.slice(i, i+4));
@@ -66,7 +93,7 @@ export default function GroupDetailsScreen({ route, navigation }) {
           <ProfileGrid profiles={group.members} navigation={navigation} />
         </VStack>
         {
-          (group.status === 'PUBLIC' || group.leaders.includes(me) && group.invites != null && group.invites.length > 0) && (
+          (isLeader && group.invites != null && group.invites.length > 0) && (
             <VStack mx='4' mt='4' p='3' rounded='md' bgColor='white'>
               <Text bold>Pending Invites</Text>
               <ProfileGrid profiles={group.invites} navigation={navigation} />
@@ -74,7 +101,7 @@ export default function GroupDetailsScreen({ route, navigation }) {
           )
         }
         {
-          (group.status === 'PUBLIC' || group.leaders.includes(me) && group.pendings != null && group.pendings.length > 0) && (
+          (isLeader && group.pendings != null && group.pendings.length > 0) && (
             <VStack mx='4' mt='4' p='3' rounded='md' bgColor='white'>
               <Text bold>Pending Requests</Text>
               <ProfileGrid profiles={group.pendings} navigation={navigation} />

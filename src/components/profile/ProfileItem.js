@@ -23,7 +23,7 @@ export default function ProfileItem({ profile, select, setSelected, modal, navig
               })
               setIsSelected(prev => !prev)
             }
-            else navigation.navigate('Profile', { profile: profile })
+            else navigation.navigate('Profile', { profileId: profile._id })
         }}>
           <Box p='2'>
             <HStack alignItems='center'>

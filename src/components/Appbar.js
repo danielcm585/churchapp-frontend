@@ -51,14 +51,14 @@ export default function Appbar({ title, mainScreen, group, profile, navigation }
             <>
               {
                 (group != null) && (
-                  <Link onPress={() => navigation.navigate('GroupDetails', { group: group })}>
+                  <Link onPress={() => navigation.navigate('GroupDetails', { groupId: group._id })}>
                     <Text bold color='black' fontSize='lg' maxW='300' isTruncated>{title}</Text>
                   </Link>
                 )
               }
               {
                 (profile != null) && (
-                  <Link onPress={() => navigation.navigate('ProfileDetails', { profile: profile })}>
+                  <Link onPress={() => navigation.navigate('ProfileDetails', { profileId: profile._id })}>
                     <Text bold color='black' fontSize='lg' maxW='300' isTruncated>{title}</Text>
                   </Link>
                 )

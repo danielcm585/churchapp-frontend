@@ -18,7 +18,7 @@ export default function GroupItem({ navigation, group, mine }) {
         {
           mine ? (
             <Button mx='12' mt='3' size='sm' rounded='full' bgColor={theme.blue[500]} 
-              _pressed={{ bgColor: theme.blue[600] }} onPress={() => navigation.navigate('Group', { group: group })}>
+              _pressed={{ bgColor: theme.blue[600] }} onPress={() => navigation.navigate('Group', { groupId: group._id })}>
               <Text color='white'>View</Text>
             </Button>
           ) : (
