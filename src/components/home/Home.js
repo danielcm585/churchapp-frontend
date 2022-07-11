@@ -21,38 +21,19 @@ export default function Home({ navigation }) {
   const [ openNewPost, setOpenNewPost ] = useState(false)
 
   const toast = useToast()
+  
   useEffect(async () => {
     try {
       const resp = await get(`/post/all`)
       if (resp.status >= 400) throw new Error('Failed to load posts')
-      setPosts(resp.data)
+      const allPosts = resp.data.reverse()
+      setPosts(allPosts)
     }
     catch (err) {
       toast.show({
         title: err.message,
-        placement: 'bottom',
-        status: 'error'
+        placement: 'bottom'
       })
-    }
-    
-    try {
-      const resp = {
-        data: [
-          {
-            
-          }
-        ]
-      }
-      if (resp.status >= 400) throw new Error('Failed to load events')
-      setEvents(resp.data)
-    }
-    catch (err) {
-      toast.show({
-        title: err.message,
-        placement: 'bottom',
-        status: 'error'
-      })
-      
     }
     
     return () => {

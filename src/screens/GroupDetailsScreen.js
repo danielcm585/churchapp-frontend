@@ -5,7 +5,7 @@ import { getData } from '../utils'
 
 import { Appbar, LongText } from '../components'
 import { ProfileGrid } from '../components/profile'
-import { GroupDetailsScreenSkeleton } from '../components/groupscreen'
+import { GroupDetailsScreenSkeleton } from '../components/group'
 
 import { useToast } from 'native-base'
 import { Avatar, Divider, HStack, Icon, Image, ScrollView, Text, VStack } from 'native-base'
@@ -14,8 +14,9 @@ import { MaterialIcons, MaterialCommunityIcons } from '@native-base/icons'
 export default function GroupDetailsScreen({ route, navigation }) {
   const { groupId } = route.params
 
-  const toast = useToast()
   const [ group, setGroup ] = useState(null)
+  
+  const toast = useToast()
   
   useEffect(async () => {
     try {
@@ -26,8 +27,7 @@ export default function GroupDetailsScreen({ route, navigation }) {
     catch (err) {
       toast.show({
         title: err.message,
-        placement: 'bottom',
-        status: 'error'
+        placement: 'bottom'
       })
     }
 

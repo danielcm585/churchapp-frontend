@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
 import { get } from '../../http'
+import { showToast } from '../../utils'
 
 import { Appbar } from '../'
 import { ProfileList } from '../profile'
@@ -10,8 +11,9 @@ import { VStack } from 'native-base'
 
 export default function Explore({ navigation }) {
   const [ all, setAll ] = useState(null)
-  const toast = useToast()
 
+  const toast = useToast()
+  
   useEffect(async () => {
     try {
       const resp = await get('/user/all')
@@ -21,8 +23,7 @@ export default function Explore({ navigation }) {
     catch (err) {
       toast.show({
         title: err.message,
-        placement: 'bottom',
-        status: 'error'
+        placement: 'bottom'
       })
     }
 

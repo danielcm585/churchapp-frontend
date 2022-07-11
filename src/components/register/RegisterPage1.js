@@ -4,7 +4,7 @@ import theme from '../../../theme'
 import { post } from '../../http'
 import { setData } from '../../utils'
 
-import { PasswordInput } from '../'
+import { PasswordInput } from '..'
 
 import { useToast } from 'native-base'
 import { Button, Center, Heading, HStack, Icon, Image, Input, Text, Link, ScrollView } from 'native-base'
@@ -15,15 +15,16 @@ export default function RegisterPage1({ navigation, setPage, setToken, setRefres
   const [ password, setPassword ] = useState('')
   const [ confirmPass, setConfirmPass ] = useState('')
 
-  const toast = useToast()
   const [ isLoading, setIsLoading ] = useState(false)
-
+  
   const validateInput = () => {
     if (username == null || username.length == 0) throw new Error('Username cannot be empty')
     if (password == null || password.length == 0) throw new Error('Password cannot be empty')
     if (confirmPass == null || confirmPass.length == 0) throw new Error('Please confirm your password')
     if (password != confirmPass) throw new Error('Password and confirm password do not match')
   }
+
+  const toast = useToast()
 
   const sendRegister = async () => {
     try {
@@ -45,8 +46,7 @@ export default function RegisterPage1({ navigation, setPage, setToken, setRefres
       setIsLoading(false)
       toast.show({
         title: err.message,
-        placement: 'bottom',
-        status: 'error'
+        placement: 'bottom'
       })
     }
   }

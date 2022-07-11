@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
-import { GroupItem, GroupListSkeleton } from './'
+import { GroupListSkeleton } from '../skeletons'
+import { GroupItem } from './'
 import { SearchBar } from '../'
 
 import { Center, HStack, ScrollView, VStack } from 'native-base'
@@ -9,25 +10,32 @@ export default function GroupList({ navigation, groups, mine }) {
   if (groups == null) return <GroupListSkeleton />
 
   const [ keyword, setKeyword ] = useState('')
-  const [ filtered, setFiltered ] = useState(null)
-  useEffect(() => {
-    const filteredGroups = groups.filter(group => group.name.toLowerCase().includes(keyword.toLowerCase()))
-    setFiltered(filteredGroups)
-
-    return () => setFiltered(null)
-
-  }, [ keyword ])
-
-  if (filtered == null) return <GroupListSkeleton />
-
+  
   const split = (arr) => {
-    const mid = (arr.length+1) / 2
-    const left = arr.slice(0,mid);
+    const mid = parseInt((arr.length+1)/2)
+    const left = arr.slice(0,mid)
     const right = arr.slice(mid,arr.length)
     return { left, right }
   }
-  const { left, right } = split(filtered)
 
+  const [ left, setLeft ] = useState(null)
+  const [ right, setRight ] = useState(null)
+
+  useEffect(() => {
+    const filteredGroups = groups.filter(group => group.name.toLowerCase().includes(keyword.toLowerCase()))
+    const splitted = split(filteredGroups)
+    setLeft(splitted.left)
+    setRight(splitted.right)
+
+    return () => {
+      setLeft(null)
+      setRight(null)
+    }
+
+  }, [ groups, keyword ])
+
+  if (left == null || right == null) return <GroupListSkeleton />
+  
   return (
     <>
       <VStack mx='4' mb='2'>

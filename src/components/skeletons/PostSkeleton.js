@@ -9,7 +9,7 @@ export default function PostSkeleton() {
         <HStack py='4'>
           <Skeleton size='10' rounded='full' startColor='gray.300' />
           <VStack mt='1' ml='4' w='84%'>
-            <Skeleton h='3' w='150' rounded='full' startColor='gray.300' />
+            <Skeleton h='3' w='150' rounded='full' startColor='gray.400' />
             <Skeleton.Text mt='4' startColor='gray.300' />
           </VStack>
         </HStack>

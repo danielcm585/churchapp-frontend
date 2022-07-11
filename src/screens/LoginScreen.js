@@ -12,18 +12,17 @@ import { Box, Button, Center, Divider, Heading, HStack, Icon, Image, Input, Icon
 import { MaterialCommunityIcons, MaterialIcons } from '@native-base/icons'
 
 export default function LoginScreen({ navigation }) {
-  const [ show, setShow ] = useState(false)
-
   const [ username, setUsername ] = useState()
   const [ password, setPassword ] = useState()
 
-  const toast = useToast()
   const [ isLoading, setIsLoading ] = useState(false)
-
+  
   const validateInput = () => {
     if (username == null || username.length == 0) throw new Error('Username cannot be empty')
     if (password == null || password.length == 0) throw new Error('Password cannot be empty')
   }
+  
+  const toast = useToast()
 
   const sendLogin = async () => {
     try {
@@ -44,8 +43,7 @@ export default function LoginScreen({ navigation }) {
       setIsLoading(false)
       toast.show({
         title: err.message,
-        placement: 'bottom',
-        status: 'error'
+        placement: 'bottom'
       })
     }
   }

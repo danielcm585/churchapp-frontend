@@ -1,5 +1,6 @@
-import { Center, Skeleton, VStack } from 'native-base'
 import React from 'react'
+
+import { Center, Skeleton, VStack } from 'native-base'
 
 export default function ProfileDetailsSkeleton() {
   return (

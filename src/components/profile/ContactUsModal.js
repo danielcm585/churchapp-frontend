@@ -9,6 +9,7 @@ import { Modal, Button, Text } from 'native-base'
 
 export default function ContactUsModal({ isOpen, setIsOpen }) {
   const [ isLoading, setIsLoading ] = useState(false)
+  
   const toast = useToast()
 
   const contactUs = async () => {
@@ -17,9 +18,8 @@ export default function ContactUsModal({ isOpen, setIsOpen }) {
     const supported = await Linking.canOpenURL(url)
     if (supported) await Linking.openURL(url)
     else toast.show({
-      title: err.message,
-      placement: 'bottom',
-      status: 'error'
+      title: 'Not supported',
+      placement: 'bottom'
     })
     setIsLoading(false)
   }

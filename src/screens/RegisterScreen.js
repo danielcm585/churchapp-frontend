@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { RegisterPage1, RegisterPage2 } from '../components/registerscreen'
+import { RegisterPage1, RegisterPage2 } from '../components/register'
 
 export default function LoginScreen({ navigation }) {
   const [ page, setPage ] = useState(0)

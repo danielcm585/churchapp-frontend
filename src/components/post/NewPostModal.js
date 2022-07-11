@@ -15,17 +15,19 @@ export default function NewPostModal({ isOpen, setIsOpen }) {
   const [ body, setBody ] = useState('')
   const [ photo, setPhoto ] = useState('')
 
-  const toast = useToast()
   const [ isLoading, setIsLoading ] = useState(false)
-
+  
   const validateInput = () => {
     if (body == null || body.length == 0) throw new Error('Post body cannot be empty')
   }
+  
+  const toast = useToast()
 
   const createPost = async () => {
     try {
       setIsLoading(true)
       validateInput()
+      // console.log(body)
       const resp = await post('/post/', {
         body: body,
         photo: photo
@@ -35,16 +37,15 @@ export default function NewPostModal({ isOpen, setIsOpen }) {
       onClose()
       toast.show({
         title: 'Post created',
-        placement: 'bottom',
-        status: 'success'
+        placement: 'bottom'
       })
     }
     catch (err) {
       setIsLoading(false)
+      onClose()
       toast.show({
         title: err.message,
-        placement: 'bottom',
-        status: 'error'
+        placement: 'bottom'
       })
     }
   }

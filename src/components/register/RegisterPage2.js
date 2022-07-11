@@ -3,7 +3,7 @@ import { DevSettings } from 'react-native'
 
 import theme from '../../../theme'
 import { put } from '../../http'
-import { setData, getData } from '../../utils'
+import { setData } from '../../utils'
 
 import { PhotoUpload, DateInput } from '..'
 
@@ -24,9 +24,8 @@ export default function RegisterPage2({ token, refreshToken }) {
   const [ birthMonth, setBirthMonth ] = useState('')
   const [ birthYear, setBirthYear ] = useState('')
 
-  const toast = useToast()
   const [ isLoading, setIsLoading ] = useState(false)
-
+  
   const validateInput = () => {
     if (name == null || name.length == 0) throw new Error('Name cannot be empty')
     if (phone == null || phone.length == 0) throw new Error('Phone cannot be empty')
@@ -34,6 +33,8 @@ export default function RegisterPage2({ token, refreshToken }) {
     if (address == null || address.length == 0) throw new Error('Address cannot be empty')
     if (gender == null || gender.length == 0) throw new Error('Gender cannot be empty')
   }
+  
+  const toast = useToast()
 
   const addData = async () => {
     try {
@@ -57,8 +58,7 @@ export default function RegisterPage2({ token, refreshToken }) {
       setIsLoading(false)
       toast.show({
         title: err.message,
-        placement: 'bottom',
-        status: 'error'
+        placement: 'bottom'
       })
     }
   }

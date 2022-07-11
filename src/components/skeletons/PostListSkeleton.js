@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { PostSkeleton } from './'
+import { PostSkeleton } from '../post'
 
 import { ScrollView } from 'native-base'
 

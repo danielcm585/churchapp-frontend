@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { DevSettings } from 'react-native'
 
-import { getData, removeData, setData } from '../../utils'
-import { get, post } from '../../http'
+import { getData, setData, removeData } from '../../utils'
+import { post } from '../../http'
 
 import { Appbar } from '../'
 import { ChangePasswordModal, ContactUsModal, EditProfileModal, ProfileDetails } from '../profile'
@@ -12,14 +12,19 @@ import { useToast } from 'native-base'
 import { VStack, Text, Button, Divider, Icon } from 'native-base'
 import { MaterialIcons, MaterialCommunityIcons } from '@native-base/icons'
 
-export default function Profile({ navigation }) {
-  const [ user, setUser ] = useState(null)
-  
+export default function Profile({ navigation, user, setUser }) {
+  const [ openEditProfile, setOpenEditProfile ] = useState(false)
+  const [ openChangePassword, setOpenChangePassword ] = useState(false)
+  const [ openContactUs, setOpenContactUs ] = useState(false)
+  const [ openLogout, setOpenLogout ] = useState(false)
+
   const toast = useToast()
+  
   useEffect(async () => {
     try {
       const resp = await get('/user/me')
       if (resp.status >= 400) throw new Error(resp.data)
+      // console.log(resp)
       const me = resp.data
       await setData('user', JSON.stringify(me))
       setUser(me)
@@ -27,8 +32,7 @@ export default function Profile({ navigation }) {
     catch (err) {
       toast.show({
         title: err.message,
-        placement: 'bottom',
-        status: 'error'
+        placement: 'bottom'
       })
     }
 
@@ -36,15 +40,12 @@ export default function Profile({ navigation }) {
 
   }, [])
 
-  const [ openEditProfile, setOpenEditProfile ] = useState(false)
-  const [ openChangePassword, setOpenChangePassword ] = useState(false)
-  const [ openContactUs, setOpenContactUs ] = useState(false)
-  const [ openLogout, setOpenLogout ] = useState(false)
-
   const logout = async () => {
     try {
       const refreshToken = await getData('refreshToken')
-      const resp = await delete('/user/logout')
+      const resp = await post('/user/logout', {
+        token: refreshToken
+      })
       if (resp.status >= 400) throw new Error(resp.data)
       await removeData('token')
       await removeData('refreshToken')
@@ -54,8 +55,7 @@ export default function Profile({ navigation }) {
     catch (err) {
       toast.show({
         title: err.message,
-        placement: 'bottom',
-        status: 'error'
+        placement: 'bottom'
       })
     }
   }

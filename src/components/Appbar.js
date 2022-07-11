@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 
-import { EditGroupModal, InviteModal } from './groupscreen'
+import { EditGroupModal, InviteModal } from './group'
 import { DangerWarning } from './'
 
 import { Box, HStack, IconButton, Icon, Text, StatusBar, Link, Menu, Divider } from 'native-base'
 import { MaterialIcons, MaterialCommunityIcons } from '@native-base/icons'
 
-export default function Appbar({ title, mainScreen, group, profile, navigation }) {
+export default function Appbar({ title, mainScreen, group, profile, loading, navigation }) {
+  if (loading) return <AppbarSkeleton />
+
   const [ openInvite, setOpenInvite ] = useState(false)
   const [ openEditGroup, setOpenEditGroup ] = useState(false)
   const [ openLeaveGroup, setOpenLeaveGroup ] = useState(false)

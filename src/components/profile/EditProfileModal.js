@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import theme from '../../../theme'
 import { put } from '../../http'
+import { showToast } from '../../utils'
 
 import { PhotoUpload } from '../'
 import { DateInput } from '../'
@@ -46,9 +47,8 @@ export default function EditProfileModal({ isOpen, setIsOpen, profile }) {
 
   }, [])
 
-  const toast = useToast()
   const [ isLoading, setIsLoading ] = useState(false)
-
+  
   const validateInput = () => {
     if (name == null || name.length == 0) throw new Error('Name cannot be empty')
     if (phone == null || phone.length == 0) throw new Error('Phone cannot be empty')
@@ -56,6 +56,8 @@ export default function EditProfileModal({ isOpen, setIsOpen, profile }) {
     if (address == null || address.length == 0) throw new Error('Address cannot be empty')
     if (gender == null || gender.length == 0) throw new Error('Gender cannot be empty')
   }
+  
+  const toast = useToast()
 
   const editProfile = async () => {
     try {
@@ -77,8 +79,7 @@ export default function EditProfileModal({ isOpen, setIsOpen, profile }) {
       setIsLoading(false)
       toast.show({
         title: err.message,
-        placement: 'bottom',
-        status: 'error'
+        placement: 'bottom'
       })
     }
   }

@@ -3,7 +3,7 @@ import React from 'react'
 import { Center, HStack, Pressable, Icon, Text } from 'native-base'
 import { MaterialCommunityIcons, MaterialIcons } from '@native-base/icons'
 
-export default function navbar({ page, setPage }) {
+export default function Navbar({ page, setPage }) {
   return (
     <>
       <Center flex={1}></Center>

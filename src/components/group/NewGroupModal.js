@@ -1,19 +1,47 @@
 import React, { useState } from 'react'
 
 import theme from '../../../theme'
+import { post } from '../../http'
+import { showToast } from '../../utils'
 
 import { PhotoUpload } from '../'
 
-import { Button, Modal, Text, HStack, Icon, Input, Center, Avatar } from 'native-base'
+import { useToast } from 'native-base'
+import { Button, Modal, Text, HStack, Icon, Input, Center, Avatar, Select } from 'native-base'
 import { MaterialIcons } from '@native-base/icons'
 
 export default function NewGroupModal({ isOpen, setIsOpen }) {
   const [ name, setName ] = useState('')
   const [ description, setDescription ] = useState('')
-  const [ photo, setPhoto ] = useState('')
+  const [ status, setStatus ] = useState()
+  const [ photo, setPhoto ] = useState()
 
-  const createGroup = () => {
-    // TODO: POST new group
+  const [ isLoading, setIsLoading ] = useState(false)
+
+  const toast = useToast()
+  
+  const createGroup = async () => {
+    try {
+      setIsLoading(true)
+      const resp = await post('/group/', {
+        name: name,
+        description: description,
+        status: status
+      })
+      if (resp.status >= 400) throw new Error(resp.data)
+      setIsLoading(false)
+      toast.show({
+        title: 'Group created',
+        placement: 'bottom'
+      })
+    }
+    catch (err) {
+      setIsLoading(false)
+      toast.show({
+        title: err.message,
+        placement: 'bottom'
+      })
+    }
   }
 
   return (
@@ -38,6 +66,14 @@ export default function NewGroupModal({ isOpen, setIsOpen }) {
                 _focus={{ borderColor: theme.blue[900] }} onChangeText={(val) => setDescription(val)}
               />
             </HStack>
+            <HStack mt='4' space='4' alignItems='center'>
+              <Icon size='md' color={theme.blue[900]} as={MaterialIcons} name='lock'/>
+              <Select minWidth='40%' selectedValue={status} placeholder='Group Status'
+                onValueChange={val => setStatus(val)}>
+                <Select.Item label='Private' value='PRIVATE' />
+                <Select.Item label='Public' value='PUBLIC' />
+              </Select>
+            </HStack>
             <PhotoUpload mt='4' pressedBgColor='gray.100' setLink={setPhoto} />
           </Modal.Body>
           <Modal.Footer>
@@ -47,7 +83,7 @@ export default function NewGroupModal({ isOpen, setIsOpen }) {
                 <Text color='black'>Cancel</Text>
               </Button>
               <Button size='sm' rounded='md' bgColor={theme.blue[500]} onPress={createGroup}
-                _pressed={{ bgColor: theme.blue[600] }}>
+                isLoading={isLoading} _pressed={{ bgColor: theme.blue[600] }}>
                 <Text color='white'>Create</Text>
               </Button>
             </Button.Group>

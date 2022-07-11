@@ -1,10 +1,38 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import theme from '../../../theme'
+import { post } from '../../http'
+import { showToast } from '../../utils'
 
+import { useToast } from 'native-base'
 import { Avatar, VStack, Text, Button } from 'native-base'
 
 export default function GroupItem({ navigation, group, mine }) {
+  const [ isLoading, setIsLoading ] = useState(false)
+
+  const toast = useToast()
+
+  const sendRequest = async () => {
+    try {
+      setIsLoading(true)
+      const resp = await post(`/group/join/${group._id}`)
+      // console.log(resp)
+      if (resp.status >= 400) throw new Error(resp.data)
+      setIsLoading(false)
+      toast.show({
+        title: 'Request sent',
+        placement: 'bottom'
+      })
+    }
+    catch (err) {
+      setIsLoading(false)
+      toast.show({
+        title: err.message,
+        placement: 'bottom'
+      })
+    }
+  }
+  
   return (
     <>
       <VStack minHeight='228' py='5' rounded='md' backgroundColor='white'>
@@ -23,7 +51,7 @@ export default function GroupItem({ navigation, group, mine }) {
             </Button>
           ) : (
             <Button mx='12' mt='3' size='sm' rounded='full' bgColor={theme.blue[500]} 
-              _pressed={{ bgColor: theme.blue[600] }}>
+              isLoading={isLoading} _pressed={{ bgColor: theme.blue[600] }} onPress={sendRequest}>
               <Text color='white'>Join</Text>
             </Button>
           )

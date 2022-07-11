@@ -1,5 +1,3 @@
 export { default as PostList } from './PostList'
 export { default as PostItem } from './PostItem'
-export { default as PostListSkeleton } from './PostListSkeleton'
-export { default as PostSkeleton } from './PostSkeleton'
 export { default as NewPostModal } from './NewPostModal'

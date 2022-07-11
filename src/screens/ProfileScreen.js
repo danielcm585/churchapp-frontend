@@ -6,9 +6,10 @@ import { Appbar, ChatInput } from '../components'
 export default function ProfileScreen({ route, navigation }) {
   const { profileId } = route.params
   
-  const toast = useToast()
   const [ profile, setProfile ] = useState(null)
 
+  const toast = useToast()
+  
   useEffect(async () => {
     try {
       const resp = await get(`/user/${profileId}`)
@@ -18,8 +19,7 @@ export default function ProfileScreen({ route, navigation }) {
     catch (err) {
       toast.show({
         title: err.message,
-        placement: 'bottom',
-        status: 'error'
+        placement: 'bottom'
       })
     }
 

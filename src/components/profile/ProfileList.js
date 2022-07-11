@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
 import { SearchBar } from '../'
-import { ProfileListSkeleton, ProfileItem } from './'
+import { ProfileItem } from './'
+import { ProfileListSkeleton } from '../skeletons'
 
 import { ScrollView, VStack } from 'native-base'
 

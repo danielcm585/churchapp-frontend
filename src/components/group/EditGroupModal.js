@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import theme from '../../../theme'
 
-import { PhotoUpload } from '../'
+import { PhotoUpload } from '..'
 
 import { Button, Modal, Text, HStack, Icon, Input, Center, Avatar } from 'native-base'
 import { MaterialIcons } from '@native-base/icons'
