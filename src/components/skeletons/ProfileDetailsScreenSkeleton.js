@@ -1,11 +1,12 @@
 import React from 'react'
 
-import { Appbar } from '..'
+import { AppbarSkeleton } from '../'
 
 export default function ProfileDetailsScreenSkeleton() {
+  console.log('HERE')
   return (
     <>
-      <Appbar loading={true} />
+      <AppbarSkeleton />
     </>
   )
 }

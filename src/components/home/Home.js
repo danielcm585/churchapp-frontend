@@ -53,7 +53,7 @@ export default function Home({ navigation }) {
         <PostList posts={posts} navigation={navigation} />
       }
       <NewPostModal isOpen={openNewPost} setIsOpen={setOpenNewPost} />
-      <Fab mb='57' size='lg' shadow={4} bgColor={theme.blue[500]} onPress={() => setOpenNewPost(true)}
+      <Fab mb='85' size='lg' shadow={4} bgColor={theme.blue[500]} onPress={() => setOpenNewPost(true)}
         icon={<Icon as={MaterialIcons} name='add' />} renderInPortal={false} />
     </>
   )

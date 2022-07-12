@@ -63,7 +63,7 @@ export default function Groups({ navigation }) {
           <GroupList groups={allGroups} mine={false} navigation={navigation} /> 
       }
       <NewGroupModal isOpen={openNewGroup} setIsOpen={setOpenNewGroup} />
-      <Fab mb='57' size='lg' shadow={4} bgColor={theme.blue[500]} onPress={() => setOpenNewGroup(true)}
+      <Fab mb='85' size='lg' shadow={4} bgColor={theme.blue[500]} onPress={() => setOpenNewGroup(true)}
         icon={<Icon as={MaterialIcons} name='add' />} renderInPortal={false} />
     </>
   )

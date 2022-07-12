@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
 import { get } from '../../http'
-import { showToast } from '../../utils'
 
 import { Appbar } from '../'
 import { ProfileList } from '../profile'
@@ -16,7 +15,7 @@ export default function Explore({ navigation }) {
   
   useEffect(async () => {
     try {
-      const resp = await get('/user/all')
+      const resp = await get('/user/')
       if (resp.status >= 400) throw new Error(resp.data)
       setAll(resp.data)
     }

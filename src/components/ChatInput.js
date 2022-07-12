@@ -5,7 +5,7 @@ import theme from '../../theme'
 import { Center, HStack, Icon, IconButton, Input } from 'native-base'
 import { MaterialIcons } from '@native-base/icons'
 
-export default function ChatInput({ body, setBody, onSend }) {
+export default function ChatInput({ body, setBody, onSend, isLoading }) {
   return (
     <>
       <Center flex={1}></Center>
@@ -14,7 +14,7 @@ export default function ChatInput({ body, setBody, onSend }) {
           _focus={{ borderColor: theme.blue[500], bgColor: 'white' }}
         />
         <IconButton icon={<Icon as={MaterialIcons} name='send' color={theme.blue[500]} />}
-          onPress={onSend} />
+          isLoading={isLoading} onPress={onSend} />
       </HStack>
     </>
   )

@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 
 import theme from '../../../theme'
 import { post } from '../../http'
-import { showToast } from '../../utils'
 
 import { useToast } from 'native-base'
 import { Avatar, VStack, Text, Button } from 'native-base'

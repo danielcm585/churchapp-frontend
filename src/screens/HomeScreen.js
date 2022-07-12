@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
 
 import { get } from '../http'
-import { setData, showToast } from '../utils'
+import { setData } from '../utils'
 
 import { Navbar } from '../components'
 import { Home, Explore, Stream, Groups, Profile } from '../components/home'
+
+import { useToast } from 'native-base'
 
 export default function HomeScreen({ navigation }) {
   const [ page, setPage ] = useState(1)

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { DevSettings } from 'react-native'
 
 import { getData, setData, removeData } from '../../utils'
-import { post } from '../../http'
+import { post, get } from '../../http'
 
 import { Appbar } from '../'
 import { ChangePasswordModal, ContactUsModal, EditProfileModal, ProfileDetails } from '../profile'

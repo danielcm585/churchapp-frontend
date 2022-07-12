@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 
 import theme from '../../../theme'
 import { put } from '../../http'
-import { showToast } from '../../utils'
 
 import { PhotoUpload } from '../'
 import { DateInput } from '../'

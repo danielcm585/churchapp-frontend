@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
 
-import { showToast } from '../utils'
+import { get } from '../http'
 
 import { Appbar, ChatInput } from '../components'
-import { GroupScreenSkeleton } from '../components/group'
+import { AppbarSkeleton } from '../components/skeletons'
 
 import { useToast } from 'native-base'
-import { get } from '../http'
 
 export default function GroupScreen({ route, navigation }) {
   const { groupId } = route.params
@@ -33,17 +32,36 @@ export default function GroupScreen({ route, navigation }) {
 
   }, [])
 
-  if (group == null) return <GroupScreenSkeleton />
-
   const [ body, setBody ] = useState('')
-  const onSend = () => {
-    // TODO: Send message
+  const [ isLoading, setIsloading ] = useState(false)
+  
+  const onSend = async () => {
+    try {
+      setIsloading(true)
+      const resp = await post(`/post/${groupId}`, { // TODO: Check me!
+        body: body
+      }) 
+      if (resp.status >= 400) throw new Error(resp.data) 
+      setIsloading(false)
+      setBody('')
+    }
+    catch (err) {
+      setIsloading(false)
+      toast.show({
+        title: err.message,
+        placement: 'bottom'
+      })
+    }
   }
 
   return (
     <>
-      <Appbar title={group.name} group={group} navigation={navigation} />
-      <ChatInput body={body} setBody={setBody} onSend={onSend} />
+      {
+        (group != null) ? 
+          <Appbar title={group.name} group={group} navigation={navigation} /> :
+          <AppbarSkeleton navigation={navigation} />
+      }
+      <ChatInput body={body} setBody={setBody} onSend={onSend} isLoading={isLoading} />
     </>
   )
 }

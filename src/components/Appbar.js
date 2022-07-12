@@ -6,9 +6,7 @@ import { DangerWarning } from './'
 import { Box, HStack, IconButton, Icon, Text, StatusBar, Link, Menu, Divider } from 'native-base'
 import { MaterialIcons, MaterialCommunityIcons } from '@native-base/icons'
 
-export default function Appbar({ title, mainScreen, group, profile, loading, navigation }) {
-  if (loading) return <AppbarSkeleton />
-
+export default function Appbar({ title, mainScreen, group, profile, navigation }) {
   const [ openInvite, setOpenInvite ] = useState(false)
   const [ openEditGroup, setOpenEditGroup ] = useState(false)
   const [ openLeaveGroup, setOpenLeaveGroup ] = useState(false)
@@ -19,6 +17,14 @@ export default function Appbar({ title, mainScreen, group, profile, loading, nav
   }
 
   const deleteGroup = () => {
+
+  }
+  
+  const reportGroup = () => {
+    
+  }
+
+  const reportUser = () => {
 
   }
 
@@ -81,20 +87,23 @@ export default function Appbar({ title, mainScreen, group, profile, loading, nav
                     <Menu closeOnSelect={false} trigger={triggerProps => <IconButton {...triggerProps} 
                       icon={<Icon as={MaterialCommunityIcons} name='dots-vertical' size='md' color='black' />} 
                     />}>
-                      <Menu.Item onPress={() => setOpenInvite(true)}>
+                      <Menu.Item key={0} onPress={() => setOpenInvite(true)}>
                         <Text>Invite Member</Text>
                       </Menu.Item>
-                      <Menu.Item onPress={() => setOpenEditGroup(true)}>
+                      <Menu.Item key={1} onPress={() => setOpenEditGroup(true)}>
                         <Text>Edit Group</Text>
                       </Menu.Item>
-                      <Menu.Item>
+                      <Menu.Item key={2}>
                         <Text>Mute Notification</Text>
                       </Menu.Item>
                       <Divider my='2' />
-                      <Menu.Item onPress={() => setOpenLeaveGroup(true)}>
+                      <Menu.Item key={3} onPress={reportGroup}>
+                        <Text color='red.500'>Report Group</Text>
+                      </Menu.Item>
+                      <Menu.Item key={4} onPress={leaveGroup}>
                         <Text color='red.500'>Leave Group</Text>
                       </Menu.Item>
-                      <Menu.Item onPress={() => setOpenDeleteGroup(true)}>
+                      <Menu.Item key={5} onPress={deleteGroup}>
                         <Text color='red.500'>Delete Group</Text>
                       </Menu.Item>
                     </Menu>
@@ -107,7 +116,7 @@ export default function Appbar({ title, mainScreen, group, profile, loading, nav
                     <Menu closeOnSelect={false} trigger={triggerProps => <IconButton {...triggerProps} 
                       icon={<Icon as={MaterialCommunityIcons} name='dots-vertical' size='md' color='black' />} 
                     />}>
-                      <Menu.Item>
+                      <Menu.Item key={0} onPress={reportUser}>
                         <Text color='red.500'>Report User</Text>
                       </Menu.Item>
                     </Menu>

@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react'
 
-import { useToast } from 'native-base'
+import { get } from '../http'
+
 import { Appbar, ChatInput } from '../components'
+import { AppbarSkeleton, ProfileScreenSkeleton } from '../components/skeletons'
+
+import { useToast } from 'native-base'
 
 export default function ProfileScreen({ route, navigation }) {
   const { profileId } = route.params
@@ -13,6 +17,7 @@ export default function ProfileScreen({ route, navigation }) {
   useEffect(async () => {
     try {
       const resp = await get(`/user/${profileId}`)
+      console.log(resp)
       if (resp.status >= 400) throw new Error(resp.data)
       setProfile(resp.data)
     }
@@ -25,17 +30,37 @@ export default function ProfileScreen({ route, navigation }) {
 
     return () => setProfile(null)
 
-  })
-
-  if (profile == null) return <></>
+  }, [])
 
   const [ body, setBody ] = useState('')
+  const [ isLoading, setIsLoading ] = useState(false)
+
+  const onSend = async () => {
+    try {
+      setIsLoading(true)
+      const resp = await post() // TODO: Complete me!
+      if (resp.status >= 400) throw new Error(resp.data)
+      setIsLoading(false)
+      setBody('')
+    }
+    catch (err) {
+      setIsLoading(false)
+      toast.show({
+        title: err.message,
+        placement: 'bottom'
+      })
+    }
+  }
 
   return (
     <>
-      <Appbar title={profile.name} profile={profile} navigation={navigation} />
+      {
+        (profile != null) ? 
+          <Appbar title={profile.name} profile={profile} navigation={navigation} /> :
+          <AppbarSkeleton navigation={navigation} />
+      }
       
-      <ChatInput body={body} setBody={setBody} />
+      <ChatInput body={body} setBody={setBody} onSend={onSend} isLoading={isLoading} />
     </>
   )
 }
