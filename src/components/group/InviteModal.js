@@ -1,72 +1,29 @@
 import React, { useEffect, useState } from 'react'
 
 import theme from '../../../theme'
+import { get, post } from '../../http'
 
+import { useToast } from 'native-base'
 import { Button, Modal, Text } from 'native-base'
 import { ProfileList } from '../profile'
 
-export default function InviteModal({ isOpen, setIsOpen }) {
+export default function InviteModal({ isOpen, setIsOpen, groupId }) {
   const [ all, setAll ] = useState(null)
-  useEffect(() => {
-    setAll([
-      {
-        name: 'Daniel Christian Mandolang',
-        username: 'danielcm1',
-        photo: 'https://i.ibb.co/B2cSS4q/download.png',
-        phone: '+62 813 1323 3290',
-        birth: '2012-04-23T18:25:43.511Z'
-      },
-      {
-        name: 'Daniel Christian Mandolang',
-        username: 'danielcm1',
-        photo: 'https://i.ibb.co/B2cSS4q/download.png',
-        phone: '+62 813 1323 3290',
-        birth: '2012-04-23T18:25:43.511Z'
-      },
-      {
-        name: 'Daniel Christian Mandolang',
-        username: 'danielcm1',
-        photo: 'https://i.ibb.co/B2cSS4q/download.png',
-        phone: '+62 813 1323 3290',
-        birth: '2012-04-23T18:25:43.511Z'
-      },
-      {
-        name: 'Daniel Christian Mandolang',
-        username: 'danielcm1',
-        photo: 'https://i.ibb.co/B2cSS4q/download.png',
-        phone: '+62 813 1323 3290',
-        birth: '2012-04-23T18:25:43.511Z'
-      },
-      {
-        name: 'Daniel Christian Mandolang',
-        username: 'danielcm1',
-        photo: 'https://i.ibb.co/B2cSS4q/download.png',
-        phone: '+62 813 1323 3290',
-        birth: '2012-04-23T18:25:43.511Z'
-      },
-      {
-        name: 'Daniel Christian Mandolang',
-        username: 'danielcm1',
-        photo: 'https://i.ibb.co/B2cSS4q/download.png',
-        phone: '+62 813 1323 3290',
-        birth: '2012-04-23T18:25:43.511Z'
-      },
-      {
-        name: 'Daniel Christian Mandolang',
-        username: 'danielcm1',
-        photo: 'https://i.ibb.co/B2cSS4q/download.png',
-        phone: '+62 813 1323 3290',
-        birth: '2012-04-23T18:25:43.511Z'
-      },
-      {
-        name: 'Daniel Christian Mandolang',
-        username: 'danielcm1',
-        photo: 'https://i.ibb.co/B2cSS4q/download.png',
-        phone: '+62 813 1323 3290',
-        birth: '2012-04-23T18:25:43.511Z'
-      },
-    ])
-    console.log('FETCH ALL PROFILES')
+
+  const toast = useToast()
+
+  useEffect(async () => {
+    try {
+      const resp = await get('/user/')
+      if (resp.status >= 400) throw new Error(resp.data)
+      setAll(resp.data)
+    }
+    catch (err) {
+      toast.show({
+        title: err.message,
+        placement: 'bottom'
+      })
+    }
 
     return () => setAll(null)
 
@@ -75,9 +32,10 @@ export default function InviteModal({ isOpen, setIsOpen }) {
   const [ selected, setSelected ] = useState([ ])
   const sendInvite = () => {
     selected.forEach(profile => {
-      console.log(profile.name)
+      post(`/group/invite/${groupId}`, {
+        user: profile._id
+      })
     })
-    console.log('SEND INVITE')
   }
 
   return (

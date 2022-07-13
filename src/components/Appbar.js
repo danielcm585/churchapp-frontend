@@ -67,7 +67,7 @@ export default function Appbar({ title, mainScreen, group, profile, navigation }
       {
         (group != null) && (
           <>
-            <InviteModal isOpen={openInvite} setIsOpen={setOpenInvite} />
+            <InviteModal isOpen={openInvite} setIsOpen={setOpenInvite} groupId={group._id} />
             <EditGroupModal group={group} isOpen={openEditGroup} setIsOpen={setOpenEditGroup} />
             <DangerWarning isLoading={isLoading} isOpen={openLeaveGroup} setIsOpen={setOpenLeaveGroup} 
               title='Leave Group' action='Leave' onContinue={leaveGroup} />
