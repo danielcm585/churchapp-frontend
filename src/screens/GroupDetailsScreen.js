@@ -12,7 +12,7 @@ import { Avatar, Divider, HStack, Icon, Image, ScrollView, Text, VStack } from '
 import { MaterialIcons, MaterialCommunityIcons } from '@native-base/icons'
 
 export default function GroupDetailsScreen({ route, navigation }) {
-  const { groupId } = route.params
+  const { id } = route.params
 
   const [ group, setGroup ] = useState(null)
   
@@ -20,7 +20,7 @@ export default function GroupDetailsScreen({ route, navigation }) {
   
   useEffect(async () => {
     try {
-      const resp = await get(`/group/${groupId}`)
+      const resp = await get(`/group/${id}`)
       if (resp.status >= 400) throw new Error(resp.data)
       setGroup(resp.data)
     }

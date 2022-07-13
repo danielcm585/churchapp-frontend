@@ -55,7 +55,7 @@ export default function Groups({ navigation }) {
 
   return (
     <>
-      <Appbar title='Groups' mainScreen={true} />
+      <Appbar title='Groups' mainScreen={true} navigation={navigation} />
       <Tabs pages={pages} page={page} setPage={setPage} />
       {
         (page === 0) ? 

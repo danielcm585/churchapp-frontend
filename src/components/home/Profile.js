@@ -60,9 +60,11 @@ export default function Profile({ navigation, user, setUser }) {
     }
   }
 
+  console.log(user)
+
   return (
     <>
-      <Appbar title='Profile' mainScreen={true} />
+      <Appbar title='Profile' mainScreen={true} navigation={navigation} />
       <ProfileDetails user={user} />
       <VStack mx='4' mt='3'>
         <Button mt='1' variant='outline' rounded='md' bgColor='gray.100' _pressed={{ bgColor: 'gray.200' }}

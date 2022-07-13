@@ -61,14 +61,14 @@ export default function Appbar({ title, mainScreen, group, profile, navigation }
             <>
               {
                 (group != null) && (
-                  <Link onPress={() => navigation.navigate('GroupDetails', { groupId: group._id })}>
+                  <Link onPress={() => navigation.navigate('GroupDetails', { id: group._id })}>
                     <Text bold color='black' fontSize='lg' maxW='300' isTruncated>{title}</Text>
                   </Link>
                 )
               }
               {
                 (profile != null) && (
-                  <Link onPress={() => navigation.navigate('ProfileDetails', { profileId: profile._id })}>
+                  <Link onPress={() => navigation.navigate('ProfileDetails', { id: profile._id })}>
                     <Text bold color='black' fontSize='lg' maxW='300' isTruncated>{title}</Text>
                   </Link>
                 )
@@ -80,52 +80,52 @@ export default function Appbar({ title, mainScreen, group, profile, navigation }
         }
         {
           mainScreen ? (
-            <IconButton icon={<Icon as={MaterialCommunityIcons} name='bell' size='md' color='black' />} />
+            <IconButton icon={<Icon as={MaterialCommunityIcons} name='bell' size='md' color='black' />}
+              onPress={() => navigation.navigate('Notification')} />
           ) : (
-            <>
+            <Menu closeOnSelect={false} trigger={triggerProps => <IconButton {...triggerProps} 
+              icon={<Icon as={MaterialCommunityIcons} name='dots-vertical' size='md' color='black' />} 
+            />}>
               {
-                (group != null) && (
+                (group != null) ? (
                   <>
-                    <Menu closeOnSelect={false} trigger={triggerProps => <IconButton {...triggerProps} 
-                      icon={<Icon as={MaterialCommunityIcons} name='dots-vertical' size='md' color='black' />} 
-                    />}>
-                      <Menu.Item key={0} onPress={() => setOpenInvite(true)}>
-                        <Text>Invite Member</Text>
-                      </Menu.Item>
-                      <Menu.Item key={1} onPress={() => setOpenEditGroup(true)}>
-                        <Text>Edit Group</Text>
-                      </Menu.Item>
-                      <Menu.Item key={2}>
-                        <Text>Mute Notification</Text>
-                      </Menu.Item>
-                      <Divider my='2' />
-                      <Menu.Item key={3} onPress={reportGroup}>
-                        <Text color='red.500'>Report Group</Text>
-                      </Menu.Item>
-                      <Menu.Item key={4} onPress={leaveGroup}>
-                        <Text color='red.500'>Leave Group</Text>
-                      </Menu.Item>
-                      <Menu.Item key={5} onPress={deleteGroup}>
-                        <Text color='red.500'>Delete Group</Text>
-                      </Menu.Item>
-                    </Menu>
+                    <Menu.Item key={0} onPress={() => setOpenInvite(true)}>
+                      <Text>Invite Member</Text>
+                    </Menu.Item>
+                    <Menu.Item key={1} onPress={() => setOpenEditGroup(true)}>
+                      <Text>Edit Group</Text>
+                    </Menu.Item>
+                    <Menu.Item key={2}>
+                      <Text>Mute Notification</Text>
+                    </Menu.Item>
+                    <Divider my='2' />
+                    <Menu.Item key={3} onPress={reportGroup}>
+                      <Text color='red.500'>Report Group</Text>
+                    </Menu.Item>
+                    <Menu.Item key={4} onPress={leaveGroup}>
+                      <Text color='red.500'>Leave Group</Text>
+                    </Menu.Item>
+                    <Menu.Item key={5} onPress={deleteGroup}>
+                      <Text color='red.500'>Delete Group</Text>
+                    </Menu.Item>
+                  </>
+                ) : (
+                  <>
+                    {
+                      (profile != null) ? (
+                        <Menu.Item key={0} onPress={reportUser}>
+                          <Text color='red.500'>Report User</Text>
+                        </Menu.Item>
+                      ) : (
+                        <>
+                          
+                        </>
+                      )
+                    }
                   </>
                 )
               }
-              {
-                (profile != null) && (
-                  <>
-                    <Menu closeOnSelect={false} trigger={triggerProps => <IconButton {...triggerProps} 
-                      icon={<Icon as={MaterialCommunityIcons} name='dots-vertical' size='md' color='black' />} 
-                    />}>
-                      <Menu.Item key={0} onPress={reportUser}>
-                        <Text color='red.500'>Report User</Text>
-                      </Menu.Item>
-                    </Menu>
-                  </>
-                )
-              }
-            </>
+            </Menu>
           )
         }
       </HStack>

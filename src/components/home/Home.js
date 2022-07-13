@@ -45,7 +45,7 @@ export default function Home({ navigation }) {
 
   return (
     <>
-      <Appbar title='Home' mainScreen={true} />
+      <Appbar title='Home' mainScreen={true} navigation={navigation} />
       <Tabs pages={pages} page={page} setPage={setPage} />
       {
         (page === 0) ?

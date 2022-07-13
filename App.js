@@ -6,7 +6,7 @@ import { useNetInfo } from '@react-native-community/netinfo'
 
 import { getData } from './src/utils'
 
-import { OfflineScreen, HomeScreen, LoginScreen, RegisterScreen, GroupScreen, GroupDetailsScreen, ProfileScreen, ProfileDetailsScreen } from './src/screens'
+import { OfflineScreen, HomeScreen, LoginScreen, RegisterScreen, GroupScreen, GroupDetailsScreen, ProfileScreen, ProfileDetailsScreen, NotificationScreen } from './src/screens'
 
 import { NativeBaseProvider } from 'native-base'
 
@@ -40,6 +40,7 @@ export default function App() {
                       <Stack.Screen name='GroupDetails' component={GroupDetailsScreen} options={{ headerShown: false }} />
                       <Stack.Screen name='Profile' component={ProfileScreen} options={{ headerShown: false }} />
                       <Stack.Screen name='ProfileDetails' component={ProfileDetailsScreen} options={{ headerShown: false }} />
+                      <Stack.Screen name='Notification' component={NotificationScreen} options={{ headerShown: false }} />
                     </>
                   ) : (
                     <>

@@ -10,7 +10,7 @@ import { useToast } from 'native-base'
 import { Avatar, HStack, Text, VStack, Button } from 'native-base'
 
 export default function ProfileDetailsScreen({ route, navigation }) {
-  const { profileId } = route.params
+  const { id } = route.params
 
   const [ profile, setProfile ] = useState(null)
   
@@ -18,7 +18,7 @@ export default function ProfileDetailsScreen({ route, navigation }) {
   
   useEffect(async () => {
     try {
-      const resp = await get(`/user/${profileId}`)
+      const resp = await get(`/user/${id}`)
       if (resp.status >= 400) throw new Error(resp.data)
       setProfile(resp.data)
     }
@@ -69,7 +69,7 @@ export default function ProfileDetailsScreen({ route, navigation }) {
               <Button w='45%' rounded='md' bgColor={theme.blue[500]}>
                 <Text color='white'>Follow</Text>
               </Button>
-              <Button w='45%' rounded='md' bgColor='gray.100' variant='outline' onPress={() => navigation.navigate('Profile', { profileId: profileId })}>
+              <Button w='45%' rounded='md' bgColor='gray.100' variant='outline' onPress={() => navigation.navigate('Profile', { id: profileId })}>
                 <Text>Message</Text>
               </Button>
             </HStack>

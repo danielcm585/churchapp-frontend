@@ -8,7 +8,7 @@ import { AppbarSkeleton } from '../components/skeletons'
 import { useToast } from 'native-base'
 
 export default function GroupScreen({ route, navigation }) {
-  const { groupId } = route.params
+  const { id } = route.params
 
   const [ group, setGroup ] = useState(null)
   
@@ -16,7 +16,7 @@ export default function GroupScreen({ route, navigation }) {
 
   useEffect(async () => {
     try {
-      const resp = await get(`/group/${groupId}`)
+      const resp = await get(`/group/${id}`)
       // console.log(resp)
       if (resp.status >= 400) throw new Error(resp.data)
       setGroup(resp.data)
@@ -38,7 +38,7 @@ export default function GroupScreen({ route, navigation }) {
   const onSend = async () => {
     try {
       setIsloading(true)
-      const resp = await post(`/post/${groupId}`, { // TODO: Check me!
+      const resp = await post(`/post/${id}`, { // TODO: Check me!
         body: body
       }) 
       if (resp.status >= 400) throw new Error(resp.data) 

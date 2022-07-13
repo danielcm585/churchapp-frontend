@@ -32,7 +32,7 @@ export default function Explore({ navigation }) {
 
   return (
     <>
-      <Appbar title='Explore' mainScreen={true} />
+      <Appbar title='Explore' mainScreen={true} navigation={navigation} />
       <VStack mx='4' mt='2'>
         <ProfileList profiles={all} navigation={navigation} />
       </VStack>

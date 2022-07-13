@@ -10,7 +10,7 @@ export default function ProfileListSkeleton() {
         <SearchBar keyword='' />
         <ScrollView mt='2'>
           {
-            [...Array(12).keys()].map((_, idx) => (
+            [...Array(10).keys()].map((_, idx) => (
               <VStack key={idx}>
                 <HStack p='2' alignItems='center'>
                   <Skeleton h='10' w='10' rounded='full' startColor='gray.300' />

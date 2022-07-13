@@ -3,12 +3,12 @@ import React, { useEffect, useState } from 'react'
 import { get } from '../http'
 
 import { Appbar, ChatInput } from '../components'
-import { AppbarSkeleton, ProfileScreenSkeleton } from '../components/skeletons'
+import { AppbarSkeleton } from '../components/skeletons'
 
 import { useToast } from 'native-base'
 
 export default function ProfileScreen({ route, navigation }) {
-  const { profileId } = route.params
+  const { id } = route.params
   
   const [ profile, setProfile ] = useState(null)
 
@@ -16,7 +16,7 @@ export default function ProfileScreen({ route, navigation }) {
   
   useEffect(async () => {
     try {
-      const resp = await get(`/user/${profileId}`)
+      const resp = await get(`/user/${id}`)
       console.log(resp)
       if (resp.status >= 400) throw new Error(resp.data)
       setProfile(resp.data)
