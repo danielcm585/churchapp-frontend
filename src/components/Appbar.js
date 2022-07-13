@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 
 import theme from '../../theme'
+import { post, del } from '../http'
 
 import { EditGroupModal, InviteModal } from './group'
 import { DangerWarning } from './'
 
+import { useToast } from 'native-base'
 import { Box, HStack, IconButton, Icon, Text, StatusBar, Link, Menu, Divider } from 'native-base'
 import { MaterialIcons, MaterialCommunityIcons } from '@native-base/icons'
 
@@ -14,22 +16,52 @@ export default function Appbar({ title, mainScreen, group, profile, navigation }
   const [ openLeaveGroup, setOpenLeaveGroup ] = useState(false)
   const [ openDeleteGroup, setOpenDeleteGroup ] = useState(false)
 
-  const leaveGroup = () => {
+  const toast = useToast()
 
-  }
+  const [ isLoading, setIsLoading ] = useState(false)
 
-  const deleteGroup = () => {
-
+  const leaveGroup = async () => {
+    try {
+      setIsLoading(true)
+      const resp = await post(`/group/leave/${group._id}`)
+      if (resp.status >= 400) throw new Error(resp.data)
+      setIsLoading(false)
+      navigation.navigate('Home')
+    }
+    catch (err) {
+      setIsLoading(false)
+      toast.show({
+        title: err.message,
+        placement: 'bottom'
+      })
+    }
   }
   
-  const reportGroup = () => {
+  const deleteGroup = async () => {
+    try {
+      setIsLoading(true)
+      const resp = await del(`/group/${group._id}`)
+      if (resp.status >= 400) throw new Error(resp.data)
+      setIsLoading(false)
+      navigation.navigate('Home')
+    }
+    catch (err) {
+      setIsLoading(false)
+      toast.show({
+        title: err.message,
+        placement: 'bottom'
+      })
+    }
+  }
+  
+  const reportGroup = async () => {
     
   }
-
+  
   const reportUser = () => {
-
+    
   }
-
+  
   return (
     <>
       {
@@ -37,9 +69,9 @@ export default function Appbar({ title, mainScreen, group, profile, navigation }
           <>
             <InviteModal isOpen={openInvite} setIsOpen={setOpenInvite} />
             <EditGroupModal group={group} isOpen={openEditGroup} setIsOpen={setOpenEditGroup} />
-            <DangerWarning isOpen={openLeaveGroup} setIsOpen={setOpenLeaveGroup} 
+            <DangerWarning isLoading={isLoading} isOpen={openLeaveGroup} setIsOpen={setOpenLeaveGroup} 
               title='Leave Group' action='Leave' onContinue={leaveGroup} />
-            <DangerWarning isOpen={openDeleteGroup} setIsOpen={setOpenDeleteGroup} 
+            <DangerWarning isLoading={isLoading} isOpen={openDeleteGroup} setIsOpen={setOpenDeleteGroup} 
               title='Delete Group' action='Delete' onContinue={deleteGroup} />
           </>
         )

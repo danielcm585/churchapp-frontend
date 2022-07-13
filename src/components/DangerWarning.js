@@ -2,7 +2,7 @@ import React from 'react'
 
 import { AlertDialog, Button, Text } from 'native-base'
 
-export default function DangerWarning({ isOpen, setIsOpen, title, action, onContinue }) {
+export default function DangerWarning({ isOpen, setIsOpen, title, action, onContinue, isLoading }) {
   const onClose = () => setIsOpen(false);
 
   return (
@@ -23,7 +23,7 @@ export default function DangerWarning({ isOpen, setIsOpen, title, action, onCont
               <Button bgColor='red.500' _pressed={{ bgColor: 'red.600' }} onPress={() => {
                 onContinue()
                 onClose()
-              }}>
+              }} isLoading={isLoading}>
                 <Text color='white'>{action}</Text>
               </Button>
             </Button.Group>
