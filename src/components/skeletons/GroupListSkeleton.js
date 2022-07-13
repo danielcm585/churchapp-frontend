@@ -8,7 +8,7 @@ export default function GroupListSkeleton() {
   return (
     <>
       <VStack mx='4' mb='2'>
-        <SearchBar />
+        <SearchBar keyword='' />
       </VStack>
       <ScrollView mt='2'>
         <Center w='100%' mx='4'>

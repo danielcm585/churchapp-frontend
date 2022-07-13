@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 
+import theme from '../../theme'
+
 import { EditGroupModal, InviteModal } from './group'
 import { DangerWarning } from './'
 
@@ -43,7 +45,7 @@ export default function Appbar({ title, mainScreen, group, profile, navigation }
         )
       }
       <StatusBar bg='#3700B3' barStyle='light-content' />
-      <Box safeAreaTop bg='#6200ee' />
+      <Box safeAreaTop bg={theme.blue[300]} />
       <HStack bg='white' px='1' py='1' justifyContent='space-between' alignItems='center' w='100%'>
         {
           mainScreen ? (

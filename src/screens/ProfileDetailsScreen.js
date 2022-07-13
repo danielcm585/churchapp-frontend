@@ -66,10 +66,10 @@ export default function ProfileDetailsScreen({ route, navigation }) {
               </VStack>
             </HStack>
             <HStack w='100%' mx='4' mt='6' space='2'>
-              <Button w='45%' bgColor={theme.blue[500]}>
+              <Button w='45%' rounded='md' bgColor={theme.blue[500]}>
                 <Text color='white'>Follow</Text>
               </Button>
-              <Button w='45%' bgColor='gray.100' variant='outline' onPress={() => navigation.navigate('Profile', { profileId: profileId })}>
+              <Button w='45%' rounded='md' bgColor='gray.100' variant='outline' onPress={() => navigation.navigate('Profile', { profileId: profileId })}>
                 <Text>Message</Text>
               </Button>
             </HStack>

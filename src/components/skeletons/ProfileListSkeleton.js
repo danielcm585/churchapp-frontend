@@ -7,7 +7,7 @@ export default function ProfileListSkeleton() {
   return (
     <>
       <VStack w='100%'>
-        <SearchBar />
+        <SearchBar keyword='' />
         <ScrollView mt='2'>
           {
             [...Array(12).keys()].map((_, idx) => (
