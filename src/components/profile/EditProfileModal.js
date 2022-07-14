@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
+import axios from 'axios'
 
 import theme from '../../../theme'
 import { put } from '../../http'
+// import { postPhoto } from '../../utils'
 
 import { PhotoUpload } from '../'
 import { DateInput } from '../'
@@ -26,9 +28,9 @@ export default function EditProfileModal({ isOpen, setIsOpen, profile }) {
   const [ birthYear, setBirthYear ] = useState('')
   
   useEffect(() => {
-    const dates = [...Array(31).keys()].map(val => val+1)
+    // const dates = [...Array(31).keys()].map(val => val+1)
     const months = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ]
-    const years = [...Array(200).keys()].map(val => val+1950)
+    // const years = [...Array(200).keys()].map(val => val+1950)
     
     const myBirthYear = profile.birth.split('-')[0]
     const myBirthMonth = months[parseInt(profile.birth.split('-')[1]) - 1]
@@ -58,17 +60,47 @@ export default function EditProfileModal({ isOpen, setIsOpen, profile }) {
   
   const toast = useToast()
 
+  const postPhoto = async (photo) => {
+    if (photo == null) return null
+    console.log(photo)
+    let result = null
+    var reader = new FileReader()
+    reader.readAsDataURL(photo)
+    reader.onload = async () => {
+      const image = reader.result.split(',')[1]
+      const form = new FormData()
+      form.append('image',image)
+      await axios.post('https://api.imgbb.com/1/upload?key=1f7342009732d86b66bfab298a07677d', form)
+        .then(resp => {
+          console.log(resp)
+          if (resp.success) result = resp.data.url
+        })
+        .catch(err => toast.show({
+          title: err.message,
+          placement: 'bottom',
+        }))
+    }
+    reader.onerror = () => toast.show({
+      title: 'Gagal mengunggah foto',
+      placement: 'bottom'
+    })
+    return result
+  }
+
   const editProfile = async () => {
     try {
       setIsLoading(true)
       validateInput()
+      const photoLink = await postPhoto(photo)
+      console.log(photoLink)
       const resp = await put('/user/', {
         name: name,
         phone: phone,
         email: email,
         address: address,
         gender: gender,
-        birth: birth
+        birth: birth,
+        photo: photoLink
       })
       if (resp.status >= 400) throw new Error(resp.data)
       setIsLoading(false)
@@ -125,7 +157,7 @@ export default function EditProfileModal({ isOpen, setIsOpen, profile }) {
               </Select>
             </HStack>
             <DateInput mt='4' mx='0' date={birthDate} setDate={setBirthDate} month={birthMonth} setMonth={setBirthMonth} year={birthYear} setYear={setBirthYear} setFinalDate={setBirth} />
-            <PhotoUpload mt='4' pressedBgColor='gray.100' setLink={setPhoto} />
+            <PhotoUpload mt='4' pressedBgColor='gray.100' setPhoto={setPhoto} />
           </Modal.Body>
           <Modal.Footer>
             <Button.Group space='2'>

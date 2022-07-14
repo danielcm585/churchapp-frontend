@@ -5,7 +5,7 @@ import { ProfileDetailsSkeleton } from './'
 import { Center, VStack, Avatar, Text } from 'native-base'
 
 export default function ProfileDetails({ user }) {
-  if (user == null) return <ProfileDetailsSkeleton />
+  if (user == null || !user) return <ProfileDetailsSkeleton />
 
   const months = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ]
   const birthYear = parseInt(user.birth.split('-')[0])

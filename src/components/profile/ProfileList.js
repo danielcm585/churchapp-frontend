@@ -12,7 +12,10 @@ export default function ProfileList({ profiles, select, setSelected, modal, navi
   const [ keyword, setKeyword ] = useState('')
   const [ filtered, setFiltered ] = useState(null)
   useEffect(() => {
-    const filteredProfiles = profiles.filter(profile => profile.name.toLowerCase().includes(keyword.toLowerCase()))
+    const filteredProfiles = profiles.filter(profile => {
+      if (profile.name == null || !profile.name) return false
+      return profile.name.toLowerCase().includes(keyword.toLowerCase())
+    })
     setFiltered(filteredProfiles)
 
     return () => setFiltered(null)
@@ -29,7 +32,8 @@ export default function ProfileList({ profiles, select, setSelected, modal, navi
       <ScrollView mt='2'>
         {
           filtered.map((profile, idx) => 
-            <ProfileItem key={idx} modal={modal} profile={profile} select={select} setSelected={setSelected} navigation={navigation} />
+            <ProfileItem key={idx} modal={modal} profile={profile} select={select} 
+              setSelected={setSelected} navigation={navigation} />
           )
         }
       </ScrollView>

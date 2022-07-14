@@ -19,6 +19,7 @@ export default function RegisterPage2({ token, refreshToken }) {
   const [ gender, setGender ] = useState('')
   const [ birth, setBirth ] = useState(new Date())
   const [ photo, setPhoto ] = useState('https://i.ibb.co/B2cSS4q/download.png')
+  // const [ photoLink, setPhotoLink ] = useState('https://i.ibb.co/B2cSS4q/download.png')
 
   const [ birthDate, setBirthDate ] = useState('')
   const [ birthMonth, setBirthMonth ] = useState('')
@@ -36,18 +37,48 @@ export default function RegisterPage2({ token, refreshToken }) {
   
   const toast = useToast()
 
+  const postPhoto = async (photo) => {
+    if (photo == null) return null
+    console.log(photo)
+    let result = null
+    var reader = new FileReader()
+    // reader.readAsDataURL(photo)
+    reader.onload = async () => {
+      const image = reader.result.split(',')[1]
+      const form = new FormData()
+      form.append('image',image)
+      await axios.post('https://api.imgbb.com/1/upload?key=1f7342009732d86b66bfab298a07677d', form)
+        .then(resp => {
+          console.log(resp)
+          if (resp.success) result = resp.data.url
+        })
+        .catch(err => toast.show({
+          title: err.message,
+          placement: 'bottom',
+        }))
+    }
+    reader.onerror = () => toast.show({
+      title: 'Gagal mengunggah foto',
+      placement: 'bottom'
+    })
+    return result
+  }
+
   const addData = async () => {
     try {
       setIsLoading(true)
       validateInput()
       await setData('token', token)
+      const photoLink = await postPhoto(photo)
+      console.log(photoLink)
       const resp = await put('/user/', {
         name: name,
         phone: phone,
         email: email,
         address: address,
         gender: gender,
-        birth: birth
+        birth: birth,
+        photo: photoLink
       })
       if (resp.status >= 400) throw new Error(resp.data)
       setIsLoading(false)
@@ -105,8 +136,7 @@ export default function RegisterPage2({ token, refreshToken }) {
       </HStack>
       <DateInput mt='4' mx='6' date={birthDate} setDate={setBirthDate} month={birthMonth} 
         setMonth={setBirthMonth} year={birthYear} setYear={setBirthYear} setFinalDate={setBirth} />
-      {/* FIXME: Add file picker */}
-      <PhotoUpload mt='4' mx='6' bgColor='gray.100' pressedBgColor='gray.200' setLink={setPhoto} />
+      <PhotoUpload mt='4' mx='6' bgColor='gray.100' pressedBgColor='gray.200' setPhoto={setPhoto} />
       <Button mt='4' ml='6' mr='6' borderRadius='lg' backgroundColor={theme.blue[500]}
         _pressed={{ backgroundColor: theme.blue[600] }} onPress={addData} isLoading={isLoading}>
         Register

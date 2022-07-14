@@ -1,40 +1,37 @@
-import React, { useState, useEffect } from 'react'
-import DocumentPicker from 'react-native-document-picker'
-
-import { post } from '../http'
+import React from 'react'
+import { Platform } from 'react-native'
+import * as ImagePicker from 'expo-image-picker'
 
 import { Button, Text } from 'native-base'
+import { useEffect } from 'react'
 
-export default function PhotoUpload({ setLink, bgColor, pressedBgColor, mt, mx }) {
-  const [ photo, setPhoto ] = useState()
+export default function PhotoUpload({ setPhoto, bgColor, pressedBgColor, mt, mx }) {
+  useEffect(async () => {
+    if (Platform.OS !== 'web') {
+      const { status } = await ImagePicker.requestMediaLibraryPermission()
+      if (status !== 'granted') {
+        alert('Permission denied!')
+      }
+    }
+  }, [])
 
   const selectPhoto = async () => {
-    try {
-      const resp = await DocumentPicker.pickSingle({
-        presentationStyle: 'fullscreen',
-        type: [ DocumentPicker.types.images ]
-      })
-      setPhoto(resp)
-    }
-    catch (err) {
-      if (DocumentPicker.isCancel(err)) {
-        alert('Cancelled')
-      }
-      else {
-        alert('Unknow error: ' + JSON.stringify(err))
-        throw(err)
-      }
-    }
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspects: 1,
+      quality: 1
+    })
+    console.log(result)
+    if (!result.cancelled) setPhoto(result.uri)
   }
-
-  useEffect(() => console.log(photo?.uri), [ photo ])
 
   return (
     <>
       <Button mt={mt} mx={mx} borderRadius='lg' variant='outline' backgroundColor={bgColor}
         _pressed={{ backgroundColor: pressedBgColor }} onPress={selectPhoto}>
         <Text color='black'>
-          Add Photo
+          Select Photo
         </Text>
       </Button>
     </>
