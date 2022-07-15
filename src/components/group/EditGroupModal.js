@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import axios from 'axios'
+import * as FileSystem from 'expo-file-system'
 
 import theme from '../../../theme'
 import config from '../../../config'

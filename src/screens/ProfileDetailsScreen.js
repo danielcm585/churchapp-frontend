@@ -4,7 +4,7 @@ import theme from '../../theme'
 import { get } from '../http'
 
 import { Appbar } from '../components'
-import { AppbarSkeleton } from '../components/skeletons'
+import { ProfileDetailsScreenSkeleton } from '../components/skeletons'
 
 import { useToast } from 'native-base'
 import { Avatar, HStack, Text, VStack, Button } from 'native-base'
@@ -33,12 +33,11 @@ export default function ProfileDetailsScreen({ route, navigation }) {
 
   }, [])
 
-  // if (profile == null) return <ProfileDetailsScreenSkeleton />
-
+  
   const [ birthYear, setBirthYear ] = useState()
   const [ birthMonth, setBirthMonth ] = useState()
   const [ birthDate, setBirthDate ] = useState()
-
+  
   useEffect(() => {
     if (profile == null) return
     const months = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ]
@@ -49,35 +48,28 @@ export default function ProfileDetailsScreen({ route, navigation }) {
     setBirthMonth(profileBirthMonth)
     setBirthDate(profileBirthDate)
   }, [ profile ])
-
+  
+  if (profile == null) return <ProfileDetailsScreenSkeleton navigation={navigation} />
   return (
     <>
-      {
-        (profile != null) ? (
-          <>
-            <Appbar title={profile.username} profile={profile} navigation={navigation} />
-            <HStack mx='4' mt='6' alignItems='center'>
-              <Avatar size='xl' source={{ uri: profile.photo }} />
-              <VStack ml='4'>
-                <Text fontSize='lg' fontWeight='bold'>{profile.name}</Text>
-                <Text fontSize='sm'>{profile.phone}</Text>
-                <Text fontSize='sm'>{profile.address}</Text>
-                <Text fontSize='sm'>{birthDate} {birthMonth} {birthYear}</Text>
-              </VStack>
-            </HStack>
-            <HStack w='100%' mx='4' mt='6' space='2'>
-              <Button w='45%' rounded='md' bgColor={theme.blue[500]}>
-                <Text color='white'>Follow</Text>
-              </Button>
-              <Button w='45%' rounded='md' bgColor='gray.100' variant='outline' onPress={() => navigation.navigate('Profile', { id: profileId })}>
-                <Text>Message</Text>
-              </Button>
-            </HStack>
-          </>
-        ) : (
-          <AppbarSkeleton navigation={navigation} />
-        )
-      }    
+      <Appbar title={profile.username} profile={profile} navigation={navigation} />
+      <HStack mx='4' mt='6' alignItems='center'>
+        <Avatar size='xl' source={{ uri: profile.photo }} />
+        <VStack ml='4'>
+          <Text fontSize='lg' fontWeight='bold'>{profile.name}</Text>
+          <Text fontSize='sm'>{profile.phone}</Text>
+          <Text fontSize='sm'>{profile.address}</Text>
+          <Text fontSize='sm'>{birthDate} {birthMonth} {birthYear}</Text>
+        </VStack>
+      </HStack>
+      <HStack w='100%' mx='4' mt='6' space='2'>
+        <Button w='45%' rounded='md' bgColor={theme.blue[500]}>
+          <Text color='white'>Follow</Text>
+        </Button>
+        <Button w='45%' rounded='md' bgColor='gray.100' variant='outline' onPress={() => navigation.navigate('Profile', { id: id })}>
+          <Text>Message</Text>
+        </Button>
+      </HStack>
     </>
   )
 }

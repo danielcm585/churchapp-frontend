@@ -1,11 +1,11 @@
 import React from 'react'
 
-import { AppbarSkeleton } from '../'
+import { AppbarSkeleton } from './'
 
-export default function ProfileDetailsScreenSkeleton() {
+export default function ProfileDetailsScreenSkeleton({ navigation }) {
   return (
     <>
-      <AppbarSkeleton />
+      <AppbarSkeleton navigation={navigation} />
     </>
   )
 }

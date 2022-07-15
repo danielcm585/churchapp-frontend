@@ -23,7 +23,6 @@ export default function ProfileList({ profiles, select, setSelected, modal, navi
   }, [ keyword ])
 
   if (filtered == null) return <ProfileListSkeleton />
-
   return (
     <>
       <VStack>

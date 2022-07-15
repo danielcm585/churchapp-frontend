@@ -1,9 +1,12 @@
 import React from 'react'
 
-export default function GroupDetailsScreenSkeleton() {
+import AppbarSkeleton from './AppbarSkeleton'
+
+export default function GroupDetailsScreenSkeleton({ navigation }) {
   return (
     <>
-      
+      <AppbarSkeleton navigation={navigation} />
+
     </>
   )
 }

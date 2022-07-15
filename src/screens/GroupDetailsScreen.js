@@ -5,7 +5,7 @@ import { getData } from '../utils'
 
 import { Appbar, LongText } from '../components'
 import { ProfileGrid } from '../components/profile'
-import { GroupDetailsScreenSkeleton } from '../components/group'
+import { GroupDetailsScreenSkeleton } from '../components/skeletons'
 
 import { useToast } from 'native-base'
 import { Avatar, Divider, HStack, Icon, Image, ScrollView, Text, VStack } from 'native-base'
@@ -35,21 +35,18 @@ export default function GroupDetailsScreen({ route, navigation }) {
 
   }, [])
   
-  if (group == null) return <GroupDetailsScreenSkeleton />
-  
   const [ isLeader, setIsLeader ] = useState(false)
-
+  
   useEffect(async () => {
+    if (group == null) return
+    
     const me = await getData('user')
     const check = group.leaders.filter(leader => leader._id == me._id)
     setIsLeader(check.length > 0)
   }, [ group ])
   
-  const members = []
-  for (let i = 0; i < group.members.length; i += 4) {
-    members.push(group.members.slice(i, i+4));
-  }
-
+  
+  if (group == null) return <GroupDetailsScreenSkeleton navigation={navigation} />
   return (
     <>
       <Appbar title={group.name} group={group} navigation={navigation} />
