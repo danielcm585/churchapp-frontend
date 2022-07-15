@@ -23,14 +23,42 @@ export default function NewPostModal({ isOpen, setIsOpen }) {
   
   const toast = useToast()
 
+  const postPhoto = async (photo) => {
+    if (photo == null) return null
+    let result = null
+    const base64 = await FileSystem.readAsStringAsync(photo, { encoding: 'base64' })
+    const form = new FormData()
+    form.append('image',base64)
+    try {
+      console.log('POST PHOTO TO IMGBB')
+      const resp = await axios.create({
+        headers: { },
+        validateStatus: (stat) => true
+      }).post(config.IMGBB_URL, form)
+        .then(resp => resp.data.data)
+      console.log('resp: ', resp)
+      console.log('success: ',resp.success)
+      result = resp.display_url
+    }
+    catch(err) {
+      console.log(err)
+      toast.show({
+        title: err.message,
+        placement: 'bottom',
+      })
+    } 
+    return result
+  }
+
   const createPost = async () => {
     try {
       setIsLoading(true)
       validateInput()
       // console.log(body)
+      const photoLink = await postPhoto(photo)
       const resp = await post('/post/', {
         body: body,
-        photo: photo
+        photo: photoLink
       })
       if (resp.status >= 400) throw new Error(resp.data)
       setIsLoading(false)

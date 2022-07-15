@@ -18,14 +18,43 @@ export default function NewGroupModal({ isOpen, setIsOpen }) {
   const [ isLoading, setIsLoading ] = useState(false)
 
   const toast = useToast()
+
+  const postPhoto = async (photo) => {
+    if (photo == null) return null
+    let result = null
+    const base64 = await FileSystem.readAsStringAsync(photo, { encoding: 'base64' })
+    const form = new FormData()
+    form.append('image',base64)
+    try {
+      console.log('POST PHOTO TO IMGBB')
+      const resp = await axios.create({
+        headers: { },
+        validateStatus: (stat) => true
+      }).post(config.IMGBB_URL, form)
+        .then(resp => resp.data.data)
+      console.log('resp: ', resp)
+      console.log('success: ',resp.success)
+      result = resp.display_url
+    }
+    catch(err) {
+      console.log(err)
+      toast.show({
+        title: err.message,
+        placement: 'bottom',
+      })
+    } 
+    return result
+  }
   
   const createGroup = async () => {
     try {
       setIsLoading(true)
+      const photoLink = await postPhoto(photo)
       const resp = await post('/group/', {
         name: name,
         description: description,
-        status: status
+        status: status,
+        photo: photoLink
       })
       if (resp.status >= 400) throw new Error(resp.data)
       setIsLoading(false)

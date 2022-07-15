@@ -2,13 +2,14 @@ import React, { useState } from 'react'
 import { DevSettings } from 'react-native'
 
 import theme from '../../../theme'
+import config from '../../../config'
 import { put } from '../../http'
 import { setData } from '../../utils'
 
 import { PhotoUpload, DateInput } from '..'
 
 import { useToast } from 'native-base'
-import { Center, Button, HStack, Icon, Input, Text, Select, Avatar, VStack, ScrollView } from 'native-base'
+import { Center, Button, HStack, Icon, Input, Text, Select, Avatar, ScrollView } from 'native-base'
 import { MaterialCommunityIcons, MaterialIcons } from '@native-base/icons'
 
 export default function RegisterPage2({ token, refreshToken }) {
@@ -19,7 +20,6 @@ export default function RegisterPage2({ token, refreshToken }) {
   const [ gender, setGender ] = useState('')
   const [ birth, setBirth ] = useState(new Date())
   const [ photo, setPhoto ] = useState('https://i.ibb.co/B2cSS4q/download.png')
-  // const [ photoLink, setPhotoLink ] = useState('https://i.ibb.co/B2cSS4q/download.png')
 
   const [ birthDate, setBirthDate ] = useState('')
   const [ birthMonth, setBirthMonth ] = useState('')
@@ -39,28 +39,28 @@ export default function RegisterPage2({ token, refreshToken }) {
 
   const postPhoto = async (photo) => {
     if (photo == null) return null
-    console.log(photo)
     let result = null
-    var reader = new FileReader()
-    // reader.readAsDataURL(photo)
-    reader.onload = async () => {
-      const image = reader.result.split(',')[1]
-      const form = new FormData()
-      form.append('image',image)
-      await axios.post('https://api.imgbb.com/1/upload?key=1f7342009732d86b66bfab298a07677d', form)
-        .then(resp => {
-          console.log(resp)
-          if (resp.success) result = resp.data.url
-        })
-        .catch(err => toast.show({
-          title: err.message,
-          placement: 'bottom',
-        }))
+    const base64 = await FileSystem.readAsStringAsync(photo, { encoding: 'base64' })
+    const form = new FormData()
+    form.append('image',base64)
+    try {
+      console.log('POST PHOTO TO IMGBB')
+      const resp = await axios.create({
+        headers: { },
+        validateStatus: (stat) => true
+      }).post(config.IMGBB_URL, form)
+        .then(resp => resp.data.data)
+      console.log('resp: ', resp)
+      console.log('success: ',resp.success)
+      result = resp.display_url
     }
-    reader.onerror = () => toast.show({
-      title: 'Gagal mengunggah foto',
-      placement: 'bottom'
-    })
+    catch(err) {
+      console.log(err)
+      toast.show({
+        title: err.message,
+        placement: 'bottom',
+      })
+    } 
     return result
   }
 

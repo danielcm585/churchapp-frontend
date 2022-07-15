@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import * as FileSystem from 'expo-file-system'
 
 import theme from '../../../theme'
+import config from '../../../config'
 import { put } from '../../http'
-// import { postPhoto } from '../../utils'
 
 import { PhotoUpload } from '../'
 import { DateInput } from '../'
@@ -62,28 +63,28 @@ export default function EditProfileModal({ isOpen, setIsOpen, profile }) {
 
   const postPhoto = async (photo) => {
     if (photo == null) return null
-    console.log(photo)
     let result = null
-    var reader = new FileReader()
-    reader.readAsDataURL(photo)
-    reader.onload = async () => {
-      const image = reader.result.split(',')[1]
-      const form = new FormData()
-      form.append('image',image)
-      await axios.post('https://api.imgbb.com/1/upload?key=1f7342009732d86b66bfab298a07677d', form)
-        .then(resp => {
-          console.log(resp)
-          if (resp.success) result = resp.data.url
-        })
-        .catch(err => toast.show({
-          title: err.message,
-          placement: 'bottom',
-        }))
+    const base64 = await FileSystem.readAsStringAsync(photo, { encoding: 'base64' })
+    const form = new FormData()
+    form.append('image',base64)
+    try {
+      console.log('POST PHOTO TO IMGBB')
+      const resp = await axios.create({
+        headers: { },
+        validateStatus: (stat) => true
+      }).post(config.IMGBB_URL, form)
+        .then(resp => resp.data.data)
+      console.log('resp: ', resp)
+      console.log('success: ',resp.success)
+      result = resp.display_url
     }
-    reader.onerror = () => toast.show({
-      title: 'Gagal mengunggah foto',
-      placement: 'bottom'
-    })
+    catch(err) {
+      console.log(err)
+      toast.show({
+        title: err.message,
+        placement: 'bottom',
+      })
+    } 
     return result
   }
 
@@ -92,7 +93,7 @@ export default function EditProfileModal({ isOpen, setIsOpen, profile }) {
       setIsLoading(true)
       validateInput()
       const photoLink = await postPhoto(photo)
-      console.log(photoLink)
+      console.log('photoLink: ',photoLink)
       const resp = await put('/user/', {
         name: name,
         phone: phone,
