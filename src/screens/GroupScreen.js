@@ -17,7 +17,6 @@ export default function GroupScreen({ route, navigation }) {
   useEffect(async () => {
     try {
       const resp = await get(`/group/${id}`)
-      // console.log(resp)
       if (resp.status >= 400) throw new Error(resp.data)
       setGroup(resp.data)
     }

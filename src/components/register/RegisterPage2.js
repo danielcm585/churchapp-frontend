@@ -44,18 +44,14 @@ export default function RegisterPage2({ token, refreshToken }) {
     const form = new FormData()
     form.append('image',base64)
     try {
-      console.log('POST PHOTO TO IMGBB')
       const resp = await axios.create({
         headers: { },
         validateStatus: (stat) => true
       }).post(config.IMGBB_URL, form)
         .then(resp => resp.data.data)
-      console.log('resp: ', resp)
-      console.log('success: ',resp.success)
       result = resp.display_url
     }
     catch(err) {
-      console.log(err)
       toast.show({
         title: err.message,
         placement: 'bottom',
@@ -70,7 +66,6 @@ export default function RegisterPage2({ token, refreshToken }) {
       validateInput()
       await setData('token', token)
       const photoLink = await postPhoto(photo)
-      console.log(photoLink)
       const resp = await put('/user/', {
         name: name,
         phone: phone,

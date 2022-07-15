@@ -36,7 +36,6 @@ export default function RegisterPage1({ navigation, setPage, setToken, setRefres
       })
       if (resp.status >= 400) throw new Error(resp.data)
       setIsLoading(false)
-      // console.log(resp)
       await setData('user', JSON.stringify(resp.data.user))
       setRefreshToken(resp.data.refreshToken)
       setToken(resp.data.token)

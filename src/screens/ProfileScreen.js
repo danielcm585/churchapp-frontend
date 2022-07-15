@@ -17,7 +17,6 @@ export default function ProfileScreen({ route, navigation }) {
   useEffect(async () => {
     try {
       const resp = await get(`/user/${id}`)
-      console.log(resp)
       if (resp.status >= 400) throw new Error(resp.data)
       setProfile(resp.data)
     }

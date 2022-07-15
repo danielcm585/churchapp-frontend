@@ -5,7 +5,6 @@ import { LongText } from '../'
 import { Avatar, Divider, HStack, Link, Text, VStack, Image } from 'native-base'
 
 export default function PostItem({ navigation, post }) {
-  if (post.photo != null) console.log('HORE')
   return (
     <>
       <VStack mx='4'>

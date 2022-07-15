@@ -15,7 +15,6 @@ export default function GroupItem({ navigation, group, mine }) {
     try {
       setIsLoading(true)
       const resp = await post(`/group/join/${group._id}`)
-      // console.log(resp)
       if (resp.status >= 400) throw new Error(resp.data)
       setIsLoading(false)
       toast.show({

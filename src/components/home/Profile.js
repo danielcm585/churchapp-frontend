@@ -24,7 +24,6 @@ export default function Profile({ navigation, user, setUser }) {
     try {
       const resp = await get('/user/me')
       if (resp.status >= 400) throw new Error(resp.data)
-      // console.log(resp)
       const me = resp.data
       await setData('user', JSON.stringify(me))
       setUser(me)
@@ -59,8 +58,6 @@ export default function Profile({ navigation, user, setUser }) {
       })
     }
   }
-
-  console.log(user)
 
   return (
     <>

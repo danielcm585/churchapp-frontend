@@ -16,7 +16,6 @@ export default function NotificationScreen({ navigation }) {
     try {
       const resp = await get('/notification')
       if (resp.status >= 400) throw new Error(resp.data)
-      // console.log(resp)
       setNotifications(resp.data)
     }
     catch (err) {

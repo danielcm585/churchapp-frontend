@@ -22,7 +22,6 @@ export default function PhotoUpload({ setPhoto, bgColor, pressedBgColor, mt, mx 
       aspects: 1,
       quality: 1
     })
-    console.log(result)
     if (!result.cancelled) setPhoto(result.uri)
   }
 

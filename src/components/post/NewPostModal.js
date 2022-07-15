@@ -30,18 +30,14 @@ export default function NewPostModal({ isOpen, setIsOpen }) {
     const form = new FormData()
     form.append('image',base64)
     try {
-      console.log('POST PHOTO TO IMGBB')
       const resp = await axios.create({
         headers: { },
         validateStatus: (stat) => true
       }).post(config.IMGBB_URL, form)
         .then(resp => resp.data.data)
-      console.log('resp: ', resp)
-      console.log('success: ',resp.success)
       result = resp.display_url
     }
     catch(err) {
-      console.log(err)
       toast.show({
         title: err.message,
         placement: 'bottom',
@@ -54,7 +50,6 @@ export default function NewPostModal({ isOpen, setIsOpen }) {
     try {
       setIsLoading(true)
       validateInput()
-      // console.log(body)
       const photoLink = await postPhoto(photo)
       const resp = await post('/post/', {
         body: body,
