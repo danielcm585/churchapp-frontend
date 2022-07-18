@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { post } from '../../http'
+import { post } from '@root/http'
 
 import { useToast } from 'native-base'
 import { Box, Divider, Pressable, VStack } from 'native-base'

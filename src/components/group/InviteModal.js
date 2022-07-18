@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 
-import theme from '../../../theme'
-import { get, post } from '../../http'
+import theme from '@root/theme'
+import { get, post } from '@root/http'
+
+import { ProfileList } from '@root/components/profile'
 
 import { useToast } from 'native-base'
 import { Button, Modal, Text } from 'native-base'
-import { ProfileList } from '../profile'
 
 export default function InviteModal({ isOpen, setIsOpen, groupId }) {
   const onClose = () => setIsOpen(false)

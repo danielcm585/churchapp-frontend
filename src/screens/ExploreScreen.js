@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 
-import { get } from '../http'
+import { get } from '@root/http'
 
-import { Appbar, Navbar } from '../components'
-import { ProfileList } from '../components/profile'
+import { Appbar, Navbar } from '@root/components'
+import { ProfileList } from '@root/components/profile'
 
 import { useToast } from 'native-base'
 import { VStack } from 'native-base'

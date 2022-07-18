@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Appbar, Navbar } from '../components'
+import { Appbar, Navbar } from '@root/components'
 
 export default function Stream({ navigation }) {
   return (

@@ -1,7 +1,6 @@
 import React from 'react'
 
-import { ProfileDetailsSkeleton } from '../skeletons'
-import { GuestDetails } from './'
+import { ProfileDetailsSkeleton } from '@root/components/skeletons'
 
 import { Center, VStack, Avatar, Text } from 'native-base'
 

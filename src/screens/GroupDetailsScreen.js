@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 
-import { get } from '../http'
-import { getData } from '../utils'
+import { get } from '@root/http'
+import { getData } from '@root/utils'
 
-import { Appbar, LongText } from '../components'
-import { ProfileGrid } from '../components/profile'
-import { GroupDetailsScreenSkeleton } from '../components/skeletons'
+import { Appbar, LongText } from '@root/components'
+import { ProfileGrid } from '@root/components/profile'
+import { GroupDetailsScreenSkeleton } from '@root/components/skeletons'
 
 import { useToast } from 'native-base'
 import { Avatar, Divider, HStack, Icon, Image, ScrollView, Text, VStack } from 'native-base'

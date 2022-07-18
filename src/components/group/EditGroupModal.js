@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import * as FileSystem from 'expo-file-system'
 
-import theme from '../../../theme'
-import config from '../../../config'
-import { put } from '../../http'
+import theme from '@root/theme'
+import config from '@root/config'
+import { put } from '@root/http'
 
-import { PhotoUpload } from '..'
+import { PhotoUpload } from '@root/components'
 
 import { useToast } from 'native-base'
 import { Button, Modal, Text, HStack, Icon, Input, Center, Avatar } from 'native-base'

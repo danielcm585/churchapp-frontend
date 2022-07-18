@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 
-import theme from '../../theme'
-import { get } from '../http'
+import theme from '@root/theme'
+import { get } from '@root/http'
 
-import { Appbar } from '../components'
-import { ProfileDetailsScreenSkeleton } from '../components/skeletons'
+import { Appbar } from '@root/components'
+import { ProfileDetailsScreenSkeleton } from '@root/components/skeletons'
 
 import { useToast } from 'native-base'
 import { Avatar, HStack, Text, VStack, Button } from 'native-base'

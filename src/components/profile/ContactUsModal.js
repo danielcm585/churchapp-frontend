@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Linking } from 'react-native'
 
-import theme from '../../../theme'
-import config from '../../../config'
+import theme from '@root/theme'
+import config from '@root/config'
 
 import { useToast } from 'native-base'
 import { Modal, Button, Text } from 'native-base'

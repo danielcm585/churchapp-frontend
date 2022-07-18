@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 
-import theme from '../../theme'
-import { post, del } from '../http'
+import theme from '@root/theme'
+import { post, del } from '@root/http'
 
-import { EditGroupModal, InviteModal } from './group'
-import { DangerWarning } from './'
+import { EditGroupModal, InviteModal } from '@root/components/group'
+import { DangerWarning } from '@root/components'
 
 import { useToast } from 'native-base'
 import { Box, HStack, IconButton, Icon, Text, StatusBar, Link, Menu, Divider } from 'native-base'

@@ -9,10 +9,24 @@ module.exports = function(api) {
           "@native-base/icons": "@native-base/icons/lib"
         }
       }],
+      ["babel-plugin-root-import", {
+        "rootPathPrefix": "@root",
+        "rootPathSuffix": "src"
+      }],
       // ["expo-image-picker", {
-      //   "photoPermission": `Please allow ${APP_NAME} to access your photos`,
-      //   "cameraPermission": `Please allow ${APP_NAME} to access your camera`,
-      // }]
+        //   "photoPermission": `Please allow ${APP_NAME} to access your photos`,
+        //   "cameraPermission": `Please allow ${APP_NAME} to access your camera`,
+        // }]
     ],
+    env: {
+      production: {
+        plugins: [
+          "babel-plugin-root-import", {
+            "rootPathPrefix": "@root",
+            "rootPathSuffix": "src"
+          }
+        ]
+      }
+    }
   };
 };

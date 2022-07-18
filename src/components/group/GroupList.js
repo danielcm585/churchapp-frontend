@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
-import { GroupListSkeleton } from '../skeletons'
-import { GroupItem } from './'
-import { SearchBar } from '../'
+import { GroupListSkeleton } from '@root/components/skeletons'
+import { GroupItem } from '@root/components/group'
+import { SearchBar } from '@root/components'
 
 import { Center, HStack, ScrollView, VStack } from 'native-base'
 

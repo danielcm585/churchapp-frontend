@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 
-import { get } from '../http'
+import { get } from '@root/http'
 
-import { Appbar, ChatInput } from '../components'
-import { AppbarSkeleton } from '../components/skeletons'
+import { Appbar, ChatInput } from '@root/components'
+import { AppbarSkeleton } from '@root/components/skeletons'
 
 import { useToast } from 'native-base'
 

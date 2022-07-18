@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 
-import theme from '../../theme'
-import { post } from '../http'
-import { setData } from '../utils'
+import theme from '@root/theme'
+import { post } from '@root/http'
+import { setData } from '@root/utils'
 
-import { PasswordInput, Appbar } from '../components'
+import { PasswordInput, Appbar } from '@root/components'
 
 import { useToast } from 'native-base'
 import { Button, Center, Heading, HStack, Icon, Image, Input, Text, Link, ScrollView } from 'native-base'
@@ -55,7 +55,7 @@ export default function RegisterPage1({ navigation }) {
       <Appbar title='Register' navigation={navigation} />
       <ScrollView>
         <Center>
-          <Image width='300' height='300' alt='Register' source={require('../images/register.png')} />
+          <Image width='300' height='300' alt='Register' source={require('@root/images/register.png')} />
         </Center>
         <Heading ml='6' size='2xl' color={theme.blue[900]}>Register</Heading>
         <HStack mt='4' mx='6' space='4' alignItems='center'>

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { DevSettings } from 'react-native'
 
-import { getData, setData, removeData } from '../utils'
-import { post, get } from '../http'
+import { getData, setData, removeData } from '@root/utils'
+import { post, get } from '@root/http'
 
-import { ChangePasswordModal, ContactUsModal, EditProfileModal, GuestDetails, ProfileDetails } from '../components/profile'
-import { Appbar, Navbar, LoginButton, DangerWarning } from '../components'
+import { ChangePasswordModal, ContactUsModal, EditProfileModal, GuestDetails, ProfileDetails } from '@root/components/profile'
+import { Appbar, Navbar, LoginButton, DangerWarning } from '@root/components'
 
 import { useToast } from 'native-base'
 import { VStack, Text, Button, Divider, Icon } from 'native-base'

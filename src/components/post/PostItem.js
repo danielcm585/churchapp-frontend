@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { LongText } from '../'
+import { LongText } from '@root/components'
 
 import { Avatar, Divider, HStack, Link, Text, VStack, Image } from 'native-base'
 

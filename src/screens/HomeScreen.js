@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react'
 
-import theme from '../../theme'
-import { get } from '../http'
+import theme from '@root/theme'
+import { get } from '@root/http'
 
-import { Appbar, Tabs } from '../components'
-import { PostList, NewPostModal } from '../components/post'
-import { EventList } from '../components/event'
+import { Navbar, Appbar, Tabs } from '@root/components'
+import { PostList, NewPostModal } from '@root/components/post'
+import { EventList } from '@root/components/event'
 
 import { useToast } from 'native-base'
 import { Fab, Icon } from 'native-base'
 import { MaterialIcons } from '@native-base/icons'
-import { Navbar } from '../components'
 
 export default function HomeScreen({ navigation }) {
   const pages = [ 'Events', 'Posts' ]

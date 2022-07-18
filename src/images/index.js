@@ -1,1 +1,0 @@
-export { default as loginImage } from './login.png'

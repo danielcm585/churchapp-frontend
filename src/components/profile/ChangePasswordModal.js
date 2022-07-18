@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 
-import theme from '../../../theme'
-import { put } from '../../http'
+import theme from '@root/theme'
+import { put } from '@root/http'
 
-import { PasswordInput } from '../'
+import { PasswordInput } from '@root/components'
 
 import { useToast } from 'native-base'
 import { Button, Modal, Text } from 'native-base'

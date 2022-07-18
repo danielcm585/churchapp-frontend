@@ -1,9 +1,9 @@
 import React,{ useEffect, useState } from 'react'
 
-import { get } from '../http'
+import { get } from '@root/http'
 
-import { Appbar } from '../components'
-import { NotificationList } from '../components/notification'
+import { Appbar } from '@root/components'
+import { NotificationList } from '@root/components/notification'
 
 import { useToast } from 'native-base'
 

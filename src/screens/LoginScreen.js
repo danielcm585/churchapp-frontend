@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 
-import theme from '../../theme'
-import { post } from '../http'
-import { setData } from '../utils'
+import theme from '@root/theme'
+import { post } from '@root/http'
+import { setData } from '@root/utils'
 
-import { Appbar, PasswordInput } from '../components'
+import { Appbar, PasswordInput } from '@root/components'
 
 import { useToast } from 'native-base'
-import { Box, Button, Center, Divider, Heading, HStack, Icon, Image, Input, IconButton, ScrollView, Text, Link } from 'native-base'
+import { Box, Button, Center, Divider, Heading, HStack, Icon, Image, Input, ScrollView, Text, Link } from 'native-base'
 import { MaterialCommunityIcons, MaterialIcons } from '@native-base/icons'
 
 export default function LoginScreen({ navigation }) {
@@ -52,7 +52,7 @@ export default function LoginScreen({ navigation }) {
       <Appbar title='Login' navigation={navigation} />
       <ScrollView>
         <Center>
-          <Image width='300' height='300' alt='Login' source={require('../images/login.png')} />
+          <Image width='300' height='300' alt='Login' source={require('@root/images/login.png')} />
         </Center>
         <Heading ml='6' size='2xl' color={theme.blue[900]}>Login</Heading>
         <HStack mt='4' ml='6' mr='6' space='4' alignItems='center'>

@@ -4,9 +4,9 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { useNetInfo } from '@react-native-community/netinfo'
 
-import { getData } from './src/utils'
+import { getData } from '@root/utils'
 
-import { OfflineScreen, HomeScreen, ExploreScreen, StreamScreen, GroupsScreen, ProfileScreen, LoginScreen, RegisterScreen1, RegisterScreen2, GroupChatScreen, GroupDetailsScreen, ProfileChatScreen, ProfileDetailsScreen, NotificationScreen } from './src/screens'
+import { OfflineScreen, HomeScreen, ExploreScreen, StreamScreen, GroupsScreen, ProfileScreen, LoginScreen, RegisterScreen1, RegisterScreen2, GroupChatScreen, GroupDetailsScreen, ProfileChatScreen, ProfileDetailsScreen, NotificationScreen } from '@root/screens'
 
 import { NativeBaseProvider } from 'native-base'
 

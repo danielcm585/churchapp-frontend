@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import theme from '../../theme'
+import theme from '@root/theme'
 
 import { Text, Link, HStack, Box } from 'native-base'
 

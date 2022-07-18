@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 
-import theme from '../../theme'
-import { get } from '../http'
-import { getData } from '../utils'
+import theme from '@root/theme'
+import { get } from '@root/http'
+import { getData } from '@root/utils'
 
-import { Appbar, Tabs, LoginButton, Navbar } from '../components'
-import { GroupList, NewGroupModal } from '../components/group'
+import { Appbar, Tabs, LoginButton, Navbar } from '@root/components'
+import { GroupList, NewGroupModal } from '@root/components/group'
 
 import { useToast } from 'native-base'
 import { Fab, Icon } from 'native-base'

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import theme from '../../theme'
+import theme from '@root/theme'
 
 import { HStack, Icon, Select } from 'native-base'
 import { MaterialCommunityIcons } from '@native-base/icons'
