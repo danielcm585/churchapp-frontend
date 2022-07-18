@@ -66,7 +66,7 @@ export default function ProfileDetailsScreen({ route, navigation }) {
         <Button w='45%' rounded='md' bgColor={theme.blue[500]}>
           <Text color='white'>Follow</Text>
         </Button>
-        <Button w='45%' rounded='md' bgColor='gray.100' variant='outline' onPress={() => navigation.navigate('Profile', { id: id })}>
+        <Button w='45%' rounded='md' bgColor='gray.100' variant='outline' onPress={() => navigation.navigate('ProfileChat', { id: id })}>
           <Text>Message</Text>
         </Button>
       </HStack>

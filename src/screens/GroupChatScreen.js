@@ -7,7 +7,7 @@ import { AppbarSkeleton } from '../components/skeletons'
 
 import { useToast } from 'native-base'
 
-export default function GroupScreen({ route, navigation }) {
+export default function GroupChatScreen({ route, navigation }) {
   const { id } = route.params
 
   const [ group, setGroup ] = useState(null)
