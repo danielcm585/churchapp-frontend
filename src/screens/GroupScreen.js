@@ -37,7 +37,7 @@ export default function GroupScreen({ route, navigation }) {
   const onSend = async () => {
     try {
       setIsloading(true)
-      const resp = await post(`/post/${id}`, { // TODO: Check me!
+      const resp = await post(`/post/${id}`, {
         body: body
       }) 
       if (resp.status >= 400) throw new Error(resp.data) 

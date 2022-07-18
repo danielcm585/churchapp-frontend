@@ -6,14 +6,14 @@ import { Button, Text } from 'native-base'
 import { useEffect } from 'react'
 
 export default function PhotoUpload({ setPhoto, bgColor, pressedBgColor, mt, mx }) {
-  useEffect(async () => {
-    if (Platform.OS !== 'web') {
-      const { status } = await ImagePicker.requestMediaLibraryPermission()
-      if (status !== 'granted') {
-        alert('Permission denied!')
-      }
-    }
-  }, [])
+  // useEffect(async () => {
+  //   if (Platform.OS !== 'web') {
+  //     const { status } = await ImagePicker.requestMediaLibraryPermission()
+  //     if (status !== 'granted') {
+  //       alert('Permission denied!')
+  //     }
+  //   }
+  // }, [])
 
   const selectPhoto = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({

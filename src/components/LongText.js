@@ -9,7 +9,7 @@ export default function LongText({ text }) {
 
   return (
     <>
-      <Text fontWeight='semibold' noOfLines={!readMore && 3}>{text}</Text>
+      <Text noOfLines={!readMore && 3}>{text}</Text>
       {
         (text.length > 300) && (
           <HStack>
