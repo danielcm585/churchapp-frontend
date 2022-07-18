@@ -28,7 +28,7 @@ export default function GroupsScreen({ navigation }) {
   const toast = useToast()
   
   useEffect(async () => {
-    getToken()
+    await getToken()
 
     try {
       const resp = await get('/group/')
