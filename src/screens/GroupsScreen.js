@@ -16,7 +16,7 @@ export default function GroupsScreen({ navigation }) {
 
   const getToken = async () => {
     const myToken = await getData('refreshToken')
-    setIsLoggedIn(myToken !== null || myToken)
+    setIsLoggedIn(myToken != null || myToken)
   }
 
   const pages = [ 'My Groups', 'All Groups' ]

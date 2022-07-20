@@ -28,7 +28,7 @@ export default function PostItem({ navigation, id }) {
       })
     }
 
-    return async () => setPost(null)
+    return () => setPost(null)
 
   }, [])
 

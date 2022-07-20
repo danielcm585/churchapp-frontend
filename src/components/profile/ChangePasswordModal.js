@@ -18,8 +18,8 @@ export default function ChangePasswordModal({ profile, isOpen, setIsOpen }) {
   const [ isLoading, setIsLoading ] = useState(false)
   
   const validateInput = () => {
-    if (oldPass == null || oldPass.length == 0) throw new Error('Old password cannot be empty')
-    if (newPass == null || newPass.length == 0) throw new Error('New password cannot be empty')
+    if (oldPass == null || oldPass.length === 0) throw new Error('Old password cannot be empty')
+    if (newPass == null || newPass.length === 0) throw new Error('New password cannot be empty')
     if (newPass != confirmNew) throw new Error('Password and confirm password do not match') 
   }
   

@@ -18,10 +18,10 @@ export default function RegisterPage1({ navigation }) {
   const [ isLoading, setIsLoading ] = useState(false)
   
   const validateInput = () => {
-    if (username == null || username.length == 0) throw new Error('Username cannot be empty')
-    if (password == null || password.length == 0) throw new Error('Password cannot be empty')
-    if (confirmPass == null || confirmPass.length == 0) throw new Error('Please confirm your password')
-    if (password != confirmPass) throw new Error('Password and confirm password do not match')
+    if (username == null || username.length === 0) throw new Error('Username cannot be empty')
+    if (password == null || password.length === 0) throw new Error('Password cannot be empty')
+    if (confirmPass == null || confirmPass.length === 0) throw new Error('Please confirm your password')
+    if (password !== confirmPass) throw new Error('Password and confirm password do not match')
   }
 
   const toast = useToast()

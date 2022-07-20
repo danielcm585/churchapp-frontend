@@ -21,7 +21,7 @@ export default function EditPostModal({ post, isOpen, setIsOpen }) {
   const [ isLoading, setIsLoading ] = useState(false)
   
   const validateInput = () => {
-    if (body == null || body.length == 0) throw new Error('Post body cannot be empty')
+    if (body == null || body.length === 0) throw new Error('Post body cannot be empty')
   }
   
   const toast = useToast()

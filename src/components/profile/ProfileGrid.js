@@ -19,7 +19,7 @@ export default function ProfileGrid({ profiles, navigation }) {
           rows
             .filter((_, idx) => seeMore || idx < 2)
             .map((row, idx) => {
-              const width = row.length == 2 ? '47%' : row.length == 3 ? '72%' : '100%'
+              const width = row.length === 2 ? '47%' : row.length === 3 ? '72%' : '100%'
               return (
                 <HStack key={idx} w={width} mx='1' justifyContent='space-between'>
                   {

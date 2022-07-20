@@ -36,7 +36,7 @@ export default async (url, body) => {
   }
 
   let resp = await execute()
-  if (resp.data == 'Token expired') {
+  if (resp.data === 'Token expired') {
     refreshAuth()
     resp = await execute()
   }

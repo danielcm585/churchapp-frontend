@@ -18,8 +18,8 @@ export default function LoginScreen({ navigation }) {
   const [ isLoading, setIsLoading ] = useState(false)
   
   const validateInput = () => {
-    if (username == null || username.length == 0) throw new Error('Username cannot be empty')
-    if (password == null || password.length == 0) throw new Error('Password cannot be empty')
+    if (username == null || username.length === 0) throw new Error('Username cannot be empty')
+    if (password == null || password.length === 0) throw new Error('Password cannot be empty')
   }
   
   const toast = useToast()

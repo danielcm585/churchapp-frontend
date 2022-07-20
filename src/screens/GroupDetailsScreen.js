@@ -41,7 +41,7 @@ export default function GroupDetailsScreen({ route, navigation }) {
     if (group == null) return
     
     const me = await getData('user')
-    const check = group.leaders.filter(leader => leader._id == me._id)
+    const check = group.leaders.filter(leader => leader._id === me._id)
     setIsLeader(check.length > 0)
   }, [ group ])
   
