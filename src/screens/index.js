@@ -15,3 +15,6 @@ export { default as GroupDetailsScreen } from './GroupDetailsScreen'
 export { default as ProfileChatScreen } from './ProfileChatScreen'
 export { default as ProfileDetailsScreen } from './ProfileDetailsScreen'
 export { default as NotificationScreen } from './NotificationScreen'
+
+export { default as PrivacyPolicyScreen } from './PrivacyPolicyScreen'
+export { default as TermsConditionScreen } from './TermsConditionScreen'

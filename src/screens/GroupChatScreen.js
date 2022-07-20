@@ -76,8 +76,6 @@ export default function GroupChatScreen({ route, navigation }) {
     }
   }
 
-  console.log(group)
-
   return (
     <>
       {

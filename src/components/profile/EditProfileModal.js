@@ -62,17 +62,14 @@ export default function EditProfileModal({ isOpen, setIsOpen, profile }) {
     if (photo == null) return null
     let result = null
     const base64 = await FileSystem.readAsStringAsync(photo, { encoding: 'base64' })
-    console.log('base64:',base64.slice(0,100))
     const form = new FormData()
     form.append('image',base64)
     try {
-      console.log('POSTING IMGBB')
       const resp = await axios.create({
         headers: { },
         validateStatus: (stat) => true
       }).post(config.IMGBB_URL, form)
         .then(resp => resp.data.data)
-      console.log('resp:',resp)
       result = resp.display_url
     }
     catch(err) {
@@ -89,7 +86,6 @@ export default function EditProfileModal({ isOpen, setIsOpen, profile }) {
       setIsLoading(true)
       validateInput()
       const photoLink = await postPhoto(photo)
-      console.log('photoLink:',photoLink)
       const resp = await put('/user/', {
         name: name,
         phone: phone,

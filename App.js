@@ -6,7 +6,7 @@ import { useNetInfo } from '@react-native-community/netinfo'
 
 import { getData } from '@root/utils'
 
-import { OfflineScreen, HomeScreen, ExploreScreen, StreamScreen, GroupsScreen, ProfileScreen, LoginScreen, RegisterScreen1, RegisterScreen2, GroupChatScreen, GroupDetailsScreen, ProfileChatScreen, ProfileDetailsScreen, NotificationScreen } from '@root/screens'
+import { OfflineScreen, HomeScreen, ExploreScreen, StreamScreen, GroupsScreen, ProfileScreen, LoginScreen, RegisterScreen1, RegisterScreen2, GroupChatScreen, GroupDetailsScreen, ProfileChatScreen, ProfileDetailsScreen, NotificationScreen, PrivacyPolicyScreen, TermsConditionScreen } from '@root/screens'
 
 import { NativeBaseProvider } from 'native-base'
 
@@ -47,6 +47,9 @@ export default function App() {
                 <Stack.Screen name='ProfileChat' component={ProfileChatScreen} options={{ headerShown: false }} />
                 <Stack.Screen name='ProfileDetails' component={ProfileDetailsScreen} options={{ headerShown: false }} />
                 <Stack.Screen name='Notification' component={NotificationScreen} options={{ headerShown: false }} />
+                
+                {/* <Stack.Screen name='PrivacyPolicy' component={PrivacyPolicyScreen} options={{ headerShown: false }} />
+                <Stack.Screen name='TermsCondition' component={TermsConditionScreen} options={{ headerShown: false }} /> */}
               </>
             )
           }

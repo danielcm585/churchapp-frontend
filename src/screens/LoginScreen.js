@@ -9,6 +9,7 @@ import { Appbar, PasswordInput } from '@root/components'
 import { useToast } from 'native-base'
 import { Box, Button, Center, Divider, Heading, HStack, Icon, Image, Input, ScrollView, Text, Link } from 'native-base'
 import { MaterialCommunityIcons, MaterialIcons } from '@native-base/icons'
+import ForgetPasswordModal from '../components/ForgetPasswordModal'
 
 export default function LoginScreen({ navigation }) {
   const [ username, setUsername ] = useState()
@@ -47,6 +48,8 @@ export default function LoginScreen({ navigation }) {
     }
   }
 
+  const [ openForgetPass, setOpenForgetPass ] = useState(false)
+
   return (
     <>
       <Appbar title='Login' navigation={navigation} />
@@ -64,7 +67,7 @@ export default function LoginScreen({ navigation }) {
         <PasswordInput value={password} setValue={setPassword} placeholder='Password' icon='lock' />
         <HStack mt='3' ml='6' mr='6'>
           <Box w='67%'></Box>
-          <Link _text={{ color: theme.blue[500] }} onPress={() => console.log('Forget password')}>
+          <Link _text={{ color: theme.blue[500] }} onPress={() => setOpenForgetPass(true)}>
             <Text color={theme.blue[500]} fontWeight='bold'>
               Forget password?
             </Text>
@@ -95,6 +98,7 @@ export default function LoginScreen({ navigation }) {
           </HStack>
         </Center>
       </ScrollView>
+      <ForgetPasswordModal isOpen={openForgetPass} setIsOpen={setOpenForgetPass} />
     </>
   )
 }
