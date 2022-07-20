@@ -26,7 +26,7 @@ export default function ExploreScreen({ navigation }) {
       })
     }
 
-    return () => setAll(null)
+    return async () => setAll(null)
 
   })
 

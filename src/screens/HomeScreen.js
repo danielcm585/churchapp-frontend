@@ -26,8 +26,10 @@ export default function HomeScreen({ navigation }) {
     try {
       const resp = await get(`/post/all`)
       if (resp.status >= 400) throw new Error('Failed to load posts')
-      const allPosts = resp.data.reverse()
+      const allPosts = resp.data.posts.reverse()
+      const allEvents = resp.data.pinned.reverse()
       setPosts(allPosts)
+      setEvents(allEvents)
     }
     catch (err) {
       toast.show({
@@ -49,8 +51,8 @@ export default function HomeScreen({ navigation }) {
       <Tabs pages={pages} page={page} setPage={setPage} />
       {
         (page === 0) ?
-        <EventList events={events} /> :
-        <PostList posts={posts} navigation={navigation} />
+          <PostList posts={events} navigation={navigation} /> :
+          <PostList posts={posts} navigation={navigation} />
       }
       <NewPostModal isOpen={openNewPost} setIsOpen={setOpenNewPost} />
       <Fab mb='85' size='lg' shadow={4} bgColor={theme.blue[500]} onPress={() => setOpenNewPost(true)}

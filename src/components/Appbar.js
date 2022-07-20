@@ -81,9 +81,9 @@ export default function Appbar({ title, mainScreen, group, profile, navigation }
       <HStack bg='white' px='1' py='1' justifyContent='space-between' alignItems='center' w='100%'>
         {
           mainScreen ? (
-            <IconButton icon={<Icon size='md' as={MaterialIcons} name='menu' color='black' />} />
+            <IconButton key={0} icon={<Icon size='md' as={MaterialIcons} name='menu' color='black' />} />
           ) : (
-            <IconButton icon={<Icon size='md' as={MaterialIcons} name='arrow-back' color='black' />}
+            <IconButton key={0} icon={<Icon size='md' as={MaterialIcons} name='arrow-back' color='black' />}
               onPress={() => navigation.goBack()}
             />
           )
@@ -93,29 +93,29 @@ export default function Appbar({ title, mainScreen, group, profile, navigation }
             <>
               {
                 (group != null) && (
-                  <Link onPress={() => navigation.navigate('GroupDetails', { id: group._id })}>
+                  <Link key={1} onPress={() => navigation.navigate('GroupDetails', { id: group._id })}>
                     <Text bold color='black' fontSize='lg' maxW='300' isTruncated>{title}</Text>
                   </Link>
                 )
               }
               {
                 (profile != null) && (
-                  <Link onPress={() => navigation.navigate('ProfileDetails', { id: profile._id })}>
+                  <Link key={2} onPress={() => navigation.navigate('ProfileDetails', { id: profile._id })}>
                     <Text bold color='black' fontSize='lg' maxW='300' isTruncated>{title}</Text>
                   </Link>
                 )
               }
             </>
           ) : (
-            <Text bold color='black' fontSize='lg' maxW='300' isTruncated>{title}</Text>
+            <Text key={1} bold color='black' fontSize='lg' maxW='300' isTruncated>{title}</Text>
           )
         }
         {
           mainScreen ? (
-            <IconButton icon={<Icon as={MaterialCommunityIcons} name='bell' size='md' color='black' />}
+            <IconButton key={3} icon={<Icon as={MaterialCommunityIcons} name='bell' size='md' color='black' />}
               onPress={() => navigation.navigate('Notification')} />
           ) : (
-            <Menu closeOnSelect={false} trigger={triggerProps => <IconButton {...triggerProps} 
+            <Menu key={3} closeOnSelect={false} trigger={triggerProps => <IconButton {...triggerProps} 
               icon={<Icon as={MaterialCommunityIcons} name='dots-vertical' size='md' color='black' />} 
             />}>
               {

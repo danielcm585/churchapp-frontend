@@ -16,7 +16,7 @@ export default function GroupsScreen({ navigation }) {
 
   const getToken = async () => {
     const myToken = await getData('refreshToken')
-    if (myToken != null) setIsLoggedIn(true)
+    setIsLoggedIn(myToken != null || myToken)
   }
 
   const pages = [ 'My Groups', 'All Groups' ]
@@ -41,20 +41,6 @@ export default function GroupsScreen({ navigation }) {
         placement: 'bottom'
       })
     }
-    
-    if (isLoggedIn) {
-      try {
-        const resp = await get('/group/mine')
-        if (resp.status >= 400) throw new Error(resp.data) 
-        setMyGroups(resp.data)
-      }
-      catch (err) {
-        toast.show({
-          title: err.message,
-          placement: 'bottom'
-        })
-      }
-    }
 
     return () => {
       setAllGroups(null)
@@ -62,6 +48,21 @@ export default function GroupsScreen({ navigation }) {
     }
 
   }, [])
+
+  useEffect(async () => {
+    if (!isLoggedIn) return
+    try {
+      const resp = await get('/group/mine')
+      if (resp.status >= 400) throw new Error(resp.data) 
+      setMyGroups(resp.data)
+    }
+    catch (err) {
+      toast.show({
+        title: err.message,
+        placement: 'bottom'
+      })
+    }
+  }, [ isLoggedIn ])
 
   const [ openNewGroup, setOpenNewGroup ] = useState(false)
 

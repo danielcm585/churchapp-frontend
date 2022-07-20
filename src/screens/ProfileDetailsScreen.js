@@ -4,9 +4,9 @@ import theme from '@root/theme'
 import { get } from '@root/http'
 
 import { Appbar } from '@root/components'
-import { ProfileDetailsScreenSkeleton } from '@root/components/skeletons'
+import { AppbarSkeleton } from '@root/components/skeletons'
 
-import { useToast } from 'native-base'
+import { Skeleton, useToast } from 'native-base'
 import { Avatar, HStack, Text, VStack, Button } from 'native-base'
 
 export default function ProfileDetailsScreen({ route, navigation }) {
@@ -49,19 +49,41 @@ export default function ProfileDetailsScreen({ route, navigation }) {
     setBirthDate(profileBirthDate)
   }, [ profile ])
   
-  if (profile == null) return <ProfileDetailsScreenSkeleton navigation={navigation} />
   return (
     <>
-      <Appbar title={profile.username} profile={profile} navigation={navigation} />
-      <HStack mx='4' mt='6' alignItems='center'>
-        <Avatar size='xl' source={{ uri: profile.photo }} />
-        <VStack ml='4'>
-          <Text fontSize='lg' fontWeight='bold'>{profile.name}</Text>
-          <Text fontSize='sm'>{profile.phone}</Text>
-          <Text fontSize='sm'>{profile.address}</Text>
-          <Text fontSize='sm'>{birthDate} {birthMonth} {birthYear}</Text>
-        </VStack>
-      </HStack>
+      {
+        (profile != null) ? (
+          <>
+            <Appbar title={profile.username} profile={profile} navigation={navigation} />
+            <HStack mx='4' mt='6' alignItems='center'>
+              <Avatar size='xl' source={{ uri: profile.photo }} />
+              <VStack ml='4'>
+                <Text fontSize='lg' fontWeight='bold'>{profile.name}</Text>
+                <Text fontSize='sm'>{profile.phone}</Text>
+                <Text fontSize='sm'>{profile.address}</Text>
+                <Text fontSize='sm'>{birthDate} {birthMonth} {birthYear}</Text>
+              </VStack>
+            </HStack>
+          </>
+        ) : (
+          <>
+            <AppbarSkeleton navigation={navigation} />
+            <HStack mx='4' mt='6' alignItems='center'>
+              <Skeleton h='100' w='100' rounded='full' startColor='gray.300' />
+              <VStack ml='4'>
+                <Skeleton h='5' w='150' rounded='full' startColor='gray.400' />
+                <Skeleton mt='3' h='3' w='120' rounded='full' startColor='gray.300' />
+                <Skeleton mt='2' h='3' w='180' rounded='full' startColor='gray.300' />
+                <HStack mt='2' space='1'>
+                  <Skeleton h='3' w='41' rounded='full' startColor='gray.300' />
+                  <Skeleton h='3' w='60' rounded='full' startColor='gray.300' />
+                  <Skeleton h='3' w='50' rounded='full' startColor='gray.300' />
+                </HStack>
+              </VStack>
+            </HStack>
+          </>
+        )
+      }
       <HStack w='100%' mx='4' mt='6' space='2'>
         <Button w='45%' rounded='md' bgColor={theme.blue[500]}>
           <Text color='white'>Follow</Text>

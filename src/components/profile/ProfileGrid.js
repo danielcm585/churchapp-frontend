@@ -18,20 +18,23 @@ export default function ProfileGrid({ profiles, navigation }) {
         {
           rows
             .filter((_, idx) => seeMore || idx < 2)
-            .map((row, idx) => (
-              <HStack key={idx} ml='1' space='6'>
-                {
-                  row.map((profile, idx) => (
-                    <Link key={idx} onPress={() => navigation.navigate('ProfileDetails', { id: profile._id })}>
-                      <VStack alignItems='center'>
-                          <Avatar key={idx} size='lg' source={{ uri: profile.photo }} />
-                          <Text isTruncated maxW='46' fontSize='xs'>{profile.name}</Text>
-                      </VStack>
-                    </Link>
-                  ))
-                }
-              </HStack>
-            ))
+            .map((row, idx) => {
+              const width = row.length == 2 ? '47%' : row.length == 3 ? '72%' : '100%'
+              return (
+                <HStack key={idx} w={width} mx='1' justifyContent='space-between'>
+                  {
+                    row.map((profile, idx) => (
+                      <Link key={idx} onPress={() => navigation.navigate('ProfileDetails', { id: profile._id })}>
+                        <VStack alignItems='center'>
+                          <Avatar key={idx} h='70' w='70' source={{ uri: profile.photo }} />
+                          <Text mt='2' isTruncated maxW='70' fontSize='xs'>{profile.name}</Text>
+                        </VStack>
+                      </Link>
+                    ))
+                  }
+                </HStack>
+              )
+            })
         }
       </VStack>
       {

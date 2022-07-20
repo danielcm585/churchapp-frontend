@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { DevSettings } from 'react-native'
 
 import { getData, setData, removeData } from '@root/utils'
 import { post, get } from '@root/http'
@@ -23,6 +22,8 @@ export default function ProfileScreen({ navigation }) {
   const [ openChangePassword, setOpenChangePassword ] = useState(false)
   const [ openContactUs, setOpenContactUs ] = useState(false)
   const [ openLogout, setOpenLogout ] = useState(false)
+
+  const [ isLoading, setIsLoading ] = useState(false)
 
   const [ user, setUser ] = useState(null)
 
@@ -51,17 +52,19 @@ export default function ProfileScreen({ navigation }) {
 
   const logout = async () => {
     try {
+      setIsLoading(true)
       const refreshToken = await getData('refreshToken')
       const resp = await post('/user/logout', {
         token: refreshToken
       })
       if (resp.status >= 400) throw new Error(resp.data)
+      setIsLoading(false)
       await removeData('token')
       await removeData('refreshToken')
       await removeData('user')
-      DevSettings.reload()
     }
     catch (err) {
+      setIsLoading(false)
       toast.show({
         title: err.message,
         placement: 'bottom'
@@ -124,7 +127,7 @@ export default function ProfileScreen({ navigation }) {
             }
             <ContactUsModal isOpen={openContactUs} setIsOpen={setOpenContactUs} />
             <DangerWarning title='Logout' action='Logout' onContinue={logout} 
-              isOpen={openLogout} setIsOpen={setOpenLogout} />
+              isLoading={isLoading} isOpen={openLogout} setIsOpen={setOpenLogout} />
           </>
         ) : (
           <>
