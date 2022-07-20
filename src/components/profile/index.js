@@ -1,8 +1,6 @@
 export { default as ProfileGrid } from './ProfileGrid'
 export { default as ProfileList } from './ProfileList'
 export { default as ProfileItem } from './ProfileItem'
-export { default as ContactUsModal } from './ContactUsModal'
 export { default as EditProfileModal } from './EditProfileModal'
-export { default as ChangePasswordModal } from './ChangePasswordModal'
 export { default as ProfileDetails } from './ProfileDetails'
 export { default as GuestDetails } from './GuestDetails'

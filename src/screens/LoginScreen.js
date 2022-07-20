@@ -5,11 +5,11 @@ import { post } from '@root/http'
 import { setData } from '@root/utils'
 
 import { Appbar, PasswordInput } from '@root/components'
+import { ForgetPasswordModal } from '@root/components/user'
 
 import { useToast } from 'native-base'
 import { Box, Button, Center, Divider, Heading, HStack, Icon, Image, Input, ScrollView, Text, Link } from 'native-base'
 import { MaterialCommunityIcons, MaterialIcons } from '@native-base/icons'
-import ForgetPasswordModal from '../components/ForgetPasswordModal'
 
 export default function LoginScreen({ navigation }) {
   const [ username, setUsername ] = useState()
