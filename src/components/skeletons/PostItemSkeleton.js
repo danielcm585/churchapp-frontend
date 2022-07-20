@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Divider, HStack, Skeleton, VStack } from 'native-base'
 
-export default function PostSkeleton() {
+export default function PostItemSkeleton() {
   return (
     <>
       <VStack mx='4'>

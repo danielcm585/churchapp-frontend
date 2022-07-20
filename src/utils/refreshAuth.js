@@ -1,5 +1,5 @@
-import { post } from "../http/"
-import { setData, getData } from "./"
+import { post } from '@root/http'
+import { setData, getData } from '@root/utils'
 
 export default async () => {
   const refreshToken = await getData('refreshToken')

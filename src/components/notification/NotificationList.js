@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { NotificationItem } from './'
-import { NotificationListSkeleton } from '../skeletons'
+import { NotificationItem } from '@root/components/notification'
+import { NotificationListSkeleton } from '@root/components/skeletons'
 
 export default function NotificationList({ notifications }) {
   if (notifications == null) return <NotificationListSkeleton />

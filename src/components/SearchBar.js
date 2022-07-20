@@ -1,6 +1,6 @@
 import React from 'react'
 
-import theme from '../../theme'
+import theme from '@root/theme'
 
 import { Icon, Input, Pressable } from 'native-base'
 import { MaterialIcons, MaterialCommunityIcons } from '@native-base/icons'

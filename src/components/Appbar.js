@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 
-import theme from '../../theme'
-import { post, del } from '../http'
+import theme from '@root/theme'
+import { post, del } from '@root/http'
 
-import { EditGroupModal, InviteModal } from './group'
-import { DangerWarning } from './'
+import { EditGroupModal, InviteModal } from '@root/components/group'
+import { DangerWarning } from '@root/components'
 
 import { useToast } from 'native-base'
 import { Box, HStack, IconButton, Icon, Text, StatusBar, Link, Menu, Divider } from 'native-base'
@@ -81,9 +81,9 @@ export default function Appbar({ title, mainScreen, group, profile, navigation }
       <HStack bg='white' px='1' py='1' justifyContent='space-between' alignItems='center' w='100%'>
         {
           mainScreen ? (
-            <IconButton icon={<Icon size='md' as={MaterialIcons} name='menu' color='black' />} />
+            <IconButton key={0} icon={<Icon size='md' as={MaterialIcons} name='menu' color='black' />} />
           ) : (
-            <IconButton icon={<Icon size='md' as={MaterialIcons} name='arrow-back' color='black' />}
+            <IconButton key={0} icon={<Icon size='md' as={MaterialIcons} name='arrow-back' color='black' />}
               onPress={() => navigation.goBack()}
             />
           )
@@ -93,52 +93,70 @@ export default function Appbar({ title, mainScreen, group, profile, navigation }
             <>
               {
                 (group != null) && (
-                  <Link onPress={() => navigation.navigate('GroupDetails', { id: group._id })}>
+                  <Link key={1} onPress={() => navigation.navigate('GroupDetails', { id: group._id })}>
                     <Text bold color='black' fontSize='lg' maxW='300' isTruncated>{title}</Text>
                   </Link>
                 )
               }
               {
                 (profile != null) && (
-                  <Link onPress={() => navigation.navigate('ProfileDetails', { id: profile._id })}>
+                  <Link key={2} onPress={() => navigation.navigate('ProfileDetails', { id: profile._id })}>
                     <Text bold color='black' fontSize='lg' maxW='300' isTruncated>{title}</Text>
                   </Link>
                 )
               }
             </>
           ) : (
-            <Text bold color='black' fontSize='lg' maxW='300' isTruncated>{title}</Text>
+            <Text key={1} bold color='black' fontSize='lg' maxW='300' isTruncated>{title}</Text>
           )
         }
         {
           mainScreen ? (
-            <IconButton icon={<Icon as={MaterialCommunityIcons} name='bell' size='md' color='black' />}
+            <IconButton key={3} icon={<Icon as={MaterialCommunityIcons} name='bell' size='md' color='black' />}
               onPress={() => navigation.navigate('Notification')} />
           ) : (
-            <Menu closeOnSelect={false} trigger={triggerProps => <IconButton {...triggerProps} 
+            <Menu key={3} closeOnSelect={false} trigger={triggerProps => <IconButton {...triggerProps} 
               icon={<Icon as={MaterialCommunityIcons} name='dots-vertical' size='md' color='black' />} 
             />}>
               {
                 (group != null) ? (
                   <>
                     <Menu.Item key={0} onPress={() => setOpenInvite(true)}>
-                      <Text>Invite Member</Text>
+                      <HStack space='1' alignItems='center'>
+                        <Icon color='black' as={MaterialIcons} name='fiber-new' />
+                        <Text>Invite Member</Text>
+                      </HStack>
                     </Menu.Item>
                     <Menu.Item key={1} onPress={() => setOpenEditGroup(true)}>
-                      <Text>Edit Group</Text>
+                      <HStack space='1' alignItems='center'>
+                        <Icon color='black' as={MaterialIcons} name='edit' />
+                        <Text>Edit Group</Text>
+                      </HStack>
                     </Menu.Item>
                     <Menu.Item key={2}>
-                      <Text>Mute Notification</Text>
+                      <HStack space='1' alignItems='center'>
+                        <Icon color='black' as={MaterialCommunityIcons} name='volume-mute' />
+                        <Text>Mute Notification</Text>
+                      </HStack>
                     </Menu.Item>
                     <Divider my='2' />
                     <Menu.Item key={3} onPress={reportGroup}>
-                      <Text color='red.500'>Report Group</Text>
+                      <HStack space='1' alignItems='center'>
+                        <Icon color='red.500' as={MaterialIcons} name='report-problem' />
+                        <Text color='red.500'>Report Group</Text>
+                      </HStack>
                     </Menu.Item>
                     <Menu.Item key={4} onPress={leaveGroup}>
-                      <Text color='red.500'>Leave Group</Text>
+                      <HStack space='1' alignItems='center'>
+                        <Icon color='red.500' as={MaterialIcons} name='exit-to-app' />
+                        <Text color='red.500'>Leave Group</Text>
+                      </HStack>
                     </Menu.Item>
                     <Menu.Item key={5} onPress={deleteGroup}>
-                      <Text color='red.500'>Delete Group</Text>
+                      <HStack space='1' alignItems='center'>
+                        <Icon color='red.500' as={MaterialIcons} name='delete' />
+                        <Text color='red.500'>Delete Group</Text>
+                      </HStack>
                     </Menu.Item>
                   </>
                 ) : (
@@ -146,7 +164,10 @@ export default function Appbar({ title, mainScreen, group, profile, navigation }
                     {
                       (profile != null) ? (
                         <Menu.Item key={0} onPress={reportUser}>
-                          <Text color='red.500'>Report User</Text>
+                          <HStack space='1' alignItems='center'>
+                            <Icon color='red.500' as={MaterialIcons} name='report-problem' />
+                            <Text color='red.500'>Report User</Text>
+                          </HStack>
                         </Menu.Item>
                       ) : (
                         <>

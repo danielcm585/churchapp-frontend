@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { SearchBar } from '../'
+import { SearchBar } from '@root/components'
 
 import { Center, ScrollView, Skeleton, VStack, HStack } from 'native-base'
 

@@ -1,7 +1,8 @@
 import React from 'react'
 
+import { SearchBar } from '@root/components'
+
 import { Skeleton, ScrollView, VStack, HStack, Divider } from 'native-base'
-import { SearchBar } from '../'
 
 export default function ProfileListSkeleton() {
   return (

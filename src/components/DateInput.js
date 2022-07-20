@@ -1,6 +1,6 @@
 import React from 'react'
 
-import theme from '../../theme'
+import theme from '@root/theme'
 
 import { HStack, Icon, Select } from 'native-base'
 import { MaterialCommunityIcons } from '@native-base/icons'
@@ -14,7 +14,7 @@ export default function DateInput({ date, setDate, month, setMonth, year, setYea
     <>
       <HStack mt={mt} mx={mx} space='4' alignItems='center'>
         <Icon size='md' color={theme.blue[900]} as={MaterialCommunityIcons} name='calendar'></Icon>
-        <HStack space='2' alignItems='center'>
+        <HStack justifyContent='space-between' alignItems='center'>
           <Select minWidth='25%' selectedValue={date} placeholder='Date' onValueChange={val => {
               setDate(val)
               setFinalDate(prev => {
@@ -29,7 +29,7 @@ export default function DateInput({ date, setDate, month, setMonth, year, setYea
           <Select minWidth='35%' selectedValue={month} placeholder='Month' onValueChange={val => {
               setMonth(val)
               setFinalDate(prev => {
-                prev.setMonth(months.findIndex(month => (month == val)))
+                prev.setMonth(months.findIndex(month => (month === val)))
                 return prev
               })
             }}>

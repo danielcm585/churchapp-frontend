@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-import config from '../../config'
-import { getData, refreshAuth } from '../utils'
+import config from '@root/config'
+import { getData, refreshAuth } from '@root/utils'
 
 export default async (url, body) => {
   const execute = async () => {
@@ -36,7 +36,7 @@ export default async (url, body) => {
   }
 
   let resp = await execute()
-  if (resp.data == 'Token expired') {
+  if (resp.data === 'Token expired') {
     refreshAuth()
     resp = await execute()
   }

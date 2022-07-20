@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { PostSkeleton } from '../post'
+import { PostItemSkeleton } from '@root/components/skeletons'
 
 import { ScrollView } from 'native-base'
 
@@ -9,7 +9,7 @@ export default function PostListSkeleton() {
     <>
       <ScrollView>
         {
-          [...Array(10).keys()].map((_, idx) => <PostSkeleton key={idx} />)
+          [...Array(10).keys()].map((_, idx) => <PostItemSkeleton key={idx} />)
         }
       </ScrollView>
     </>

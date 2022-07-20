@@ -2,12 +2,11 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import * as FileSystem from 'expo-file-system'
 
-import theme from '../../../theme'
-import config from '../../../config'
-import { put } from '../../http'
+import theme from '@root/theme'
+import config from '@root/config'
+import { put } from '@root/http'
 
-import { PhotoUpload } from '../'
-import { DateInput } from '../'
+import { DateInput, PhotoUpload } from '@root/components'
 
 import { useToast } from 'native-base'
 import { Button, Modal, Text, HStack, Icon, Input, Center, Avatar, Select } from 'native-base'
@@ -50,11 +49,11 @@ export default function EditProfileModal({ isOpen, setIsOpen, profile }) {
   const [ isLoading, setIsLoading ] = useState(false)
   
   const validateInput = () => {
-    if (name == null || name.length == 0) throw new Error('Name cannot be empty')
-    if (phone == null || phone.length == 0) throw new Error('Phone cannot be empty')
-    if (email == null || email.length == 0) throw new Error('Email cannot be empty')
-    if (address == null || address.length == 0) throw new Error('Address cannot be empty')
-    if (gender == null || gender.length == 0) throw new Error('Gender cannot be empty')
+    if (name == null || name.length === 0) throw new Error('Name cannot be empty')
+    if (phone == null || phone.length === 0) throw new Error('Phone cannot be empty')
+    if (email == null || email.length === 0) throw new Error('Email cannot be empty')
+    if (address == null || address.length === 0) throw new Error('Address cannot be empty')
+    if (gender == null || gender.length === 0) throw new Error('Gender cannot be empty')
   }
   
   const toast = useToast()
@@ -63,17 +62,14 @@ export default function EditProfileModal({ isOpen, setIsOpen, profile }) {
     if (photo == null) return null
     let result = null
     const base64 = await FileSystem.readAsStringAsync(photo, { encoding: 'base64' })
-    console.log('base64:',base64.slice(0,100))
     const form = new FormData()
     form.append('image',base64)
     try {
-      console.log('POSTING IMGBB')
       const resp = await axios.create({
         headers: { },
         validateStatus: (stat) => true
       }).post(config.IMGBB_URL, form)
         .then(resp => resp.data.data)
-      console.log('resp:',resp)
       result = resp.display_url
     }
     catch(err) {
@@ -90,7 +86,6 @@ export default function EditProfileModal({ isOpen, setIsOpen, profile }) {
       setIsLoading(true)
       validateInput()
       const photoLink = await postPhoto(photo)
-      console.log('photoLink:',photoLink)
       const resp = await put('/user/', {
         name: name,
         phone: phone,

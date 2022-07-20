@@ -9,14 +9,21 @@ import { put } from '@root/http'
 import { PhotoUpload } from '@root/components'
 
 import { useToast } from 'native-base'
-import { Button, Modal, Text, HStack, Icon, Input, Center, Avatar } from 'native-base'
+import { Button, Modal, Text, HStack, Icon, Input, Center, Image } from 'native-base'
 import { MaterialIcons } from '@native-base/icons'
 
-export default function EditGroupModal({ group, isOpen, setIsOpen }) {
-  const [ name, setName ] = useState(group.name)
-  const [ description, setDescription ] = useState(group.description)
-  const [ photo, setPhoto ] = useState(group.photo)
+export default function EditPostModal({ post, isOpen, setIsOpen }) {
+  const onClose = () => setIsOpen(false)
 
+  const [ body, setBody ] = useState(post.body)
+  const [ photo, setPhoto ] = useState(post.photo)
+
+  const [ isLoading, setIsLoading ] = useState(false)
+  
+  const validateInput = () => {
+    if (body == null || body.length === 0) throw new Error('Post body cannot be empty')
+  }
+  
   const toast = useToast()
 
   const postPhoto = async (photo) => {
@@ -42,50 +49,54 @@ export default function EditGroupModal({ group, isOpen, setIsOpen }) {
     return result
   }
 
-  const editGroup = async () => {
+  const editPost = async () => {
     try {
       setIsLoading(true)
+      validateInput()
       const photoLink = await postPhoto(photo)
-      const resp = put(`/group/${group._id}`, {
-        name: name,
-        description: description,
+      const resp = await put(`/post/${post._id}`, {
+        body: body,
         photo: photoLink
       })
       if (resp.status >= 400) throw new Error(resp.data)
       setIsLoading(false)
+      onClose()
+      toast.show({
+        title: 'Post edited',
+        placement: 'bottom'
+      })
     }
     catch (err) {
       setIsLoading(false)
+      onClose()
       toast.show({
         title: err.message,
-        placement: 'bottom',
+        placement: 'bottom'
       })
     }
   }
-  
+
   return (
     <>
-      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+      <Modal isOpen={isOpen} onClose={onClose}>
         <Modal.Content minW='95%'>
           <Modal.CloseButton />
-          <Modal.Header>Edit Group</Modal.Header>
+          <Modal.Header>Edit Post</Modal.Header>
           <Modal.Body p='4'>
-            <Center>
-              <Avatar size='xl' source={{ uri: group.photo }}>-</Avatar>
-            </Center>
-            <HStack mt='4' space='4' alignItems='center'>
-              <Icon size='md' color={theme.blue[900]} as={MaterialIcons} name='person'></Icon>
-              <Input w='89%' variant='underlined' placeholder='Group Name' value={name}
-                _focus={{ borderColor: theme.blue[900] }} onChangeText={(val) => setName(val)}
-              />
-            </HStack>
-            <HStack mt='4' space='4' alignItems='center'>
+            {
+              (photo && photo.length > 0) && (
+                <Center mb='4'>
+                  <Image width='250' height='250' alt='Group Photo' source={{ uri: photo }} />
+                </Center>
+              )
+            }
+            <HStack space='4' alignItems='center'>
               <Icon size='md' color={theme.blue[900]} as={MaterialIcons} name='description'></Icon>
-              <Input w='89%' variant='underlined' placeholder='Group Description' value={description}
-                _focus={{ borderColor: theme.blue[900] }} onChangeText={(val) => setDescription(val)}
+              <Input w='89%' variant='underlined' placeholder='Post Body' value={body}
+                _focus={{ borderColor: theme.blue[900] }} onChangeText={(val) => setBody(val)}
               />
             </HStack>
-            <PhotoUpload mt='4' pressedBgColor='gray.100' setPhoto={setPhoto} />
+            <PhotoUpload mt='4' pressedBgColor='gray.100' setLink={setPhoto} />
           </Modal.Body>
           <Modal.Footer>
             <Button.Group space='2'>
@@ -93,9 +104,9 @@ export default function EditGroupModal({ group, isOpen, setIsOpen }) {
                 _pressed={{ bgColor: 'gray.200' }}>
                 <Text color='black'>Cancel</Text>
               </Button>
-              <Button size='sm' rounded='md' bgColor={theme.blue[500]} onPress={editGroup}
-                _pressed={{ bgColor: theme.blue[600] }}>
-                <Text color='white'>Save</Text>
+              <Button size='sm' rounded='md' bgColor={theme.blue[500]} onPress={editPost}
+                isLoading={isLoading} _pressed={{ bgColor: theme.blue[600] }}>
+                <Text color='white'>Create</Text>
               </Button>
             </Button.Group>
           </Modal.Footer>

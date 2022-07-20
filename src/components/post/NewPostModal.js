@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import * as FileSystem from 'expo-file-system'
 
-import theme from '../../../theme'
-import config from '../../../config'
-import { post } from '../../http'
+import theme from '@root/theme'
+import config from '@root/config'
+import { post } from '@root/http'
 
-import { PhotoUpload } from '../'
+import { PhotoUpload } from '@root/components'
 
 import { useToast } from 'native-base'
 import { Button, Modal, Text, HStack, Icon, Input, Center, Image } from 'native-base'
@@ -21,7 +21,7 @@ export default function NewPostModal({ isOpen, setIsOpen }) {
   const [ isLoading, setIsLoading ] = useState(false)
   
   const validateInput = () => {
-    if (body == null || body.length == 0) throw new Error('Post body cannot be empty')
+    if (body == null || body.length === 0) throw new Error('Post body cannot be empty')
   }
   
   const toast = useToast()

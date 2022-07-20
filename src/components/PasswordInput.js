@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 
-import theme from '../../theme'
+import theme from '@root/theme'
 
 import { HStack, Icon, Input, IconButton } from 'native-base'
-import { MaterialIcons, MaterialCommunityIcons } from '@native-base/icons'
+import { MaterialCommunityIcons } from '@native-base/icons'
 
 export default function PasswordInput({ value, setValue, placeholder, icon, mt, mx }) {
   const [ show, setShow ] = useState(false)

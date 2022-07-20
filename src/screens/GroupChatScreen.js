@@ -1,16 +1,22 @@
 import React, { useEffect, useState } from 'react'
 
-import { get } from '../http'
+import { get, post } from '@root/http'
 
-import { Appbar, ChatInput } from '../components'
-import { AppbarSkeleton } from '../components/skeletons'
+import { Appbar, ChatInput, Tabs } from '@root/components'
+import { PostList } from '@root/components/post'
+import { AppbarSkeleton } from '@root/components/skeletons'
 
 import { useToast } from 'native-base'
 
-export default function GroupScreen({ route, navigation }) {
+export default function GroupChatScreen({ route, navigation }) {
   const { id } = route.params
 
+  const pages = [ 'Chats', 'Pinned' ]
+  const [ page, setPage ] = useState(0)
+
   const [ group, setGroup ] = useState(null)
+  const [ chats, setChats ] = useState(null)
+  const [ pinned, setPinned ] = useState(null)
   
   const toast = useToast()
 
@@ -27,7 +33,24 @@ export default function GroupScreen({ route, navigation }) {
       })
     }
 
-    return () => setGroup(null)
+    try {
+      const resp = await get(`/post/all/${id}`)
+      if (resp.status >= 400) throw new Error(resp.data)
+      setChats(resp.data.posts)
+      setPinned(resp.data.pinned)
+    }
+    catch (err) {
+      toast.show({
+        title: err.message,
+        placement: 'bottom'
+      })
+    }
+
+    return () => {
+      setGroup(null)
+      setChats(null)
+      setPinned(null)
+    }
 
   }, [])
 
@@ -59,6 +82,12 @@ export default function GroupScreen({ route, navigation }) {
         (group != null) ? 
           <Appbar title={group.name} group={group} navigation={navigation} /> :
           <AppbarSkeleton navigation={navigation} />
+      }
+      <Tabs pages={pages} page={page} setPage={setPage} />
+      {
+        (page === 0) ? 
+          <PostList posts={chats} reverse={true} /> : 
+          <PostList posts={pinned} reverse={true} />
       }
       <ChatInput body={body} setBody={setBody} onSend={onSend} isLoading={isLoading} />
     </>

@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 
-import theme from '../../../theme'
-import { put } from '../../http'
+import theme from '@root/theme'
+import { put } from '@root/http'
 
-import { PasswordInput } from '../'
+import { PasswordInput } from '@root/components'
 
 import { useToast } from 'native-base'
 import { Button, Modal, Text } from 'native-base'
@@ -18,8 +18,8 @@ export default function ChangePasswordModal({ profile, isOpen, setIsOpen }) {
   const [ isLoading, setIsLoading ] = useState(false)
   
   const validateInput = () => {
-    if (oldPass == null || oldPass.length == 0) throw new Error('Old password cannot be empty')
-    if (newPass == null || newPass.length == 0) throw new Error('New password cannot be empty')
+    if (oldPass == null || oldPass.length === 0) throw new Error('Old password cannot be empty')
+    if (newPass == null || newPass.length === 0) throw new Error('New password cannot be empty')
     if (newPass != confirmNew) throw new Error('Password and confirm password do not match') 
   }
   

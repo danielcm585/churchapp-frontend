@@ -1,9 +1,8 @@
 import React from 'react'
-import { Platform } from 'react-native'
+// import { Platform } from 'react-native'
 import * as ImagePicker from 'expo-image-picker'
 
 import { Button, Text } from 'native-base'
-import { useEffect } from 'react'
 
 export default function PhotoUpload({ setPhoto, bgColor, pressedBgColor, mt, mx }) {
   // useEffect(async () => {

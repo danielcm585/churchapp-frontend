@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 
-import { GroupListSkeleton } from '../skeletons'
-import { GroupItem } from './'
-import { SearchBar } from '../'
+import config from '@root/config'
+
+import { GroupListSkeleton } from '@root/components/skeletons'
+import { GroupItem } from '@root/components/group'
+import { SearchBar } from '@root/components'
 
 import { Center, HStack, ScrollView, VStack } from 'native-base'
 
@@ -22,7 +24,7 @@ export default function GroupList({ navigation, groups, mine }) {
   const [ right, setRight ] = useState(null)
 
   useEffect(() => {
-    const filteredGroups = groups.filter(group => group.name.toLowerCase().includes(keyword.toLowerCase()))
+    const filteredGroups = groups.filter(group => group.name.toLowerCase().includes(keyword.toLowerCase()) && group._id != config.MAIN_GROUP_ID)
     const splitted = split(filteredGroups)
     setLeft(splitted.left)
     setRight(splitted.right)
@@ -47,13 +49,15 @@ export default function GroupList({ navigation, groups, mine }) {
             <VStack w='45%' space='2'>
               {
                 left.map((group, idx) => 
-                  <GroupItem key={idx} group={group} mine={mine} navigation={navigation} />)
+                  <GroupItem key={idx} group={group} mine={mine} navigation={navigation} />
+                )
               }
             </VStack>
             <VStack w='45%' space='2'>
               {
                 right.map((group, idx) => 
-                  <GroupItem key={idx} group={group} mine={mine} navigation={navigation} />)
+                  <GroupItem key={idx} group={group} mine={mine} navigation={navigation} />
+                )
               }
             </VStack>
           </HStack>
