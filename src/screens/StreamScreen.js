@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 
 import { Appbar, Navbar, LoginButton } from '@root/components'
 
+import { Text } from 'native-base'
+
 export default function Stream({ navigation }) {
   const [ isLoggedIn, setIsLoggedIn ] = useState(false)
 
@@ -20,6 +22,9 @@ export default function Stream({ navigation }) {
       {
         !isLoggedIn && <LoginButton navigation={navigation} />
       }
+      <Text>
+        This feature will be added later
+      </Text>
       <Navbar page={2} navigation={navigation} />
     </>
   )

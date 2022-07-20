@@ -164,7 +164,10 @@ export default function Appbar({ title, mainScreen, group, profile, navigation }
                     {
                       (profile != null) ? (
                         <Menu.Item key={0} onPress={reportUser}>
-                          <Text color='red.500'>Report User</Text>
+                          <HStack space='1' alignItems='center'>
+                            <Icon color='red.500' as={MaterialIcons} name='report-problem' />
+                            <Text color='red.500'>Report User</Text>
+                          </HStack>
                         </Menu.Item>
                       ) : (
                         <>
