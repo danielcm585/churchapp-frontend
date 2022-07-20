@@ -122,23 +122,41 @@ export default function Appbar({ title, mainScreen, group, profile, navigation }
                 (group != null) ? (
                   <>
                     <Menu.Item key={0} onPress={() => setOpenInvite(true)}>
-                      <Text>Invite Member</Text>
+                      <HStack space='1' alignItems='center'>
+                        <Icon color='black' as={MaterialIcons} name='fiber-new' />
+                        <Text>Invite Member</Text>
+                      </HStack>
                     </Menu.Item>
                     <Menu.Item key={1} onPress={() => setOpenEditGroup(true)}>
-                      <Text>Edit Group</Text>
+                      <HStack space='1' alignItems='center'>
+                        <Icon color='black' as={MaterialIcons} name='edit' />
+                        <Text>Edit Group</Text>
+                      </HStack>
                     </Menu.Item>
                     <Menu.Item key={2}>
-                      <Text>Mute Notification</Text>
+                      <HStack space='1' alignItems='center'>
+                        <Icon color='black' as={MaterialCommunityIcons} name='volume-mute' />
+                        <Text>Mute Notification</Text>
+                      </HStack>
                     </Menu.Item>
                     <Divider my='2' />
                     <Menu.Item key={3} onPress={reportGroup}>
-                      <Text color='red.500'>Report Group</Text>
+                      <HStack space='1' alignItems='center'>
+                        <Icon color='red.500' as={MaterialIcons} name='report-problem' />
+                        <Text color='red.500'>Report Group</Text>
+                      </HStack>
                     </Menu.Item>
                     <Menu.Item key={4} onPress={leaveGroup}>
-                      <Text color='red.500'>Leave Group</Text>
+                      <HStack space='1' alignItems='center'>
+                        <Icon color='red.500' as={MaterialIcons} name='exit-to-app' />
+                        <Text color='red.500'>Leave Group</Text>
+                      </HStack>
                     </Menu.Item>
                     <Menu.Item key={5} onPress={deleteGroup}>
-                      <Text color='red.500'>Delete Group</Text>
+                      <HStack space='1' alignItems='center'>
+                        <Icon color='red.500' as={MaterialIcons} name='delete' />
+                        <Text color='red.500'>Delete Group</Text>
+                      </HStack>
                     </Menu.Item>
                   </>
                 ) : (

@@ -25,9 +25,6 @@ export default function GroupChatScreen({ route, navigation }) {
       const resp = await get(`/group/${id}`)
       if (resp.status >= 400) throw new Error(resp.data)
       setGroup(resp.data)
-      // setChats(resp.data.chats.reverse())
-      // setPinned(resp.data.pinned.reverse())
-      setChats(resp.data.posts.reverse())
     }
     catch (err) {
       toast.show({
@@ -36,7 +33,20 @@ export default function GroupChatScreen({ route, navigation }) {
       })
     }
 
-    return async () => {
+    try {
+      const resp = await get(`/post/all/${id}`)
+      if (resp.status >= 400) throw new Error(resp.data)
+      setChats(resp.data.posts)
+      setPinned(resp.data.pinned)
+    }
+    catch (err) {
+      toast.show({
+        title: err.message,
+        placement: 'bottom'
+      })
+    }
+
+    return () => {
       setGroup(null)
       setChats(null)
       setPinned(null)
@@ -66,6 +76,8 @@ export default function GroupChatScreen({ route, navigation }) {
     }
   }
 
+  console.log(group)
+
   return (
     <>
       {
@@ -76,8 +88,8 @@ export default function GroupChatScreen({ route, navigation }) {
       <Tabs pages={pages} page={page} setPage={setPage} />
       {
         (page === 0) ? 
-          <PostList posts={chats} /> : 
-          <PostList posts={pinned} />
+          <PostList posts={chats} reverse={true} /> : 
+          <PostList posts={pinned} reverse={true} />
       }
       <ChatInput body={body} setBody={setBody} onSend={onSend} isLoading={isLoading} />
     </>

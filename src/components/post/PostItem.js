@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-import { get } from '@root/http'
+import { get, put } from '@root/http'
 
 import { LongText } from '@root/components'
 import { PostItemSkeleton } from '@root/components/skeletons'
@@ -8,6 +8,7 @@ import { PostItemSkeleton } from '@root/components/skeletons'
 import { useToast } from 'native-base'
 import { Menu, Avatar, Divider, HStack, Link, Text, VStack, Image, Icon, Pressable } from 'native-base'
 import { MaterialCommunityIcons, MaterialIcons } from '@native-base/icons'
+import EditPostModal from './EditPostModal'
 
 export default function PostItem({ navigation, id }) {
   const [ post, setPost ] = useState(null)
@@ -31,6 +32,27 @@ export default function PostItem({ navigation, id }) {
 
   }, [])
 
+  const pinPost = async () => {
+    try {
+      const resp = await put(`/post/${id}`, {
+        pinned: true
+      })
+      if (resp.status >= 400) throw new Error(resp.data)
+      toast.show({
+        title: 'Post pinned',
+        placement: 'bottom'
+      })
+    }
+    catch (err) {
+      toast.show({
+        title: err.message,
+        placement: 'bottom'
+      })
+    }
+  }
+
+  const [ openEdit, setOpenEdit ] = useState(false)
+
   if (post == null) return <PostItemSkeleton />
   return (
     <>
@@ -49,13 +71,13 @@ export default function PostItem({ navigation, id }) {
                   <Icon color='black' as={MaterialCommunityIcons} name='dots-vertical' />
                 </Pressable>
               }>
-                <Menu.Item key={0}>
+                <Menu.Item key={0} onPress={pinPost}>
                   <HStack alignItems='center' space={1}>
                     <Icon color='black' as={MaterialIcons} name='push-pin' />
                     <Text>Pin Post</Text>
                   </HStack>
                 </Menu.Item>
-                <Menu.Item key={1}>
+                <Menu.Item key={1} onPress={() => setOpenEdit(true)}>
                   <HStack alignItems='center' space={1}>
                     <Icon color='black' as={MaterialIcons} name='edit' />
                     <Text>Edit Post</Text>
@@ -91,7 +113,7 @@ export default function PostItem({ navigation, id }) {
         </HStack>
         <Divider />
       </VStack>
-      
+      <EditPostModal post={post} isOpen={openEdit} setIsOpen={setOpenEdit} />
     </>
   )
 }
