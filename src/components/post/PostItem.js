@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react'
 
 import { get, put } from '@root/http'
 
-import { LongText } from '@root/components'
+import { LongText, TimeStamp } from '@root/components'
 import { PostItemSkeleton } from '@root/components/skeletons'
+import { EditPostModal } from '@root/components/post'
 
 import { useToast } from 'native-base'
-import { Menu, Avatar, Divider, HStack, Link, Text, VStack, Image, Icon, Pressable } from 'native-base'
+import { Flex, Menu, Avatar, Divider, HStack, Link, Text, VStack, Image, Icon, Pressable } from 'native-base'
 import { MaterialCommunityIcons, MaterialIcons } from '@native-base/icons'
-import EditPostModal from './EditPostModal'
 
 export default function PostItem({ navigation, id }) {
   const [ post, setPost ] = useState(null)
@@ -63,9 +63,13 @@ export default function PostItem({ navigation, id }) {
           </Link>
           <VStack ml='4' w='84%'>
             <HStack alignItems='center' justifyContent='space-between'>
-              <Link onPress={() => navigation.navigate('ProfileDetails', { id: post.creator._id })}>
-                <Text fontWeight='bold'>{post.creator.name}</Text>
-              </Link>
+              <HStack space='2' alignItems='center'>
+                <Link onPress={() => navigation.navigate('ProfileDetails', { id: post.creator._id })}>
+                  <Text fontWeight='bold'>{post.creator.name}</Text>
+                </Link>
+                <Flex h='1' w='1' bgColor='gray.400' rounded='full'></Flex>
+                <TimeStamp timeDate={post.createdAt} />
+              </HStack>
               <Menu closeOnSelect={false} trigger={triggerProps => 
                 <Pressable {...triggerProps}>
                   <Icon color='black' as={MaterialCommunityIcons} name='dots-vertical' />
