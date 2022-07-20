@@ -15,8 +15,17 @@ export default function ProfileDetailsScreen({ route, navigation }) {
   const [ profile, setProfile ] = useState(null)
   
   const toast = useToast()
+
+  const [ isLoggedIn, setIsLoggedIn ] = useState(false)
+
+  const getToken = async () => {
+    const myToken = await getData('refreshToken')
+    setIsLoggedIn(myToken != null || myToken)
+  }
   
   useEffect(async () => {
+    await getToken()
+
     try {
       const resp = await get(`/user/${id}`)
       if (resp.status >= 400) throw new Error(resp.data)
@@ -32,7 +41,6 @@ export default function ProfileDetailsScreen({ route, navigation }) {
     return () => setProfile(null)
 
   }, [])
-
   
   const [ birthYear, setBirthYear ] = useState()
   const [ birthMonth, setBirthMonth ] = useState()
@@ -84,14 +92,20 @@ export default function ProfileDetailsScreen({ route, navigation }) {
           </>
         )
       }
-      <HStack w='100%' mx='4' mt='6' space='2'>
-        <Button w='45%' rounded='md' bgColor={theme.blue[500]}>
-          <Text color='white'>Follow</Text>
-        </Button>
-        <Button w='45%' rounded='md' bgColor='gray.100' variant='outline' onPress={() => navigation.navigate('ProfileChat', { id: id })}>
-          <Text>Message</Text>
-        </Button>
-      </HStack>
+      {
+        isLoggedIn ? (
+          <HStack w='100%' mx='4' mt='6' space='2'>
+            <Button w='45%' rounded='md' bgColor={theme.blue[500]}>
+              <Text color='white'>Follow</Text>
+            </Button>
+            <Button w='45%' rounded='md' bgColor='gray.100' variant='outline' onPress={() => navigation.navigate('ProfileChat', { id: id })}>
+              <Text>Message</Text>
+            </Button>
+          </HStack>
+        ) : (
+          <LoginButton navigation={navigation} />
+        )
+      }
     </>
   )
 }

@@ -3,9 +3,8 @@ import React, { useEffect, useState } from 'react'
 import theme from '@root/theme'
 import { get } from '@root/http'
 
-import { Navbar, Appbar, Tabs } from '@root/components'
+import { Navbar, Appbar, Tabs, LoginButton } from '@root/components'
 import { PostList, NewPostModal } from '@root/components/post'
-import { EventList } from '@root/components/event'
 
 import { useToast } from 'native-base'
 import { Fab, Icon } from 'native-base'
@@ -21,8 +20,17 @@ export default function HomeScreen({ navigation }) {
   const [ openNewPost, setOpenNewPost ] = useState(false)
 
   const toast = useToast()
+
+  const [ isLoggedIn, setIsLoggedIn ] = useState(false)
+
+  const getToken = async () => {
+    const myToken = await getData('refreshToken')
+    setIsLoggedIn(myToken != null || myToken)
+  }
   
   useEffect(async () => {
+    await getToken()
+    
     try {
       const resp = await get(`/post/all`)
       if (resp.status >= 400) throw new Error('Failed to load posts')
@@ -48,6 +56,9 @@ export default function HomeScreen({ navigation }) {
   return (
     <>
       <Appbar title='Home' mainScreen={true} navigation={navigation} />
+      {
+        !isLoggedIn && <LoginButton navigation={navigation} />
+      }
       <Tabs pages={pages} page={page} setPage={setPage} />
       {
         (page === 0) ?

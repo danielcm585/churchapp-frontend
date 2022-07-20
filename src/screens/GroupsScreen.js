@@ -50,7 +50,12 @@ export default function GroupsScreen({ navigation }) {
   }, [])
 
   useEffect(async () => {
-    if (!isLoggedIn) return
+    if (!isLoggedIn) {
+      setPage(1)
+      return
+    }
+
+    setPage(0)
     try {
       const resp = await get('/group/mine')
       if (resp.status >= 400) throw new Error(resp.data) 
@@ -69,19 +74,14 @@ export default function GroupsScreen({ navigation }) {
   return (
     <>
       <Appbar title='Groups' mainScreen={true} navigation={navigation} />
+      {
+        !isLoggedIn && <LoginButton navigation={navigation} />
+      }
       <Tabs pages={pages} page={page} setPage={setPage} />
       {
-        (page === 0) ? (
-          <>
-            {
-              isLoggedIn ? 
-                <GroupList groups={myGroups} mine={true} navigation={navigation} /> :
-                <LoginButton navigation={navigation} />
-            }
-          </>
-        ) : (
+        (page === 0) ? 
+          <GroupList groups={myGroups} mine={true} navigation={navigation} /> :
           <GroupList groups={allGroups} navigation={navigation} /> 
-        )
       }
       <NewGroupModal isOpen={openNewGroup} setIsOpen={setOpenNewGroup} />
       <Fab mb='85' size='lg' shadow={4} bgColor={theme.blue[500]} onPress={() => setOpenNewGroup(true)}

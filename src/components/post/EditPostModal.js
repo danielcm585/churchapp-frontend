@@ -81,7 +81,7 @@ export default function EditPostModal({ post, isOpen, setIsOpen }) {
       <Modal isOpen={isOpen} onClose={onClose}>
         <Modal.Content minW='95%'>
           <Modal.CloseButton />
-          <Modal.Header>Create New Post</Modal.Header>
+          <Modal.Header>Edit Post</Modal.Header>
           <Modal.Body p='4'>
             {
               (photo && photo.length > 0) && (
