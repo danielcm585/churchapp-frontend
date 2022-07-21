@@ -7,7 +7,7 @@ import { Navbar, Appbar, Tabs, LoginButton } from '@root/components'
 import { PostList, NewPostModal } from '@root/components/post'
 
 import { useToast } from 'native-base'
-import { Fab, Icon } from 'native-base'
+import { Fab, Icon, Text } from 'native-base'
 import { MaterialIcons } from '@native-base/icons'
 
 export default function HomeScreen({ navigation }) {
@@ -28,10 +28,10 @@ export default function HomeScreen({ navigation }) {
     setIsLoggedIn(myToken != null || myToken)
   }
   
-  useEffect(async () => {
-    await getToken()
-    
+  const getPosts = async () => {
     try {
+      setPosts(null)
+      setEvents(null)
       const resp = await get(`/post/all`)
       if (resp.status >= 400) throw new Error('Failed to load posts')
       const allPosts = resp.data.posts.reverse()
@@ -45,8 +45,19 @@ export default function HomeScreen({ navigation }) {
         placement: 'bottom'
       })
     }
+  }
+
+  useEffect(async () => {
+    await getToken()
+    await getPosts()
+
+    const interval = setInterval(async () => {
+      await getToken()
+      await getPosts() 
+    }, 60000)
     
     return () => {
+      clearInterval(interval)
       setPosts(null)
       setEvents(null)
     }

@@ -27,7 +27,7 @@ export default function NewPostModal({ isOpen, setIsOpen }) {
   const toast = useToast()
 
   const postPhoto = async (photo) => {
-    if (photo == null) return null
+    if (photo == null || photo.length === 0) return null
     let result = null
     const base64 = await FileSystem.readAsStringAsync(photo, { encoding: 'base64' })
     const form = new FormData()
@@ -45,7 +45,8 @@ export default function NewPostModal({ isOpen, setIsOpen }) {
         title: err.message,
         placement: 'bottom',
       })
-    } 
+    }
+    // console.log(result)
     return result
   }
 
@@ -53,7 +54,9 @@ export default function NewPostModal({ isOpen, setIsOpen }) {
     try {
       setIsLoading(true)
       validateInput()
+      // console.log('HERE')
       const photoLink = await postPhoto(photo)
+      // console.log(photoLink)
       const resp = await post('/post/', {
         body: body,
         photo: photoLink
@@ -67,6 +70,7 @@ export default function NewPostModal({ isOpen, setIsOpen }) {
       })
     }
     catch (err) {
+      console.error(err.message)
       setIsLoading(false)
       onClose()
       toast.show({

@@ -20,8 +20,9 @@ export default function GroupChatScreen({ route, navigation }) {
   
   const toast = useToast()
 
-  useEffect(async () => {
+  const getGroup = async () => {
     try {
+      setGroup(null)
       const resp = await get(`/group/${id}`)
       if (resp.status >= 400) throw new Error(resp.data)
       setGroup(resp.data)
@@ -32,8 +33,12 @@ export default function GroupChatScreen({ route, navigation }) {
         placement: 'bottom'
       })
     }
+  }
 
+  const getPosts = async () => {
     try {
+      setChats(null)
+      setPinned(null)
       const resp = await get(`/post/all/${id}`)
       if (resp.status >= 400) throw new Error(resp.data)
       setChats(resp.data.posts)
@@ -45,8 +50,18 @@ export default function GroupChatScreen({ route, navigation }) {
         placement: 'bottom'
       })
     }
+  }
+
+  useEffect(async () => {
+    await getGroup()
+    await getPosts()
+
+    const interval = setInterval(async () => {
+      await getPosts()
+    }, 30000)
 
     return () => {
+      clearInterval(interval)
       setGroup(null)
       setChats(null)
       setPinned(null)

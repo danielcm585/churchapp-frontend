@@ -45,6 +45,8 @@ export default function NewGroupModal({ isOpen, setIsOpen }) {
     return result
   }
   
+  const onClose = () => setIsOpen(false)
+
   const createGroup = async () => {
     try {
       setIsLoading(true)
@@ -57,6 +59,7 @@ export default function NewGroupModal({ isOpen, setIsOpen }) {
       })
       if (resp.status >= 400) throw new Error(resp.data)
       setIsLoading(false)
+      onClose()
       toast.show({
         title: 'Group created',
         placement: 'bottom'
@@ -73,7 +76,7 @@ export default function NewGroupModal({ isOpen, setIsOpen }) {
 
   return (
     <>
-      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+      <Modal isOpen={isOpen} onClose={onClose}>
         <Modal.Content minW='95%'>
           <Modal.CloseButton />
           <Modal.Header>Create New Group</Modal.Header>
