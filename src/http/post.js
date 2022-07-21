@@ -5,7 +5,7 @@ import { getData, refreshAuth } from '@root/utils'
 
 export default async (url, body) => {
   const execute = async () => {
-    const token = await getData('token')
+    const token = await getData('token') || ''
     const data = JSON.stringify(body)
     
     return await axios.create({
