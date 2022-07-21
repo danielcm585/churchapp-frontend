@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import { get, put } from '@root/http'
 
-import { LongText, TimeStamp } from '@root/components'
+import { LongText, TimeStamp, ReportModal } from '@root/components'
 import { PostItemSkeleton } from '@root/components/skeletons'
 import { EditPostModal } from '@root/components/post'
 
@@ -52,6 +52,7 @@ export default function PostItem({ navigation, id }) {
   }
 
   const [ openEdit, setOpenEdit ] = useState(false)
+  const [ openReport, setOpenReport ] = useState(false)
 
   if (post == null) return <PostItemSkeleton />
   return (
@@ -94,7 +95,7 @@ export default function PostItem({ navigation, id }) {
                   </HStack>
                 </Menu.Item>
                 <Divider />
-                <Menu.Item key={3}>
+                <Menu.Item key={3} onPress={() => setOpenReport(true)}>
                   <HStack alignItems='center' space={1}>
                     <Icon color='red.500' as={MaterialIcons} name='report-problem' />
                     <Text color='red.500'>Report Post</Text>
@@ -118,6 +119,7 @@ export default function PostItem({ navigation, id }) {
         <Divider />
       </VStack>
       <EditPostModal post={post} isOpen={openEdit} setIsOpen={setOpenEdit} />
+      <ReportModal postId={post._id} isOpen={openReport} setIsOpen={setOpenReport} />
     </>
   )
 }

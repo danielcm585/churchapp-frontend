@@ -97,25 +97,25 @@ export default function RegisterPage2({ navigation }) {
         <Text mt='4' ml='6' mr='6'>
           Please fill in the following form, so we can know you personally.
         </Text>
-        <HStack mt='4' ml='6' mr='6' space='4' alignItems='center'>
+        <HStack mt='4' ml='6' mr='6' space='4' alignItems='center' justifyContent='space-between'>
           <Icon size='md' color={theme.blue[900]} as={MaterialIcons} name='person'></Icon>
           <Input w='89%' variant='underlined' placeholder='Full Name' value={name}
             _focus={{ borderColor: theme.blue[900] }} onChangeText={(val) => setName(val)}
           />
         </HStack>
-        <HStack mt='4' ml='6' mr='6' space='4' alignItems='center'>
+        <HStack mt='4' ml='6' mr='6' space='4' alignItems='center' justifyContent='space-between'>
           <Icon size='md' color={theme.blue[900]} as={MaterialIcons} name='phone'></Icon>
           <Input w='89%' variant='underlined' placeholder='Phone Number' value={phone}
             _focus={{ borderColor: theme.blue[900] }} onChangeText={(val) => setPhone(val)} 
           />
         </HStack>
-        <HStack mt='4' ml='6' mr='6' space='4' alignItems='center'>
+        <HStack mt='4' ml='6' mr='6' space='4' alignItems='center' justifyContent='space-between'>
           <Icon size='md' color={theme.blue[900]} as={MaterialIcons} name='email'></Icon>
           <Input w='89%' variant='underlined' placeholder='Email' value={email}
             _focus={{ borderColor: theme.blue[900] }} onChangeText={(val) => setEmail(val)} 
           />
         </HStack>
-        <HStack mt='4' ml='6' mr='6' space='4' alignItems='center'>
+        <HStack mt='4' ml='6' mr='6' space='4' alignItems='center' justifyContent='space-between'>
           <Icon size='md' color={theme.blue[900]} as={MaterialIcons} name='location-pin'></Icon>
           <Input w='89%' variant='underlined' placeholder='Home Address' value={address}
             _focus={{ borderColor: theme.blue[900] }} onChangeText={(val) => setAddress(val)} 

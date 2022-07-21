@@ -4,7 +4,7 @@ import theme from '@root/theme'
 import { post, del } from '@root/http'
 
 import { EditGroupModal, InviteModal } from '@root/components/group'
-import { DangerWarning } from '@root/components'
+import { DangerWarning, ReportModal } from '@root/components'
 
 import { useToast } from 'native-base'
 import { Box, HStack, IconButton, Icon, Text, StatusBar, Link, Menu, Divider } from 'native-base'
@@ -54,19 +54,14 @@ export default function Appbar({ title, mainScreen, group, profile, navigation }
     }
   }
   
-  const reportGroup = async () => {
-    
-  }
-  
-  const reportUser = () => {
-    
-  }
-  
+  const [ openReport, setOpenReport ] = useState(false)
+
   return (
     <>
       {
         (group != null) && (
           <>
+            <ReportModal groupId={group._id} isOpen={openReport} setIsOpen={setOpenReport} />
             <InviteModal isOpen={openInvite} setIsOpen={setOpenInvite} groupId={group._id} />
             <EditGroupModal group={group} isOpen={openEditGroup} setIsOpen={setOpenEditGroup} />
             <DangerWarning isLoading={isLoading} isOpen={openLeaveGroup} setIsOpen={setOpenLeaveGroup} 
@@ -74,6 +69,11 @@ export default function Appbar({ title, mainScreen, group, profile, navigation }
             <DangerWarning isLoading={isLoading} isOpen={openDeleteGroup} setIsOpen={setOpenDeleteGroup} 
               title='Delete Group' action='Delete' onContinue={deleteGroup} />
           </>
+        )
+      }
+      {
+        (profile != null) && (
+          <ReportModal userId={profile._id} isOpen={openReport} setIsOpen={setOpenReport} />
         )
       }
       <StatusBar bg='#3700B3' barStyle='light-content' />
@@ -140,7 +140,7 @@ export default function Appbar({ title, mainScreen, group, profile, navigation }
                       </HStack>
                     </Menu.Item>
                     <Divider my='2' />
-                    <Menu.Item key={3} onPress={reportGroup}>
+                    <Menu.Item key={3} onPress={() => setOpenReport(true)}>
                       <HStack space='1' alignItems='center'>
                         <Icon color='red.500' as={MaterialIcons} name='report-problem' />
                         <Text color='red.500'>Report Group</Text>
@@ -163,7 +163,7 @@ export default function Appbar({ title, mainScreen, group, profile, navigation }
                   <>
                     {
                       (profile != null) ? (
-                        <Menu.Item key={0} onPress={reportUser}>
+                        <Menu.Item key={0} onPress={() => setOpenReport(true)}>
                           <HStack space='1' alignItems='center'>
                             <Icon color='red.500' as={MaterialIcons} name='report-problem' />
                             <Text color='red.500'>Report User</Text>

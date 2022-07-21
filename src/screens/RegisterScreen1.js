@@ -58,7 +58,7 @@ export default function RegisterPage1({ navigation }) {
           <Image width='300' height='300' alt='Register' source={require('@root/images/register.png')} />
         </Center>
         <Heading ml='6' size='2xl' color={theme.blue[900]}>Register</Heading>
-        <HStack mt='4' mx='6' space='4' alignItems='center'>
+        <HStack mt='4' mx='6' space='4' alignItems='center' justifyContent='space-between'>
           <Icon size='md' color={theme.blue[900]} as={MaterialIcons} name='person'></Icon>
           <Input w='89%' variant='underlined' placeholder='Username' color={theme.blue[900]}
             _focus={{ borderColor: theme.blue[900] }} onChangeText={(val) => setUsername(val)} value={username}

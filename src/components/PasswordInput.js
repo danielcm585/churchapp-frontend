@@ -10,7 +10,7 @@ export default function PasswordInput({ value, setValue, placeholder, icon, mt, 
 
   return (
     <>
-      <HStack mt={mt || 4} mx={mx || 6} space='4' alignItems='center'>
+      <HStack mt={mt || 4} mx={mx || 6} space='4' alignItems='center' justifyContent='space-between'>
         <Icon size='md' color={theme.blue[900]} as={MaterialCommunityIcons} name={icon}></Icon>
         <Input w='89%' variant='underlined' placeholder={placeholder} color={theme.blue[900]} 
           _focus={{ borderColor: theme.blue[900] }} onChangeText={(val) => setValue(val)} value={value}
