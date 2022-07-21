@@ -27,7 +27,8 @@ export default function EditPostModal({ post, isOpen, setIsOpen }) {
   const toast = useToast()
 
   const postPhoto = async (photo) => {
-    if (photo == null) return null
+    if (photo == null || photo.length === 0) return null
+    if (photo.slice(0,4) === 'http') return photo
     let result = null
     const base64 = await FileSystem.readAsStringAsync(photo, { encoding: 'base64' })
     const form = new FormData()
@@ -106,7 +107,7 @@ export default function EditPostModal({ post, isOpen, setIsOpen }) {
               </Button>
               <Button size='sm' rounded='md' bgColor={theme.blue[500]} onPress={editPost}
                 isLoading={isLoading} _pressed={{ bgColor: theme.blue[600] }}>
-                <Text color='white'>Create</Text>
+                <Text color='white'>Save</Text>
               </Button>
             </Button.Group>
           </Modal.Footer>

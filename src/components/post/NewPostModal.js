@@ -28,6 +28,7 @@ export default function NewPostModal({ isOpen, setIsOpen }) {
 
   const postPhoto = async (photo) => {
     if (photo == null || photo.length === 0) return null
+    if (photo.slice(0,4) === 'http') return photo
     let result = null
     const base64 = await FileSystem.readAsStringAsync(photo, { encoding: 'base64' })
     const form = new FormData()

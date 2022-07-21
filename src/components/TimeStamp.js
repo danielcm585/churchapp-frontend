@@ -17,7 +17,7 @@ export default function TimeStamp({ timeDate }) {
 
   return (
     <>
-      <Text color='gray.400'>{date} {month} {year} , {hour}:{minute}</Text>
+      <Text fontSize='2xs' color='gray.400'>{date} {month} {year} , {hour}:{minute}</Text>
     </>
   )
 }

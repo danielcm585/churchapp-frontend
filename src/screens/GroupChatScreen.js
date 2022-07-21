@@ -81,6 +81,7 @@ export default function GroupChatScreen({ route, navigation }) {
       if (resp.status >= 400) throw new Error(resp.data) 
       setIsloading(false)
       setBody('')
+      await getPosts()
     }
     catch (err) {
       setIsloading(false)
@@ -101,8 +102,8 @@ export default function GroupChatScreen({ route, navigation }) {
       <Tabs pages={pages} page={page} setPage={setPage} />
       {
         (page === 0) ? 
-          <PostList posts={chats} reverse={true} /> : 
-          <PostList posts={pinned} reverse={true} />
+          <PostList posts={chats} reverse={true} navigation={navigation} /> : 
+          <PostList posts={pinned} reverse={true} navigation={navigation} />
       }
       <ChatInput body={body} setBody={setBody} onSend={onSend} isLoading={isLoading} />
     </>

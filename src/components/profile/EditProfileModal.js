@@ -12,7 +12,7 @@ import { useToast } from 'native-base'
 import { Button, Modal, Text, HStack, Icon, Input, Center, Avatar, Select } from 'native-base'
 import { MaterialIcons, MaterialCommunityIcons } from '@native-base/icons'
 
-export default function EditProfileModal({ isOpen, setIsOpen, profile }) {
+export default function EditProfileModal({ isOpen, setIsOpen, profile, getProfile }) {
   const onClose = () => setIsOpen(false)
 
   const [ name, setName ] = useState(profile.name)
@@ -59,7 +59,8 @@ export default function EditProfileModal({ isOpen, setIsOpen, profile }) {
   const toast = useToast()
 
   const postPhoto = async (photo) => {
-    if (photo == null) return null
+    if (photo == null || photo.length === 0) return null
+    if (photo.slice(0,4) === 'http') return photo
     let result = null
     const base64 = await FileSystem.readAsStringAsync(photo, { encoding: 'base64' })
     const form = new FormData()
@@ -98,6 +99,7 @@ export default function EditProfileModal({ isOpen, setIsOpen, profile }) {
       if (resp.status >= 400) throw new Error(resp.data)
       setIsLoading(false)
       onClose()
+      await getProfile()
     }
     catch (err) {
       setIsLoading(false)

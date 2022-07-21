@@ -7,7 +7,7 @@ import { PostItemSkeleton } from '@root/components/skeletons'
 import { EditPostModal } from '@root/components/post'
 
 import { useToast } from 'native-base'
-import { Flex, Menu, Avatar, Divider, HStack, Link, Text, VStack, Image, Icon, Pressable } from 'native-base'
+import { Menu, Avatar, Divider, HStack, Link, Text, VStack, Image, Icon, Pressable } from 'native-base'
 import { MaterialCommunityIcons, MaterialIcons } from '@native-base/icons'
 
 export default function PostItem({ navigation, id }) {
@@ -34,9 +34,7 @@ export default function PostItem({ navigation, id }) {
 
   const pinPost = async () => {
     try {
-      const resp = await put(`/post/${id}`, {
-        pinned: true
-      })
+      const resp = await put(`/post/pin/${id}`, {})
       if (resp.status >= 400) throw new Error(resp.data)
       toast.show({
         title: 'Post pinned',
@@ -58,19 +56,15 @@ export default function PostItem({ navigation, id }) {
   return (
     <>
       <VStack mx='4'>
-        <HStack py='4'>
+        <HStack w='100%' py='4'>
           <Link onPress={() => navigation.navigate('ProfileDetails', { id: post.creator._id })}>
             <Avatar size='10' source={{ uri: post.creator.photo }} />
           </Link>
           <VStack ml='4' w='84%'>
             <HStack alignItems='center' justifyContent='space-between'>
-              <HStack space='2' alignItems='center'>
-                <Link onPress={() => navigation.navigate('ProfileDetails', { id: post.creator._id })}>
-                  <Text fontWeight='bold'>{post.creator.name}</Text>
-                </Link>
-                <Flex h='1' w='1' bgColor='gray.400' rounded='full'></Flex>
-                <TimeStamp timeDate={post.createdAt} />
-              </HStack>
+              <Link onPress={() => navigation.navigate('ProfileDetails', { id: post.creator._id })}>
+                <Text fontWeight='bold'>{post.creator.name}</Text>
+              </Link>
               <Menu closeOnSelect={false} trigger={triggerProps => 
                 <Pressable {...triggerProps}>
                   <Icon color='black' as={MaterialCommunityIcons} name='dots-vertical' />
@@ -109,6 +103,7 @@ export default function PostItem({ navigation, id }) {
                 </Menu.Item>
               </Menu>
             </HStack>
+            <TimeStamp timeDate={post.createdAt} />
             {
               (post.photo != null) && 
                 <Image mt='1' mb='1' minWidth='200' minHeight='200' maxWidth='300' maxHeight='300' alt="Photo" source={{ uri: post.photo }} />

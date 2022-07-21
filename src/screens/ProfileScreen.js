@@ -29,11 +29,10 @@ export default function ProfileScreen({ navigation }) {
   const [ user, setUser ] = useState(null)
 
   const toast = useToast()
-  
-  useEffect(async () => {
-    getToken()
 
+  const getProfile = async () => {
     try {
+      setUser(null)
       const resp = await get('/user/me')
       if (resp.status >= 400) throw new Error(resp.data)
       const me = resp.data
@@ -46,6 +45,11 @@ export default function ProfileScreen({ navigation }) {
         placement: 'bottom'
       })
     }
+  }
+  
+  useEffect(async () => {
+    await getToken()
+    await getProfile()    
 
     return () => setUser(null)
 
@@ -122,7 +126,7 @@ export default function ProfileScreen({ navigation }) {
               {
                 (user != null) && (
                   <>
-                    <EditProfileModal profile={user} isOpen={openEditProfile} setIsOpen={setOpenEditProfile} />
+                    <EditProfileModal profile={user} isOpen={openEditProfile} setIsOpen={setOpenEditProfile} getProfile={getProfile} />
                     <ChangePasswordModal profile={user} isOpen={openChangePassword} setIsOpen={setOpenChangePassword} />
                   </>
                 )
