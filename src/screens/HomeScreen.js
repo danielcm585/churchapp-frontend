@@ -50,14 +50,8 @@ export default function HomeScreen({ navigation }) {
   useEffect(async () => {
     await getToken()
     await getPosts()
-
-    const interval = setInterval(async () => {
-      await getToken()
-      await getPosts() 
-    }, 60000)
     
     return () => {
-      clearInterval(interval)
       setPosts(null)
       setEvents(null)
     }

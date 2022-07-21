@@ -58,7 +58,7 @@ export default function GroupChatScreen({ route, navigation }) {
 
     const interval = setInterval(async () => {
       await getPosts()
-    }, 30000)
+    }, 60000)
 
     return () => {
       clearInterval(interval)
