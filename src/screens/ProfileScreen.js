@@ -35,9 +35,8 @@ export default function ProfileScreen({ navigation }) {
       setUser(null)
       const resp = await get('/user/me')
       if (resp.status >= 400) throw new Error(resp.data)
-      const me = resp.data
-      await setData('user', JSON.stringify(me))
-      setUser(me)
+      setUser(resp.data)
+      await setData('user', JSON.stringify(resp.data))
     }
     catch (err) {
       toast.show({
@@ -52,7 +51,6 @@ export default function ProfileScreen({ navigation }) {
     if (isLoggedIn) await getProfile()    
 
     return () => setUser(null)
-
   }, [])
 
   const logout = async () => {
