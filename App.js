@@ -26,7 +26,7 @@ export default function App() {
   return (
     <NativeBaseProvider>
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator screenOptions={{ animation: 'none' }}>
           {
             !netInfo.isConnected ? (
               <Stack.Screen name='Offline' component={OfflineScreen} options={{ headerShown: false }} />

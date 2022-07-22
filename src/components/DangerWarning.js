@@ -3,7 +3,12 @@ import React from 'react'
 import { AlertDialog, Button, Text } from 'native-base'
 
 export default function DangerWarning({ isOpen, setIsOpen, title, action, onContinue, isLoading }) {
-  const onClose = () => setIsOpen(false);
+  const onClose = () => setIsOpen(false)
+
+  const onPress = async () => {
+    await onContinue()
+    onClose()
+  }
 
   return (
     <>
@@ -20,10 +25,8 @@ export default function DangerWarning({ isOpen, setIsOpen, title, action, onCont
                 _pressed={{ bgColor: 'gray.100' }}>
                 <Text>Cancel</Text>
               </Button>
-              <Button bgColor='red.500' _pressed={{ bgColor: 'red.600' }} onPress={() => {
-                onContinue()
-                onClose()
-              }} isLoading={isLoading}>
+              <Button bgColor='red.500' _pressed={{ bgColor: 'red.600' }} onPress={onPress} 
+                isLoading={isLoading}>
                 <Text color='white'>{action}</Text>
               </Button>
             </Button.Group>

@@ -49,7 +49,7 @@ export default function ProfileScreen({ navigation }) {
   
   useEffect(async () => {
     await getToken()
-    await getProfile()    
+    if (isLoggedIn) await getProfile()    
 
     return () => setUser(null)
 
@@ -128,12 +128,12 @@ export default function ProfileScreen({ navigation }) {
                   <>
                     <EditProfileModal profile={user} isOpen={openEditProfile} setIsOpen={setOpenEditProfile} getProfile={getProfile} />
                     <ChangePasswordModal profile={user} isOpen={openChangePassword} setIsOpen={setOpenChangePassword} />
+                    <DangerWarning title='Logout' action='Logout' onContinue={logout} 
+                      isLoading={isLoading} isOpen={openLogout} setIsOpen={setOpenLogout} />
                   </>
                 )
               }
               <ContactUsModal isOpen={openContactUs} setIsOpen={setOpenContactUs} />
-              <DangerWarning title='Logout' action='Logout' onContinue={logout} 
-                isLoading={isLoading} isOpen={openLogout} setIsOpen={setOpenLogout} />
             </>
           ) : (
             <>

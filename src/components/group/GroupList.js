@@ -30,11 +30,6 @@ export default function GroupList({ navigation, groups, mine, refresh }) {
     setLeft(splitted.left)
     setRight(splitted.right)
 
-    return () => {
-      setLeft(null)
-      setRight(null)
-    }
-
   }, [ groups, keyword ])
 
   const [ refreshing, setRefreshing ] = useState(false)
@@ -51,16 +46,16 @@ export default function GroupList({ navigation, groups, mine, refresh }) {
         <SearchBar keyword={keyword} setKeyword={setKeyword} />
       </VStack>
       <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-        <Center w='100%' mx='4'>
-          <HStack w='100%' space='2'>
-            <VStack w='45%' space='2'>
+        {/* <Center mx='4'> */}
+          <HStack mx='4' justifyContent='space-between'>
+            <VStack w='49%' space='2'>
               {
                 left.map((group, idx) => 
                   <GroupItem key={idx} group={group} mine={mine} navigation={navigation} />
                 )
               }
             </VStack>
-            <VStack w='45%' space='2'>
+            <VStack w='49%' space='2'>
               {
                 right.map((group, idx) => 
                   <GroupItem key={idx} group={group} mine={mine} navigation={navigation} />
@@ -68,7 +63,7 @@ export default function GroupList({ navigation, groups, mine, refresh }) {
               }
             </VStack>
           </HStack>
-        </Center>
+        {/* </Center> */}
       </ScrollView>
     </>
   )
