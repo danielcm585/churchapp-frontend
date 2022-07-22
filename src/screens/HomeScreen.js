@@ -7,7 +7,7 @@ import { Navbar, Appbar, Tabs, LoginButton } from '@root/components'
 import { PostList, NewPostModal } from '@root/components/post'
 
 import { useToast } from 'native-base'
-import { Fab, Icon, Text } from 'native-base'
+import { Fab, Icon } from 'native-base'
 import { MaterialIcons } from '@native-base/icons'
 
 export default function HomeScreen({ navigation }) {
@@ -67,8 +67,8 @@ export default function HomeScreen({ navigation }) {
       <Tabs pages={pages} page={page} setPage={setPage} />
       {
         (page === 0) ?
-          <PostList posts={events} navigation={navigation} /> :
-          <PostList posts={posts} navigation={navigation} />
+          <PostList posts={events} navigation={navigation} refresh={getPosts} /> :
+          <PostList posts={posts} navigation={navigation} refresh={getPosts} />
       }
       <NewPostModal isOpen={openNewPost} setIsOpen={setOpenNewPost} />
       <Fab mb='85' size='lg' shadow={4} bgColor={theme.blue[500]} onPress={() => setOpenNewPost(true)}

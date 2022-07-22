@@ -26,11 +26,10 @@ export default function GroupsScreen({ navigation }) {
   const [ allGroups, setAllGroups ] = useState(null)
 
   const toast = useToast()
-  
-  useEffect(async () => {
-    await getToken()
 
+  const getAllGroups = async () => {
     try {
+      setAllGroups(null)
       const resp = await get('/group/')
       if (resp.status >= 400) throw new Error(resp.data)
       setAllGroups(resp.data)
@@ -41,6 +40,26 @@ export default function GroupsScreen({ navigation }) {
         placement: 'bottom'
       })
     }
+  }
+
+  const getMyGroups = async () => {
+    try {
+      setMyGroups(null)
+      const resp = await get('/group/mine')
+      if (resp.status >= 400) throw new Error(resp.data) 
+      setMyGroups(resp.data)
+    }
+    catch (err) {
+      toast.show({
+        title: err.message,
+        placement: 'bottom'
+      })
+    }
+  }
+  
+  useEffect(async () => {
+    await getToken()
+    await getAllGroups()
 
     return () => {
       setAllGroups(null)
@@ -54,19 +73,8 @@ export default function GroupsScreen({ navigation }) {
       setPage(1)
       return
     }
-
     setPage(0)
-    try {
-      const resp = await get('/group/mine')
-      if (resp.status >= 400) throw new Error(resp.data) 
-      setMyGroups(resp.data)
-    }
-    catch (err) {
-      toast.show({
-        title: err.message,
-        placement: 'bottom'
-      })
-    }
+    await getMyGroups()
   }, [ isLoggedIn ])
 
   const [ openNewGroup, setOpenNewGroup ] = useState(false)
@@ -80,8 +88,8 @@ export default function GroupsScreen({ navigation }) {
       <Tabs pages={pages} page={page} setPage={setPage} />
       {
         (page === 0) ? 
-          <GroupList groups={myGroups} mine={true} navigation={navigation} /> :
-          <GroupList groups={allGroups} navigation={navigation} /> 
+          <GroupList groups={myGroups} mine={true} navigation={navigation} refresh={getMyGroups} /> :
+          <GroupList groups={allGroups} navigation={navigation} refresh={getAllGroups} /> 
       }
       <NewGroupModal isOpen={openNewGroup} setIsOpen={setOpenNewGroup} />
       <Fab mb='85' size='lg' shadow={4} bgColor={theme.blue[500]} onPress={() => setOpenNewGroup(true)}

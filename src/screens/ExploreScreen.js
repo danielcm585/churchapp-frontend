@@ -19,11 +19,10 @@ export default function ExploreScreen({ navigation }) {
     const myToken = await getData('refreshToken')
     setIsLoggedIn(myToken != null || myToken)
   }
-  
-  useEffect(async () => {
-    await getToken()
 
+  const getUsers = async () => {
     try {
+      setAll(null)
       const resp = await get('/user/')
       if (resp.status >= 400) throw new Error(resp.data)
       setAll(resp.data)
@@ -34,10 +33,14 @@ export default function ExploreScreen({ navigation }) {
         placement: 'bottom'
       })
     }
+  }
+  
+  useEffect(async () => {
+    await getToken()
+    await getUsers()
 
     return () => setAll(null)
-
-  })
+  }, [])
 
   return (
     <>
@@ -46,7 +49,7 @@ export default function ExploreScreen({ navigation }) {
         !isLoggedIn && <LoginButton navigation={navigation} />
       }
       <VStack mx='4' mt='2'>
-        <ProfileList profiles={all} navigation={navigation} />
+        <ProfileList profiles={all} navigation={navigation} refresh={getUsers} />
       </VStack>
       <Navbar page={1} navigation={navigation} />
     </>
