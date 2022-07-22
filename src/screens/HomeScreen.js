@@ -47,15 +47,18 @@ export default function HomeScreen({ navigation }) {
     }
   }
 
-  useEffect(async () => {
+  const refresh = async () => {
     await getToken()
     await getPosts()
+  }
+
+  useEffect(async () => {
+    await refresh()
     
     return () => {
       setPosts(null)
       setEvents(null)
     }
-
   }, [])
 
   return (
@@ -67,8 +70,8 @@ export default function HomeScreen({ navigation }) {
       <Tabs pages={pages} page={page} setPage={setPage} />
       {
         (page === 0) ?
-          <PostList posts={events} navigation={navigation} refresh={getPosts} /> :
-          <PostList posts={posts} navigation={navigation} refresh={getPosts} />
+          <PostList posts={events} navigation={navigation} refresh={refresh} /> :
+          <PostList posts={posts} navigation={navigation} refresh={refresh} />
       }
       <NewPostModal isOpen={openNewPost} setIsOpen={setOpenNewPost} />
       <Fab mb='85' size='lg' shadow={4} bgColor={theme.blue[500]} onPress={() => setOpenNewPost(true)}

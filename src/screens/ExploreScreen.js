@@ -34,11 +34,14 @@ export default function ExploreScreen({ navigation }) {
       })
     }
   }
-  
-  useEffect(async () => {
+
+  const refresh = async () => {
     await getToken()
     await getUsers()
-
+  }
+  
+  useEffect(async () => {
+    await refresh()
     return () => setAll(null)
   }, [])
 
@@ -49,7 +52,7 @@ export default function ExploreScreen({ navigation }) {
         !isLoggedIn && <LoginButton navigation={navigation} />
       }
       <VStack mx='4' mt='2'>
-        <ProfileList profiles={all} navigation={navigation} refresh={getUsers} />
+        <ProfileList profiles={all} navigation={navigation} refresh={refresh} />
       </VStack>
       <Navbar page={1} navigation={navigation} />
     </>

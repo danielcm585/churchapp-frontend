@@ -1,22 +1,26 @@
 import React, { useState, useEffect } from 'react'
 
 import { get, put } from '@root/http'
+import { getData } from '@root/utils'
 
 import { LongText, TimeStamp, ReportModal } from '@root/components'
 import { PostItemSkeleton } from '@root/components/skeletons'
 import { EditPostModal } from '@root/components/post'
 
-import { useToast } from 'native-base'
+import { Badge, useToast } from 'native-base'
 import { Menu, Avatar, Divider, HStack, Link, Text, VStack, Image, Icon, Pressable } from 'native-base'
 import { MaterialCommunityIcons, MaterialIcons } from '@native-base/icons'
 
 export default function PostItem({ navigation, id }) {
   const [ post, setPost ] = useState(null)
+  const [ me, setMe ] = useState(null)
 
   const toast = useToast()
 
   useEffect(async () => {
     try {
+      const user = await getData('user')
+      setMe(user)
       const resp = await get(`/post/one/${id}`)
       if (resp.status >= 400) throw new Error(resp.data)
       setPost(resp.data)
@@ -62,9 +66,14 @@ export default function PostItem({ navigation, id }) {
           </Link>
           <VStack ml='4' w='84%'>
             <HStack alignItems='center' justifyContent='space-between'>
-              <Link onPress={() => navigation.navigate('ProfileDetails', { id: post.creator._id })}>
-                <Text fontWeight='bold'>{post.creator.name}</Text>
-              </Link>
+              <HStack>
+                <Link onPress={() => navigation.navigate('ProfileDetails', { id: post.creator._id })}>
+                  <Text fontWeight='bold'>{post.creator.name}</Text>
+                </Link>
+                {
+                  (me != null && post.creator._id === me._id) && <Badge>ME</Badge>
+                }
+              </HStack>
               <Menu closeOnSelect={false} trigger={triggerProps => 
                 <Pressable {...triggerProps}>
                   <Icon color='black' as={MaterialCommunityIcons} name='dots-vertical' />
