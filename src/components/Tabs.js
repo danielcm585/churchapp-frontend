@@ -17,7 +17,8 @@ export default function Tabs({ pages, page, setPage }) {
                     <Text color={(page === idx && theme.blue[500])} fontWeight={(page === idx) && 'bold'}>
                       {title}
                     </Text>
-                  ) : <Text>{title}</Text>
+                  ) : 
+                  <Text>{title}</Text>
                 }
               </Link>
             </HStack>

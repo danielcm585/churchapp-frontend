@@ -2,14 +2,18 @@ import React, { useState, useEffect } from 'react'
 
 import { get } from '@root/http'
 
-import { Appbar, Navbar, LoginButton } from '@root/components'
+import { Appbar, Navbar, LoginButton, Tabs } from '@root/components'
 import { ProfileList } from '@root/components/profile'
 
 import { useToast } from 'native-base'
 import { VStack } from 'native-base'
 
 export default function ExploreScreen({ navigation }) {
+  const pages = [ 'Search', 'Directs' ]
+  const [ page, setPage ] = useState(0)
+
   const [ all, setAll ] = useState(null)
+  const [ directs, setDirects ] = useState(null)
 
   const toast = useToast()
 
@@ -34,14 +38,34 @@ export default function ExploreScreen({ navigation }) {
       })
     }
   }
+  
+  const getDirects = async () => {
+    try {
+      setDirects(null)
+      // TODO: Fetch my directs
+    }
+    catch (err) {
+      toast.show({
+        title: err.message,
+        placement: 'bottom'
+      })    
+    }
+  }
 
-  const refresh = async () => {
+  const refreshUsers = async () => {
     await getToken()
     await getUsers()
   }
+
+  const refreshDirects = async () => {
+    await getToken()
+    if (!isLoggedIn) await getDirects()
+  }
   
   useEffect(async () => {
-    await refresh()
+    await getToken()
+    await getUsers()
+    if (!isLoggedIn) await getDirects()
     return () => setAll(null)
   }, [])
 
@@ -51,8 +75,13 @@ export default function ExploreScreen({ navigation }) {
       {
         !isLoggedIn && <LoginButton navigation={navigation} />
       }
-      <VStack mx='4' mt='2'>
-        <ProfileList profiles={all} navigation={navigation} refresh={refresh} />
+      <Tabs pages={pages} page={page} setPage={setPage} />
+      <VStack mx='4'>
+        {
+          (page == 0) ? 
+            <ProfileList profiles={all} navigation={navigation} refresh={refreshUsers} /> :
+            <ProfileList profiles={directs} navigation={navigation} refresh={refreshDirects} />
+        }
       </VStack>
       <Navbar page={1} navigation={navigation} />
     </>
